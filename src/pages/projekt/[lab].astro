@@ -1,0 +1,11 @@
+---
+import LabPage from '../../components/astro/LabPage.astro';
+import { labs } from '../../course/registry';
+
+export function getStaticPaths() {
+  return labs.filter((l) => l.part === 'avslutning').map((l) => ({ params: { lab: l.id } }));
+}
+const { lab } = Astro.params;
+---
+
+<LabPage labId={lab!} />

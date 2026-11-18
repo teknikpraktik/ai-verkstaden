@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import ResumeLink from '../components/site/ResumeLink';
+import { chapters, labs, labsInPart, getLab } from '../course/registry';
+import { routes } from '../course/routes';
+
+const first = labs[0]!;
+const project = getLab('granska-ett-ai-system');
+const labMap = Object.fromEntries(labs.map((l) => [l.id, { title: l.title, href: l.href, number: l.number }]));
+---
+
+<Base title="AI-verkstaden" description="Interaktiva laborationer i artificiell intelligens för gymnasiet – sök, maskininlärning, språk, robotik och etik.">
+  <section class="hero">
+    <h1>AI-verkstaden</h1>
+    <p class="lead">
+      Interaktiva laborationer för kursen Artificiell intelligens. Du förutsäger, provar, jämför och förklarar – och ser själv hur sökalgoritmer, maskininlärning, språkmodeller och robotar fungerar och var de brister.
+    </p>
+    <p class="hero-actions">
+      <a class="btn btn-primary btn-large" href={first.href}>Börja med labb 1: {first.title}</a>
+    </p>
+    <ResumeLink client:only="react" labs={labMap} />
+    <p class="hint">Inga konton behövs. Allt körs i webbläsaren och ditt arbete sparas bara på den här datorn.</p>
+  </section>
+
+  <section aria-labelledby="kapitel">
+    <h2 id="kapitel">Kapitel</h2>
+    <ol class="chapter-grid">
+      {
+        chapters.map((c) => (
+          <li class="chapter-card">
+            <h3>
+              <a href={routes.chapter(c.id)}>
+                <span class="chapter-num">Kapitel {c.number}</span>
+                {c.title}
+              </a>
+            </h3>
+            <p>{c.intro[0]}</p>
+            <ol class="mini-labs">
+              {labsInPart(c.id).map((l) => (
+                <li>
+                  <a href={l.href}>
+                    {l.number}. {l.title}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </li>
+        ))
+      }
+      <li class="chapter-card chapter-card-final">
+        <h3>
+          <a href={project.href}><span class="chapter-num">Avslutning</span>Slutprojekt: {project.title}</a>
+        </h3>
+        <p>{project.summary}</p>
+        <p><a href={routes.reflection()}>Reflektion: vad kan du nu?</a></p>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="sa-arbetar-du" class="card">
+    <h2 id="sa-arbetar-du">Så arbetar du i en labb</h2>
+    <ol class="phase-explainer">
+      <li><strong>Förutsäg</strong> – gissa vad som kommer att hända innan du provar.</li>
+      <li><strong>Prova</strong> – kör experimentet och ändra en sak i taget.</li>
+      <li><strong>Jämför</strong> – stämde det du trodde? Vad skilde sig?</li>
+      <li><strong>Förklara</strong> – sätt ord på varför, med kursens begrepp.</li>
+    </ol>
+  </section>
+</Base>

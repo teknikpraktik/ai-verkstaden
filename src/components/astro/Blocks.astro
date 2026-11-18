@@ -1,0 +1,61 @@
+---
+import type { Block } from '../../course/types';
+import { md } from '../../lib/render';
+import { noteLabels } from '../../lib/labels';
+
+interface Props {
+  blocks: Block[];
+}
+const { blocks } = Astro.props;
+---
+
+{
+  blocks.map((b) => {
+    if (typeof b === 'string') return <p set:html={md(b)} />;
+    switch (b.type) {
+      case 'list':
+        return b.ordered ? (
+          <ol>{b.items.map((i) => <li set:html={md(i)} />)}</ol>
+        ) : (
+          <ul>{b.items.map((i) => <li set:html={md(i)} />)}</ul>
+        );
+      case 'pseudo':
+        return (
+          <figure class="pseudo">
+            {b.title && <figcaption>{b.title}</figcaption>}
+            <pre><code>{b.code}</code></pre>
+          </figure>
+        );
+      case 'formula':
+        return (
+          <figure class="formula">
+            <p class="formula-text">{b.text}</p>
+            {b.caption && <figcaption set:html={md(b.caption)} />}
+          </figure>
+        );
+      case 'note':
+        return (
+          <aside class={`callout callout-${b.kind}`}>
+            <p class="callout-title">{b.title ?? noteLabels[b.kind]}</p>
+            <p set:html={md(b.text)} />
+          </aside>
+        );
+      case 'table':
+        return (
+          <div class="table-wrap">
+            <table class="table">
+              <caption>{b.caption}</caption>
+              <thead>
+                <tr>{b.head.map((h) => <th scope="col">{h}</th>)}</tr>
+              </thead>
+              <tbody>
+                {b.rows.map((r) => (
+                  <tr>{r.map((c) => <td set:html={md(c)} />)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+    }
+  })
+}

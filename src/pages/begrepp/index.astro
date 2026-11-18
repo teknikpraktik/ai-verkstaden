@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import GlossarySearch, { type GlossaryItem } from '../../components/site/GlossarySearch';
+import { concepts, conceptById, labsForConcept, labs, getChapter } from '../../course/registry';
+import { routes } from '../../course/routes';
+
+const items: GlossaryItem[] = concepts.map((c) => ({
+  id: c.id,
+  term: c.term,
+  definition: c.definition,
+  aliases: c.aliases ?? [],
+  related: (c.related ?? []).filter((r) => r !== c.id && conceptById.has(r)).map((r) => ({ id: r, term: conceptById.get(r)!.term })),
+  labs: labsForConcept(c.id).map((l) => ({
+    title: l.title,
+    href: l.href,
+    number: l.number,
+    chapter: l.part === 'avslutning' ? 'Avslutning' : `kapitel ${getChapter(l.part).number}`,
+    chapterHref: l.part === 'avslutning' ? null : routes.chapter(l.part),
+  })),
+}));
+
+// Ämnesregister: sökord från labbarna → labbar
+const index = new Map<string, { title: string; href: string; number: number }[]>();
+for (const l of labs) {
+  for (const k of l.keywords) {
+    const key = k.toLocaleLowerCase('sv');
+    const arr = index.get(key) ?? [];
+    arr.push({ title: l.title, href: l.href, number: l.number });
+    index.set(key, arr);
+  }
+}
+const topics = [...index.entries()].sort((a, b) => a[0].localeCompare(b[0], 'sv'));
+const letters = [...new Set(topics.map(([k]) => k[0]!.toLocaleUpperCase('sv')))];
+---
+
+<Base title="Begrepp och ämnesregister" crumbs={[['Begrepp', undefined]]}>
+  <header class="page-header">
+    <h1>Begrepp och ämnesregister</h1>
+    <p class="lead">Förklaringar av kursens begrepp med länkar till de labbar där de används. Längre ned finns ett ämnesregister.</p>
+  </header>
+  <GlossarySearch client:load items={items} />
+
+  <section aria-labelledby="register" class="topic-index">
+    <h2 id="register">Ämnesregister</h2>
+    <nav aria-label="Bokstäver i ämnesregistret">
+      <ul class="letter-nav">{letters.map((l) => <li><a href={`#register-${l}`}>{l}</a></li>)}</ul>
+    </nav>
+    {
+      letters.map((letter) => (
+        <section aria-labelledby={`register-${letter}`}>
+          <h3 id={`register-${letter}`}>{letter}</h3>
+          <ul class="topic-list">
+            {topics
+              .filter(([k]) => k[0]!.toLocaleUpperCase('sv') === letter)
+              .map(([k, ls]) => (
+                <li>
+                  <span class="topic">{k}</span>:{' '}
+                  {ls.map((l, i) => (
+                    <>
+                      {i > 0 && ', '}
+                      <a href={l.href}>
+                        {l.number}. {l.title}
+                      </a>
+                    </>
+                  ))}
+                </li>
+              ))}
+          </ul>
+        </section>
+      ))
+    }
+  </section>
+</Base>

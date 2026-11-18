@@ -1,0 +1,44 @@
+{
+  "name": "ai-verkstaden",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI-verkstaden – interaktiva laborationer för gymnasiekursen Artificiell intelligens nivå 1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview --port 4321 --ignore-lock",
+    "check": "astro check",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:e2e": "playwright test --trace off",
+    "check:links": "node scripts/check-links.mjs",
+    "verify": "npm run lint && npm run check && npm run test && npm run build && npm run check:links && npm run test:e2e",
+    "docs:coverage": "GEN_COVERAGE=1 vitest run scripts/coverage.test.ts",
+    "test:content": "STRICT_CONTENT=1 vitest run src/course"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.9",
+    "astro": "^7.4.13",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@eslint/js": "^9.39.5",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "^5.1.1"
+  }
+}

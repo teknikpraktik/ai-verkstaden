@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProgressOverview from '../../components/site/ProgressOverview';
+import { labs } from '../../course/registry';
+
+const rows = labs.map((l) => ({ id: l.id, number: l.number, title: l.title, href: l.href, part: l.part }));
+---
+
+<Base title="Min arbetsöversikt" crumbs={[['Min arbetsöversikt', undefined]]}>
+  <header class="page-header">
+    <h1>Min arbetsöversikt</h1>
+    <p class="lead">Här ser du vilka labbar du har öppnat och markerat som klara. Översikten finns bara i den här webbläsaren – din lärare kan inte se den, och den följer inte med till en annan dator.</p>
+  </header>
+  <ProgressOverview client:only="react" labs={rows}>
+    <p slot="fallback">Arbetsöversikten kräver JavaScript.</p>
+  </ProgressOverview>
+</Base>

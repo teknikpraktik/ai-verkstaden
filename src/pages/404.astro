@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import { routes } from '../course/routes';
+---
+
+<Base title="Sidan finns inte">
+  <h1>Sidan finns inte</h1>
+  <p>Länken kan vara felskriven eller gammal. Gå till <a href={routes.home()}>startsidan</a> eller <a href={routes.glossary()}>begreppslistan</a>.</p>
+</Base>

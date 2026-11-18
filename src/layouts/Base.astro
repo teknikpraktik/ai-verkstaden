@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import { routes } from '../course/routes';
+import { chapters } from '../course/chapters';
+import DisplaySettings from '../components/site/DisplaySettings';
+import StorageNotice from '../components/site/StorageNotice';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Brödsmulor: [text, href] – sista posten är aktuell sida (utan href). */
+  crumbs?: [string, string | undefined][];
+  wide?: boolean;
+}
+const { title, description = 'Interaktiva laborationer för gymnasiekursen Artificiell intelligens.', crumbs = [], wide = false } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  { href: routes.home(), text: 'Start' },
+  { href: routes.glossary(), text: 'Begrepp' },
+  { href: routes.overview(), text: 'Min arbetsöversikt' },
+  { href: routes.teacher(), text: 'För lärare' },
+];
+const fullTitle = title === 'AI-verkstaden' ? title : `${title} – AI-verkstaden`;
+---
+
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <title>{fullTitle}</title>
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <script is:inline>
+      try {
+        if (localStorage.getItem('aiv:v1:ui:projector') === 'true') document.documentElement.setAttribute('data-projector', '');
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#innehall">Hoppa till innehållet</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="logo" href={routes.home()}>
+          <span class="logo-mark" aria-hidden="true">⚙</span> AI-verkstaden
+        </a>
+        <nav aria-label="Huvudmeny">
+          <ul class="main-nav">
+            {
+              nav.map((n) => (
+                <li>
+                  <a href={n.href} aria-current={path === n.href ? 'page' : undefined}>
+                    {n.text}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        <DisplaySettings client:idle />
+      </div>
+    </header>
+    <StorageNotice client:idle />
+    {
+      crumbs.length > 0 && (
+        <nav class="crumbs" aria-label="Du är här">
+          <ol>
+            <li>
+              <a href={routes.home()}>Start</a>
+            </li>
+            {crumbs.map(([text, href]) => (
+              <li>{href ? <a href={href}>{text}</a> : <span aria-current="page">{text}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <main id="innehall" class:list={['main', { wide }]} tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <nav aria-label="Kapitel">
+          <h2 class="footer-title">Kapitel</h2>
+          <ol>
+            {
+              chapters.map((c) => (
+                <li>
+                  <a href={routes.chapter(c.id)}>{c.title}</a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+        <div>
+          <h2 class="footer-title">Mer</h2>
+          <ul>
+            <li><a href={routes.lab('granska-ett-ai-system', 'avslutning')}>Slutprojekt: Granska ett AI-system</a></li>
+            <li><a href={routes.reflection()}>Reflektion</a></li>
+            <li><a href={routes.glossary()}>Begrepp och ämnesregister</a></li>
+            <li><a href={routes.teacher()}>Lärarhandledning</a></li>
+            <li><a href={routes.about()}>Om webbplatsen och dina uppgifter</a></li>
+          </ul>
+        </div>
+        <p class="footer-note">
+          Allt räknas i din webbläsare. Inga konton, ingen spårning. Ditt arbete sparas bara lokalt och kan rensas under <a href={routes.overview()}>Min arbetsöversikt</a>.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

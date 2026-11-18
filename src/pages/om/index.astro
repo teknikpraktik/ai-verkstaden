@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import { routes } from '../../course/routes';
+---
+
+<Base title="Om webbplatsen" crumbs={[['Om webbplatsen', undefined]]}>
+  <article class="prose">
+    <h1>Om AI-verkstaden</h1>
+    <p>AI-verkstaden är ett öppet läromedel med interaktiva laborationer för gymnasiekursen Artificiell intelligens. Allt material är skrivet för webbplatsen.</p>
+    <h2>Dina uppgifter</h2>
+    <ul>
+      <li>Det finns inga konton, ingen databas och ingen tredjepartsspårning.</li>
+      <li>Alla beräkningar sker i din webbläsare. Ingen text du skriver skickas någonstans.</li>
+      <li>Webbläsarens lokala lagring används för att spara vilka labbar du öppnat, var du var, dina svar och dina inställningar. Du kan rensa allt under <a href={routes.overview()}>Min arbetsöversikt</a>.</li>
+      <li>Om lokal lagring är blockerad fungerar labbarna ändå, men arbetet försvinner när du laddar om sidan.</li>
+    </ul>
+    <h2>Förenklingar och påhittat material</h2>
+    <p>Modellerna i labbarna är små och förenklade så att det går att följa vad de gör. Datamängder, personer, företag och scenarier är påhittade (syntetiska) om inget annat anges. Det märks ut överst i varje labb.</p>
+    <h2>Tillgänglighet</h2>
+    <p>Målet är att uppfylla WCAG 2.2 nivå AA. Alla labbar ska gå att använda med tangentbord, och information visas med text eller symboler och inte bara med färg. Projektorläget i sidhuvudet ger större text.</p>
+  </article>
+</Base>
