@@ -6,7 +6,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 import globals from 'globals';
 
 export default defineConfig(
-  { ignores: ['dist/', '.astro/', 'node_modules/', 'test-results/', 'playwright-report/', '**/*.astro'] },
+  { ignores: ['.claude/', 'dist/', '.astro/', 'node_modules/', 'test-results/', 'playwright-report/', '**/*.astro'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
