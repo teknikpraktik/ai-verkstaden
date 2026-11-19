@@ -1,8 +1,182 @@
 ---
 import Base from '../../layouts/Base.astro';
+import ReflectionQuestions from '../../components/site/ReflectionQuestions';
+import { getLab } from '../../course/registry';
+import { routes } from '../../course/routes';
+import type { OpenSpec } from '../../components/lab/Questions';
+
+interface Group {
+  id: string;
+  heading: string;
+  intro: string;
+  labIds: string[];
+  questions: OpenSpec[];
+}
+
+const groups: Group[] = [
+  {
+    id: 'verktyg',
+    heading: 'Verktyg du kan förklara',
+    intro: 'Under kursen har du kört algoritmer steg för steg och tränat små modeller. Välj några verktyg och förklara dem som om du pratade med någon som inte har läst kursen.',
+    labIds: [
+      'bredden-forst-och-djupet-forst',
+      'sok-med-kostnad-och-ledtrad',
+      'tre-i-rad-mot-en-agent',
+      'trana-en-klassificerare',
+      'forutsag-ett-tal',
+      'grupper-utan-facit',
+      'lar-en-agent-med-beloning',
+      'oppna-ett-neuralt-natverk',
+      'sortera-meddelanden',
+      'styr-en-robot',
+    ],
+    questions: [
+      {
+        kind: 'open',
+        id: 'verktyg-forklara',
+        prompt: 'Vilka två eller tre verktyg från kursen kan du nu förklara? Beskriv kort hur vart och ett fungerar och när det passar.',
+        criteria: [
+          'Jag har namngett verktygen (t.ex. BFS, A*, k-närmaste grannar, k-means, Q-inlärning).',
+          'Jag har beskrivit vad verktyget gör steg för steg, med egna ord.',
+          'Jag har gett ett exempel på ett problem där verktyget passar – och ett där det inte passar.',
+        ],
+      },
+      {
+        kind: 'open',
+        id: 'verktyg-svarast',
+        prompt: 'Vilket verktyg är du fortfarande osäker på? Vad skulle du behöva prova igen för att förstå det?',
+        criteria: ['Jag har pekat ut vad som är oklart.', 'Jag har föreslagit en labb eller ett experiment som kan hjälpa mig.'],
+      },
+    ],
+  },
+  {
+    id: 'antaganden',
+    heading: 'Antaganden som påverkade resultaten',
+    intro: 'Resultaten i labbarna berodde ofta på val som någon gjorde innan modellen kördes: vilka data som fanns med, vilket startvärde, vilken tröskel eller vilken belöning.',
+    labIds: ['vad-finns-i-datamangden', 'vem-far-fel-svar', 'trana-valj-och-testa', 'grupper-utan-facit', 'lar-en-agent-med-beloning', 'gor-text-till-data', 'bedom-en-rattvisekonflikt'],
+    questions: [
+      {
+        kind: 'open',
+        id: 'antagande-exempel',
+        prompt: 'Beskriv ett antagande eller val som påverkade resultatet i en labb. Vad hände när du ändrade det?',
+        criteria: [
+          'Jag har nämnt vilken labb och vilket val det gällde (t.ex. urval, startvärde, tröskel, belöning).',
+          'Jag har beskrivit resultatet före och efter ändringen.',
+          'Jag har förklarat varför ändringen gav det resultatet.',
+        ],
+      },
+      {
+        kind: 'open',
+        id: 'antagande-verklighet',
+        prompt: 'Vilket av de här antagandena tror du är svårast att upptäcka i ett verkligt AI-system? Varför?',
+        criteria: ['Jag har kopplat till ett verkligt slags system (utan verkliga personuppgifter).', 'Jag har förklarat varför antagandet är svårt att se utifrån.'],
+      },
+    ],
+  },
+  {
+    id: 'granska',
+    heading: 'Så granskar du ett nytt AI-system',
+    intro: 'I slutprojektet granskade du ett påhittat system. Tänk nu på nästa gång du möter ett AI-system – i skolan, på jobbet eller i en app.',
+    labIds: ['valj-robot-for-ett-uppdrag', 'vilka-uppgifter-behover-systemet', 'hur-regleras-ett-ai-system', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system'],
+    questions: [
+      {
+        kind: 'open',
+        id: 'granska-fragor',
+        prompt: 'Vilka fem frågor skulle du ställa till den som vill införa ett nytt AI-system? Motivera varför varje fråga är viktig.',
+        criteria: [
+          'Jag frågar om målet och hur det mäts.',
+          'Jag frågar om data: vilka uppgifter, varifrån och om vem.',
+          'Jag frågar vilka fel systemet gör och vem som drabbas.',
+          'Jag frågar vem som kan ingripa, förklara och ändra ett beslut.',
+          'Jag frågar vilka lagar och regler som gäller.',
+        ],
+      },
+      {
+        kind: 'open',
+        id: 'granska-andrat',
+        prompt: 'Har kursen ändrat hur du ser på AI? Ge ett exempel på något du tänkte före kursen och hur du tänker nu.',
+        criteria: ['Jag har beskrivit både före och efter.', 'Jag har kopplat förändringen till något jag gjorde i kursen.'],
+      },
+    ],
+  },
+];
 ---
 
-<Base title="Reflektion" crumbs={[['Reflektion', undefined]]}>
-  <h1>Reflektion</h1>
-  <p>Reflektionssidan byggs i avslutningsetappen.</p>
+<Base title="Reflektion" description="Reflektera över vad du har lärt dig i kursen Artificiell intelligens." crumbs={[['Avslutning', undefined], ['Reflektion', undefined]]}>
+  <header class="page-header">
+    <p class="eyebrow">Avslutning</p>
+    <h1>Reflektion</h1>
+    <p class="lead">
+      Titta tillbaka på kursen. Vilka verktyg kan du förklara, vilka antaganden styrde resultaten och hur skulle du granska ett AI-system du inte har sett förut?
+    </p>
+    <p>
+      Dina svar sparas bara i den här webbläsaren – din lärare kan inte se dem. Kopiera texten till ditt eget dokument om du ska lämna in den. Kryssa i kriterierna för att kontrollera
+      dina egna svar.
+    </p>
+  </header>
+
+  <nav aria-labelledby="reflektion-innehall" class="card">
+    <h2 id="reflektion-innehall" class="h-small">På sidan</h2>
+    <ol>
+      {
+        groups.map((g) => (
+          <li>
+            <a href={`#${g.id}`}>{g.heading}</a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  {
+    groups.map((g, i) => (
+      <section aria-labelledby={g.id} class="reflection-group">
+        <h2 id={g.id}>
+          {i + 1}. {g.heading}
+        </h2>
+        <p>{g.intro}</p>
+        <div class="reflection-labs">
+          <h3 class="h-small">Labbar att titta tillbaka på</h3>
+          <ul class="chip-list">
+            {g.labIds.map((id) => {
+              const l = getLab(id);
+              return (
+                <li>
+                  <a class="chip" href={l.href}>
+                    {l.number}. {l.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <ReflectionQuestions client:visible questions={g.questions} />
+      </section>
+    ))
+  }
+
+  <nav class="pager" aria-label="Föregående och nästa">
+    <a class="pager-prev" href={routes.lab('granska-ett-ai-system', 'avslutning')} rel="prev">
+      <span class="pager-dir">← Föregående</span>
+      <span>27. Granska ett AI-system</span>
+    </a>
+    <a class="pager-up" href={routes.overview()}>Min arbetsöversikt</a>
+    <a class="pager-next" href={routes.home()}>
+      <span class="pager-dir">Till start →</span>
+      <span>AI-verkstaden</span>
+    </a>
+  </nav>
 </Base>
+
+<style>
+  .h-small {
+    font-size: 1.1rem;
+    margin-top: 0;
+  }
+  .reflection-group {
+    margin-top: 2rem;
+  }
+  .reflection-labs {
+    margin: 0.5rem 0 1rem;
+  }
+</style>
