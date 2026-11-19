@@ -70,6 +70,7 @@ export function Grid(props: {
       className={`grid-board ${props.className ?? ''}`}
       style={{
         ['--cell' as string]: `${size}px`,
+        ['--cols' as string]: String(props.cols + (coords ? 1 : 0)),
         gridTemplateColumns: `${coords ? 'auto ' : ''}repeat(${props.cols}, var(--cell-fit, var(--cell)))`,
       }}
     >

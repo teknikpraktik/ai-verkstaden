@@ -46,3 +46,9 @@ Textmarkering i content/teacher: `**fet**`, `*kursiv*`, `` `kod` ``, `[[begrepps
 - Playwright: minst en kärnlabb per kapitel i `tests/e2e/<kapitel>.spec.ts` (förutsäg, interaktion, kontrollerat resultat, rätt/fel återkoppling, gärna progression efter omladdning). Hjälpare i `tests/e2e/helpers.ts`.
 - `tests/e2e/routes.spec.ts` kontrollerar automatiskt att varje labb laddar utan konsolfel och utan horisontell rullning.
 - Kör `npx astro preview` med `--ignore-lock` (Astro 7 startar annars i bakgrunden).
+
+## Kända egenskaper i delade delar
+
+- `[[begrepp]]`- och `**fet**`-markering renderas bara i `content.ts` och `teacher.ts`, inte i strängar i `Lab.tsx` eller i frågors återkoppling.
+- Två komponenter som använder samma `useStoredState`-nyckel samtidigt hålls inte synkroniserade; rendera varje sparat reglage en gång.
+- Kunskapskontrollen på kapitelsidan renderas bara i webbläsaren (`client:only`) eftersom sparade svar annars ger hydreringsfel.

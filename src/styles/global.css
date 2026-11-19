@@ -1047,7 +1047,8 @@ output {
   gap: 2px;
   width: max-content;
   max-width: 100%;
-  --cell-fit: min(var(--cell), calc((100vw - 4rem) / 12));
+  /* Rutorna krymper så att hela brädet får plats på smala skärmar (--cols sätts av Grid). */
+  --cell-fit: min(var(--cell), calc((100vw - 6rem) / var(--cols, 12)));
 }
 .grid-row {
   display: contents;

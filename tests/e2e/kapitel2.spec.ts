@@ -46,7 +46,6 @@ test.describe('Kapitel 2 @mobil', () => {
     await page.goto('kapitel/sokning/');
     // Kunskapskontrollen hydreras först när den syns (client:visible).
     await page.locator('[data-question="k2-kostnad"]').scrollIntoViewIfNeeded();
-    await expect(page.locator('astro-island', { has: page.locator('[data-question="k2-kostnad"]') })).not.toHaveAttribute('ssr', /.*/);
     const q = await answerNumeric(page, 'k2-kostnad', '100');
     await expect(q.getByText(/kostnaden för den billigaste vägen/)).toBeVisible();
     await q.getByRole('button', { name: 'Försök igen' }).click();
