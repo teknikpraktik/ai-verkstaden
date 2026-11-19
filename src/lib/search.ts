@@ -202,7 +202,11 @@ export function search(graph: Graph, start: NodeId, goal: NodeId, algorithm: Alg
     );
   }
 
-  snapshot('fail', null, `Gränsen är tom – det finns ingen väg från ${name(start)} till ${name(goal)}.`);
+  if (frontier.length > 0) {
+    snapshot('fail', null, `Sökningen avbröts efter ${max} expansioner utan att hitta ${name(goal)}.`);
+  } else {
+    snapshot('fail', null, `Gränsen är tom – det finns ingen väg från ${name(start)} till ${name(goal)}.`);
+  }
   return { frames, path: null, cost: null, expanded: explored.length, explored };
 }
 

@@ -127,3 +127,12 @@ describe('buildSearchTree', () => {
     expect(flat.some((x) => x.rep && x.id === 'A')).toBe(true);
   });
 });
+
+describe('search: expansionsgräns', () => {
+  it('säger att sökningen avbröts när gränsen nås, inte att vägen saknas', () => {
+    const g = gridGraph(Array.from({ length: 6 }, () => Array(6).fill(false)));
+    const r = search(g, cellId(0, 0), cellId(5, 5), 'bfs', { maxExpansions: 3 });
+    expect(r.path).toBeNull();
+    expect(r.frames.at(-1)?.message).toContain('avbröts efter 3 expansioner');
+  });
+});

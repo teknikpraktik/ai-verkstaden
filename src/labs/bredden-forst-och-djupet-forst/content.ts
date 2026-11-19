@@ -55,7 +55,7 @@ så länge väntande inte är tom:
         lägg grannen i väntande
 inget mål hittades → det finns ingen väg`,
         },
-        'BFS:s minnesbehov kan bli stort eftersom hela ”ringen” av rutor måste ligga i kön samtidigt. DFS behöver bara minnas en gren åt gången, vilket är en anledning till att den ändå används.',
+        'BFS:s minnesbehov kan bli stort eftersom hela ”ringen” av rutor måste ligga i kön samtidigt. En DFS som inte för lista över besökta noder behöver bara minnas den gren den följer, vilket är en anledning till att DFS används i stora sökproblem. Versionen i labben minns alla besökta rutor för att inte fastna i slingor, så där är skillnaden mindre.',
       ],
     },
   ],
