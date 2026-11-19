@@ -150,7 +150,9 @@ const groups: Group[] = [
             })}
           </ul>
         </div>
-        <ReflectionQuestions client:visible questions={g.questions} />
+        <ReflectionQuestions client:only="react" questions={g.questions}>
+          <p slot="fallback" class="loading">Frågorna laddas … (de kräver JavaScript)</p>
+        </ReflectionQuestions>
       </section>
     ))
   }

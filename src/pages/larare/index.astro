@@ -1,8 +1,538 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Blocks from '../../components/astro/Blocks.astro';
+import LabNotes from './_LabNotes.astro';
+import { chapters, finale, getLab, labs, labsInPart } from '../../course/registry';
+import { chapterTeacher } from '../../course/chapterExtras';
+import { routes } from '../../course/routes';
+import { md } from '../../lib/render';
+import { lessonTemplate, lessonsPerWeek, termPlan } from '../../teacher/termplan';
+import { checkedDate, courseFacts, planItems, sources, verificationLabel } from '../../teacher/amnesplan';
+import { rubric, rubricLevels, rubricNote, workForms } from '../../teacher/projekt';
+
+const finalLab = getLab(finale.labs[0]!);
+const totalMinutes = labs.reduce((s, l) => [s[0] + l.minutes[0], s[1] + l.minutes[1]] as [number, number], [0, 0] as [number, number]);
+const chapterTitle = (id: string) => chapters.find((c) => c.id === id);
+const labLink = (id: string) => {
+  const l = getLab(id);
+  return { href: `#labb-${l.id}`, text: `${l.number}. ${l.title}` };
+};
+
+const toc: { id: string; text: string; children?: { id: string; text: string }[] }[] = [
+  { id: 'om-handledningen', text: 'Om lärarhandledningen' },
+  { id: 'ordning', text: 'Föreslagen ordning' },
+  { id: 'terminsplan', text: 'Terminsplan för vårterminen' },
+  { id: 'lektionsupplagg', text: 'Upplägg för en lektion' },
+  { id: 'kapitel', text: 'Kapitlen', children: chapters.map((c) => ({ id: `kapitel-${c.id}`, text: `Kapitel ${c.number}: ${c.title}` })) },
+  { id: 'labbar', text: 'Labbarna', children: labs.map((l) => ({ id: `labb-${l.id}`, text: `${l.number}. ${l.title}` })) },
+  { id: 'slutprojekt', text: 'Slutprojektet: arbetsformer och bedömning' },
+  { id: 'amnesplan', text: 'Koppling till ämnesplanen' },
+];
 ---
 
-<Base title="Lärarhandledning" crumbs={[['För lärare', undefined]]}>
-  <h1>Lärarhandledning</h1>
-  <p>Lärarsidan byggs i avslutningsetappen.</p>
+<Base title="Lärarhandledning" description="Lärarhandledning för AI-verkstaden: ordning, terminsplan, lektionsupplägg, facit, slutprojekt och koppling till ämnesplanen." crumbs={[['För lärare', undefined]]}>
+  <header class="page-header">
+    <p class="eyebrow">För lärare</p>
+    <h1>Lärarhandledning</h1>
+    <p class="lead">
+      Stöd för att undervisa kursen Artificiell intelligens nivå 1 med AI-verkstaden: föreslagen ordning, terminsplan, lektionsupplägg, facit och exempelresonemang för varje
+      labb, slutprojektet och kopplingen till ämnesplanen.
+    </p>
+  </header>
+
+  <section id="om-handledningen" aria-labelledby="om-handledningen-rubrik" class="teacher-section">
+    <h2 id="om-handledningen-rubrik">Om lärarhandledningen</h2>
+    <aside class="callout callout-info">
+      <p class="callout-title">Öppet undervisningsmaterial</p>
+      <p>
+        Webbplatsen är öppen för alla och har inga inloggningar. Den här sidan – även facit och exempelresonemang – kan därför läsas av eleverna. Se den som öppet
+        undervisningsmaterial: använd facit i gemensamma genomgångar och som stöd för självbedömning, och använd egna uppgifter om du behöver prov som eleverna inte har sett.
+      </p>
+    </aside>
+    <ul>
+      <li>Kursen består av sex kapitel med {labs.length - 1} labbar och ett slutprojekt. Labbarna tar sammanlagt ungefär {Math.round(totalMinutes[0] / 60)}–{Math.round(totalMinutes[1] / 60)} timmar att genomföra, utan diskussioner och fördjupningar.</li>
+      <li>Allt elevarbete sparas bara i elevens webbläsare. Du som lärare kan inte se elevernas svar – be eleverna visa sin skärm, skriva ut eller ladda ner rapporten från slutprojektet.</li>
+      <li>Varje labb har ett <strong>genomgångsläge</strong> (ett steg i taget: förutsäg, prova, jämför, förklara) och ett <strong>experimentläge</strong> med alla reglage. <strong>Projektorläget</strong> i sidhuvudet ger större text.</li>
+      <li>Modeller och data i labbarna är förenklade och påhittade. Det är märkt överst i varje labb.</li>
+    </ul>
+  </section>
+
+  <nav aria-labelledby="innehall-rubrik" class="card teacher-toc">
+    <h2 id="innehall-rubrik">Innehåll</h2>
+    <ol>
+      {
+        toc.map((s) => (
+          <li>
+            <a href={`#${s.id}`}>{s.text}</a>
+            {s.children && (
+              <ol class={s.id === 'labbar' ? 'toc-labs' : undefined}>
+                {s.children.map((c) => (
+                  <li>
+                    <a href={`#${c.id}`}>{c.text}</a>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <section id="ordning" aria-labelledby="ordning-rubrik" class="teacher-section">
+    <h2 id="ordning-rubrik">Föreslagen ordning</h2>
+    <p>
+      Följ kapitlen i ordning. Inom varje kapitel bygger labbarna på varandra, och varje labb anger vilka tidigare labbar den förutsätter. Kapitel 4 (språk) och kapitel 5
+      (robotik) går att byta plats på. Kapitel 6 (etik och lag) använder exempel från hela kursen och passar sist, före slutprojektet.
+    </p>
+    <ol class="order-list">
+      {
+        chapters.map((c) => (
+          <li>
+            <a href={`#kapitel-${c.id}`}>
+              Kapitel {c.number}: {c.title}
+            </a>{' '}
+            – labb {labsInPart(c.id).map((l) => l.number).join(', ')}
+          </li>
+        ))
+      }
+      <li>
+        <a href={`#labb-${finalLab.id}`}>Slutprojektet: {finalLab.title}</a> – labb {finalLab.number}, följt av <a href={routes.reflection()}>reflektionssidan</a>
+      </li>
+    </ol>
+  </section>
+
+  <section id="terminsplan" aria-labelledby="terminsplan-rubrik" class="teacher-section">
+    <h2 id="terminsplan-rubrik">Terminsplan för vårterminen</h2>
+    <p>
+      Förslaget räknar med {lessonsPerWeek} per vecka under {termPlan.length} veckor. Veckonumren är ungefärliga – sportlov och påsklov ligger olika i olika kommuner, så flytta
+      buffertveckorna (märkta <span class="flex-tag">↔ flyttbar</span>) efter er läsårsplan. Har kursen färre veckor kan buffertveckorna strykas och slutprojektet kortas till
+      tre lektioner.
+    </p>
+    <div class="table-wrap">
+      <table class="table termplan">
+        <caption>Veckoplan, cirka {termPlan.length} veckor</caption>
+        <thead>
+          <tr>
+            <th scope="col">Vecka</th>
+            <th scope="col">Tema</th>
+            <th scope="col">Labbar</th>
+            <th scope="col">Övrigt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            termPlan.map((w) => (
+              <tr>
+                <th scope="row">
+                  Vecka {w.week}
+                  <span class="hint"> ({w.calendarWeek})</span>
+                </th>
+                <td data-label="Tema">
+                  {w.theme}
+                  {w.flexible && <span class="flex-tag"> ↔ flyttbar</span>}
+                </td>
+                <td data-label="Labbar">
+                  {w.labs.length ? (
+                    <ul class="plain">
+                      {w.labs.map((id) => {
+                        const l = labLink(id);
+                        return (
+                          <li>
+                            <a href={l.href}>{l.text}</a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    '–'
+                  )}
+                </td>
+                <td data-label="Övrigt">{w.activities.length ? <ul class="plain">{w.activities.map((a) => <li>{a}</li>)}</ul> : '–'}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="lektionsupplagg" aria-labelledby="lektionsupplagg-rubrik" class="teacher-section">
+    <h2 id="lektionsupplagg-rubrik">Upplägg för en lektion</h2>
+    <p>De flesta labbar passar i en lektion på 60–80 minuter med det här upplägget. Kapitlens egna lektionsförslag finns under respektive kapitel.</p>
+    <div class="table-wrap">
+      <table class="table">
+        <caption>Kort lektionsplan</caption>
+        <thead>
+          <tr><th scope="col">Fas</th><th scope="col">Minuter</th><th scope="col">Vad händer</th></tr>
+        </thead>
+        <tbody>
+          {lessonTemplate.map((p) => (
+            <tr><th scope="row">{p.phase}</th><td>{p.minutes}</td><td>{p.text}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="kapitel" aria-labelledby="kapitel-rubrik" class="teacher-section">
+    <h2 id="kapitel-rubrik">Kapitlen</h2>
+    {
+      chapters.map((c) => {
+        const notes = chapterTeacher(c.id);
+        const cid = `kapitel-${c.id}`;
+        return (
+          <section class="teacher-chapter" aria-labelledby={cid}>
+            <h3 id={cid}>
+              Kapitel {c.number}: {c.title}
+            </h3>
+            <p>
+              <a href={routes.chapter(c.id)}>Öppna kapitlet</a> · Labbar:{' '}
+              {labsInPart(c.id).map((l, i) => (
+                <>
+                  {i > 0 && ', '}
+                  <a href={`#labb-${l.id}`}>
+                    {l.number}. {l.title}
+                  </a>
+                </>
+              ))}
+            </p>
+            <h4>Lärandemål</h4>
+            <ul>{c.goals.map((g) => <li>{g}</li>)}</ul>
+            {notes ? (
+              <>
+                {notes.lessons.length > 0 && (
+                  <>
+                    <h4>Lektionsförslag</h4>
+                    <ol>
+                      {notes.lessons.map((ls) => (
+                        <li>
+                          <strong>{ls.title}</strong> ({ls.minutes} min)
+                          <ul>{ls.plan.map((p) => <li set:html={md(p)} />)}</ul>
+                        </li>
+                      ))}
+                    </ol>
+                  </>
+                )}
+                <h4>Facit till kunskapskontrollen</h4>
+                {notes.checkAnswers.length > 0 ? (
+                  <dl class="answers">
+                    {notes.checkAnswers.map((a) => (
+                      <>
+                        <dt set:html={md(a.question)} />
+                        <dd>
+                          <Blocks blocks={a.answer} />
+                        </dd>
+                      </>
+                    ))}
+                  </dl>
+                ) : (
+                  <p class="hint">Facit är inte klart än.</p>
+                )}
+                {notes.notes && notes.notes.length > 0 && (
+                  <>
+                    <h4>Övriga råd</h4>
+                    <ul>{notes.notes.map((n) => <li set:html={md(n)} />)}</ul>
+                  </>
+                )}
+              </>
+            ) : (
+              <p class="callout callout-info">Lektionsförslag och facit för kapitlets kunskapskontroll är inte klara än. Använd lektionsupplägget ovan och labbarnas lärarstöd nedan.</p>
+            )}
+          </section>
+        );
+      })
+    }
+  </section>
+
+  <section id="labbar" aria-labelledby="labbar-rubrik" class="teacher-section">
+    <h2 id="labbar-rubrik">Labbarna</h2>
+    <p>Syfte, tips, vanliga missuppfattningar, diskussionsstopp, facit och källor för varje labb, i kursens ordning.</p>
+    {labs.map((l) => <LabNotes lab={l} />)}
+  </section>
+
+  <section id="slutprojekt" aria-labelledby="slutprojekt-rubrik" class="teacher-section">
+    <h2 id="slutprojekt-rubrik">Slutprojektet: arbetsformer och bedömning</h2>
+    <p>
+      I <a href={finalLab.href}>{finalLab.title}</a> granskar eleverna ett påhittat AI-system: de väljer problem, beskriver mål, data och metod, väljer labbar som belägg, bedömer fel,
+      risker och mänsklig insyn och ger en rekommendation. Guiden har en granskningslista som visar vilka delar som saknas, och rapporten kan skrivas ut (till papper eller PDF)
+      eller laddas ner som textfil. Facit och exempelresonemang finns under <a href={`#labb-${finalLab.id}`}>labb {finalLab.number}</a> ovan.
+    </p>
+    <h3>Arbetsformer</h3>
+    <div class="workforms">
+      {
+        workForms.map((w) => (
+          <section class="card" aria-labelledby={`arbetsform-${w.id}`}>
+            <h4 id={`arbetsform-${w.id}`}>
+              {w.title} <span class="hint">({w.lessons})</span>
+            </h4>
+            <ul>{w.steps.map((s) => <li>{s}</li>)}</ul>
+            <p>
+              <strong>Bedömning:</strong> {w.assessment}
+            </p>
+          </section>
+        ))
+      }
+    </div>
+    <h3>Bedömningsstöd</h3>
+    <p class="hint">{rubricNote}</p>
+    <div class="table-wrap">
+      <table class="table rubric">
+        <caption>Bedömningsmatris för slutprojektet</caption>
+        <thead>
+          <tr>
+            <th scope="col">Kriterium</th>
+            {rubricLevels.map((l) => <th scope="col">{l}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rubric.map((r) => (
+              <tr>
+                <th scope="row">{r.criterion}</th>
+                {r.levels.map((x) => <td>{x}</td>)}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="amnesplan" aria-labelledby="amnesplan-rubrik" class="teacher-section">
+    <h2 id="amnesplan-rubrik">Koppling till ämnesplanen</h2>
+    <aside class="callout callout-varning">
+      <p class="callout-title">Kontrollera mot ämnesplanen</p>
+      <p>
+        Kopplingen kontrollerades {checkedDate}. Skolverkets webbplatser gick då inte att öppna direkt från den miljö där webbplatsen byggdes, så uppgifterna nedan bygger på
+        sökresultat (titlar, adresser och korta utdrag) – inte på en fullständig läsning av ämnesplanen. Varje punkt är märkt med hur säker den är. Läs ämnesplanen och
+        betygskriterierna hos Skolverket och komplettera tabellen innan du använder den i planering eller bedömning.
+      </p>
+    </aside>
+
+    <h3>Källor</h3>
+    <ul class="sources">
+      {
+        sources.map((s) => (
+          <li>
+            <a href={s.url}>{s.title}</a> – kontrollerad {checkedDate}. <span class="hint">{s.note}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3>Om kursen</h3>
+    <ul>
+      {
+        courseFacts.map((f) => (
+          <li>
+            {f.text} <span class="verify-tag">({verificationLabel[f.verified]})</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3>Centralt innehåll och webbplatsens labbar</h3>
+    <p>
+      Formuleringar inom citattecken fanns ordagrant i utdrag ur ämnesplanen. Övriga punkter är återgivna med egna ord och kan skilja sig från Skolverkets formulering. Sista
+      raden är tom med avsikt: där fyller du i det som saknas.
+    </p>
+    <div class="table-wrap">
+      <table class="table plan-map">
+        <caption>Ämnesplanens innehåll kopplat till kapitel och labbar</caption>
+        <thead>
+          <tr>
+            <th scope="col">Innehåll i ämnesplanen</th>
+            <th scope="col">Säkerhet</th>
+            <th scope="col">Kapitel</th>
+            <th scope="col">Labbar</th>
+            <th scope="col">Kommentar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            planItems.map((p) => (
+              <tr data-plan={p.id}>
+                <th scope="row">{p.text}</th>
+                <td>
+                  <span class={`verify-tag verify-${p.verified}`}>{verificationLabel[p.verified]}</span>
+                </td>
+                <td>
+                  {p.chapters.length ? (
+                    <ul class="plain">
+                      {p.chapters.map((id) => {
+                        const c = chapterTitle(id);
+                        return (
+                          <li>
+                            <a href={`#kapitel-${id}`}>Kapitel {c?.number}</a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    '–'
+                  )}
+                </td>
+                <td>
+                  {p.labs.length ? (
+                    <ul class="plain">
+                      {p.labs.map((id) => {
+                        const l = labLink(id);
+                        return (
+                          <li>
+                            <a href={l.href}>{l.text}</a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    '–'
+                  )}
+                </td>
+                <td set:html={md(p.comment)} />
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .teacher-section {
+    margin-top: 2.5rem;
+  }
+  .teacher-section > h2 {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.3rem;
+  }
+  .teacher-toc ol ol {
+    margin-top: 0.25rem;
+    list-style: none;
+    padding-left: 1rem;
+  }
+  .toc-labs {
+    columns: 2 18rem;
+    column-gap: 2rem;
+  }
+  .teacher-toc li {
+    margin: 0.15rem 0;
+  }
+  .teacher-chapter,
+  :global(.teacher-lab) {
+    border-top: 1px solid var(--border);
+    padding-top: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  :global(.teacher-lab h3) {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+  :global(.teacher-lab h4),
+  .teacher-chapter h4 {
+    margin: 1rem 0 0.3rem;
+    font-size: 1rem;
+  }
+  :global(.teacher-meta) {
+    margin: 0 0 0.5rem;
+    color: var(--text-muted);
+  }
+  :global(.status-tag) {
+    font-weight: 700;
+  }
+  :global(.status-klar) {
+    color: var(--ok);
+  }
+  :global(.status-saknas) {
+    color: var(--warn);
+  }
+  :global(.teacher-goals summary) {
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 44px;
+    padding: 0.5rem 0;
+  }
+  :global(.myths dt),
+  :global(.answers dt) {
+    font-weight: 700;
+    margin-top: 0.6rem;
+  }
+  :global(.myths dd),
+  :global(.answers dd) {
+    margin: 0.2rem 0 0.4rem 1.2rem;
+  }
+  :global(.answers dd > p:first-child) {
+    margin-top: 0;
+  }
+  :global(.sources li) {
+    margin: 0.3rem 0;
+    overflow-wrap: anywhere;
+  }
+  .plain {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .flex-tag {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--warn);
+    white-space: nowrap;
+  }
+  .verify-tag {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .verify-ej-verifierat,
+  .verify-sammanfattning {
+    color: var(--warn);
+  }
+  .verify-citat {
+    color: var(--ok);
+  }
+  .workforms {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  }
+  .workforms h4 {
+    margin-top: 0;
+  }
+  .termplan th[scope='row'] {
+    white-space: nowrap;
+  }
+  .plan-map th[scope='row'] {
+    font-weight: 600;
+    min-width: 12rem;
+  }
+  @media (max-width: 640px) {
+    .termplan thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .termplan tr,
+    .termplan th,
+    .termplan td {
+      display: block;
+    }
+    .termplan tr {
+      border-bottom: 2px solid var(--border);
+      padding: 0.4rem 0;
+    }
+    .termplan td::before {
+      content: attr(data-label) ': ';
+      font-weight: 700;
+    }
+  }
+  @media print {
+    .teacher-toc {
+      display: none;
+    }
+  }
+</style>

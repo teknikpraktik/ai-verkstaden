@@ -1,0 +1,106 @@
+---
+/** Lärarstöd för en labb på lärarsidan. Filen börjar med _ och blir därför ingen egen sida. */
+import Blocks from '../../components/astro/Blocks.astro';
+import type { LabEntry } from '../../course/registry';
+import { partTitle } from '../../course/registry';
+import { md } from '../../lib/render';
+import { labStatus } from '../../teacher/labStatus';
+
+interface Props {
+  lab: LabEntry;
+}
+const { lab } = Astro.props;
+const t = lab.teacher;
+const status = labStatus(t);
+const statusText = { saknas: 'Lärarstöd under arbete', delvis: 'Lärarstöd utan facit', klar: 'Lärarstöd klart' }[status];
+const sid = `labb-${lab.id}`;
+---
+
+<section class="teacher-lab" aria-labelledby={sid}>
+  <h3 id={sid}>
+    <span class="lab-num">{lab.number}</span>
+    {lab.title}
+  </h3>
+  <p class="teacher-meta">
+    <span>{partTitle(lab.part)}</span> · <span>⏱ {lab.minutes[0]}–{lab.minutes[1]} min</span> ·
+    <span class={`status-tag status-${status}`}>{status === 'klar' ? '✓ ' : status === 'delvis' ? '◐ ' : '… '}{statusText}</span>{' · '}<a href={lab.href}>Öppna labben<span class="visually-hidden">: {lab.title}</span></a>
+  </p>
+
+  <details class="teacher-goals">
+    <summary>Labbens mål ({lab.goals.length})</summary>
+    <ul>{lab.goals.map((g) => <li>{g}</li>)}</ul>
+  </details>
+
+  {
+    status === 'saknas' || !t ? (
+      <p class="callout callout-info">
+        Lärarstödet för den här labben (syfte, tips, facit och källor) är inte klart än. Använd labbens mål ovan och labbens egna förklaringstexter så länge.
+      </p>
+    ) : (
+      <>
+        <h4>Syfte</h4>
+        <p set:html={md(t.purpose)} />
+        {t.tips.length > 0 && (
+          <>
+            <h4>Tips för genomförandet</h4>
+            <ul>{t.tips.map((x) => <li set:html={md(x)} />)}</ul>
+          </>
+        )}
+        {t.misconceptions.length > 0 && (
+          <>
+            <h4>Vanliga missuppfattningar</h4>
+            <dl class="myths">
+              {t.misconceptions.map((m) => (
+                <>
+                  <dt>
+                    <span aria-hidden="true">✗ </span>
+                    <span class="visually-hidden">Missuppfattning: </span>
+                    <span set:html={md(m.myth)} />
+                  </dt>
+                  <dd>
+                    <span aria-hidden="true">✓ </span>
+                    <span class="visually-hidden">I stället: </span>
+                    <span set:html={md(m.reality)} />
+                  </dd>
+                </>
+              ))}
+            </dl>
+          </>
+        )}
+        {t.discussionStops.length > 0 && (
+          <>
+            <h4>Diskussionsstopp</h4>
+            <ul>{t.discussionStops.map((x) => <li set:html={md(x)} />)}</ul>
+          </>
+        )}
+        <h4>Facit och exempelresonemang</h4>
+        {t.answers.length > 0 ? (
+          <dl class="answers">
+            {t.answers.map((a) => (
+              <>
+                <dt set:html={md(a.question)} />
+                <dd>
+                  <Blocks blocks={a.answer} />
+                </dd>
+              </>
+            ))}
+          </dl>
+        ) : (
+          <p class="hint">Facit är inte klart än.</p>
+        )}
+        {t.sources && t.sources.length > 0 && (
+          <>
+            <h4>Källor</h4>
+            <ul class="sources">
+              {t.sources.map((s) => (
+                <li>
+                  <a href={s.url}>{s.title}</a> (kontrollerad {s.checked}){s.note ? <> – <span set:html={md(s.note)} /></> : null}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </>
+    )
+  }
+</section>
