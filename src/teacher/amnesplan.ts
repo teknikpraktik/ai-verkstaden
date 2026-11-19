@@ -1,13 +1,14 @@
 /**
- * Koppling till Skolverkets ämnesplan i artificiell intelligens.
+ * Koppling till Skolverkets ämnesplan i artificiell intelligens (Gy25).
  *
- * VIKTIGT OM KÄLLÄGET (kontrollerat 2026-11-19): Direkta hämtningar från
- * skolverket.se, syllabuswebb.skolverket.se och skolfs.skolverket.se var
- * blockerade i den miljö där webbplatsen byggdes. Uppgifterna nedan bygger
- * därför bara på sökresultat (titlar, adresser och korta utdrag) från en
- * webbsökning samma dag. Varje punkt har en `verified`-status som visar hur
- * säker den är. Läraren bör kontrollera mot ämnesplanen och fylla i det som
- * saknas – strukturen är gjord för det.
+ * Kontrollerad 2026-11-19 mot primärtexten: ämnesplanens webbsida och
+ * PDF-version på syllabuswebb.skolverket.se (ämneskod ARTI, SKOLFS 2023:158,
+ * gäller från 1 juli 2025). Det centrala innehållet för nivå 1 återges
+ * ordagrant, i samma ordning och under samma rubriker som i ämnesplanen.
+ *
+ * Det som inte kunde kontrolleras står uttryckligen i källornas `note`:
+ * Skolverkets kommentarmaterial gick inte att hämta (adressen leder till en
+ * inloggningssida).
  */
 
 export const checkedDate = '2026-11-19';
@@ -15,123 +16,223 @@ export const checkedDate = '2026-11-19';
 export interface PlanSource {
   title: string;
   url: string;
-  /** Vad vi kunde se av källan. */
+  /** Vad källan innehåller och hur den användes. */
   note: string;
 }
 
 export const sources: PlanSource[] = [
   {
-    title: 'Ämne – Artificiell intelligens (Gymnasieskola), Skolverkets ämnesplan',
-    url: 'https://syllabuswebb.skolverket.se/syllabuscw/jsp/subject.htm?subjectCode=ART&date=2025-09-25&tos=gy',
-    note: 'Ämnesplanens webbsida. Sidan kunde inte öppnas direkt (nätverksspärr i byggmiljön); titeln och utdrag sågs i sökresultat.',
+    title: 'Ämne – Artificiell intelligens (Gymnasieskola), ämnesplan med ämneskod ARTI, Skolverket',
+    url: 'https://syllabuswebb.skolverket.se/syllabuscw/jsp/subject.htm?subjectCode=ARTI&tos=gy',
+    note: 'Ämnesplanens webbsida, läst i sin helhet. Sidan anger ”Gällande ämnesplan. Gäller från 1 July 2025” och versionsbeteckningen ARTIgy2.',
   },
   {
-    title: 'Ämnesplan för ämnet artificiell intelligens (PDF), Skolverket',
-    url: 'https://syllabuswebb.skolverket.se/subject/ART/1/pdf',
-    note: 'PDF-version av ämnesplanen. Kunde inte öppnas direkt; utdrag sågs i sökresultat.',
+    title: 'Artificiell intelligens – ARTI – Gymnasieskola, Kommunal vuxenutbildning på gymnasial nivå (PDF), Skolverket',
+    url: 'https://syllabuswebb.skolverket.se/subject/ARTI/2/pdf',
+    note: 'PDF-versionen av samma ämnesplan (5 sidor, SKOLFS 2023:158), läst i sin helhet. Centralt innehåll och betygskriterier nedan är kontrollerade mot den.',
+  },
+  {
+    title: 'Ämne – Artificiell intelligens (Gymnasieskola), tidigare ämnesplan med ämneskod ART, Skolverket',
+    url: 'https://syllabuswebb.skolverket.se/syllabuscw/jsp/subject.htm?subjectCode=ART&tos=gy',
+    note: 'Den tidigare ämnesplanen (SKOLFS 2023:136, kursen Artificiell intelligens 1, kurskod ARTART01, PDF: syllabuswebb.skolverket.se/subject/ART/1/pdf). Gäller för utbildning som påbörjats före 1 juli 2025. Punktlistan i det centrala innehållet för kurs 1 är ordagrant densamma som för nivå 1.',
   },
   {
     title: 'Kommentarmaterial till ämnet artificiell intelligens (Gy25), Skolverket',
     url: 'https://www.skolverket.se/download/18.453ec2dd19a0a2d0a6b28df0/1761656862656/Kommentarmaterial%20till%20%C3%A4mnet%20artificiell%20intelligens%20(Gy25).pdf',
-    note: 'Kommentar till ämnesplanen. Enligt sökresultatets sammanfattning är det centrala innehållet ordnat under tre rubriker. Kunde inte öppnas direkt.',
-  },
-  {
-    title: 'Om ämnet artificiell intelligens (Skolverket 2024)',
-    url: 'https://skolverket.se/download/18.365a295a19023f0f2241/1718612644742/Om%20%C3%A4mnet%20artificiell%20intelligens%20.pdf',
-    note: 'Skolverkets kommentar till den tidigare versionen av ämnet. Kunde inte öppnas direkt.',
-  },
-];
-
-/** Vad som kunde bekräftas om kursen via sökresultat. */
-export const courseFacts: { text: string; verified: Verification }[] = [
-  { text: 'Kursen heter Artificiell intelligens nivå 1 och har kurskoden ARTI1000X.', verified: 'utdrag' },
-  { text: 'Kursen omfattar 100 gymnasiepoäng. Nivå 2 (100 poäng) bygger på nivå 1.', verified: 'utdrag' },
-  {
-    text: 'Enligt Skolverkets kommentarmaterial är det centrala innehållet ordnat under tre rubriker – ungefär ”artificiell intelligens”, ”praktisk användning av AI” och ”förhållningssätt till AI”. Den exakta formuleringen kunde inte kontrolleras.',
-    verified: 'sammanfattning',
+    note: 'Kunde inte läsas: adressen skickade vidare till en inloggningssida den 19 november 2026. Kopplingen nedan bygger därför bara på ämnesplanen, inte på Skolverkets kommentarer till den.',
   },
 ];
 
 /**
- * - `citat`: formuleringen fanns ordagrant i ett sökresultatsutdrag.
- * - `utdrag`: innehållet fanns i ett utdrag men återges här med egna ord.
- * - `sammanfattning`: bygger på sökmotorns sammanfattning – lägre säkerhet.
- * - `ej-verifierat`: kunde inte kontrolleras; läraren behöver fylla i.
+ * - `citat`: ordagrant ur ämnesplanen, kontrollerat mot primärtexten.
+ * - `egen-formulering`: kontrollerat mot primärtexten men återgivet med egna ord.
+ * - `ej-verifierat`: kunde inte kontrolleras mot primärtexten.
  */
-export type Verification = 'citat' | 'utdrag' | 'sammanfattning' | 'ej-verifierat';
+export type Verification = 'citat' | 'egen-formulering' | 'ej-verifierat';
 
 export const verificationLabel: Record<Verification, string> = {
-  citat: 'Ordagrant i sökresultat',
-  utdrag: 'Sett i utdrag, egen formulering',
-  sammanfattning: 'Enligt sammanfattning – kontrollera',
-  'ej-verifierat': 'Ej verifierat – fyll i',
+  citat: 'Ordagrant ur ämnesplanen, kontrollerat',
+  'egen-formulering': 'Kontrollerat mot ämnesplanen, egen formulering',
+  'ej-verifierat': 'Ej kontrollerat',
+};
+
+/** Uppgifter om ämnet och nivån, som de står i ämnesplanen. */
+export const course = {
+  subject: 'Artificiell intelligens',
+  subjectCode: 'ARTI',
+  name: 'Artificiell intelligens nivå 1',
+  levelCode: 'ARTI1000X',
+  points: 100,
+  validFrom: '2025-07-01',
+  regulation: 'SKOLFS 2023:158',
+  version: 'ARTIgy2',
+} as const;
+
+export const courseFacts: { text: string; verified: Verification }[] = [
+  {
+    text: 'Nivån heter i ämnesplanen ”Nivå 1, 100 poäng” med ”Nivåkod: ARTI1000X”. Kursen Artificiell intelligens nivå 1 omfattar alltså 100 gymnasiepoäng.',
+    verified: 'citat',
+  },
+  { text: 'Ämnet har två nivåer: ”Nivå 2, 100 poäng, som bygger på nivå 1.” Nivå 2 har nivåkoden ARTI2000X.', verified: 'citat' },
+  {
+    text: 'Ämnesplanen är beslutad som SKOLFS 2023:158 och gäller från 1 juli 2025 (Gy25). För utbildning som påbörjats före 1 juli 2025 gäller den tidigare ämnesplanen med kursen Artificiell intelligens 1 (ARTART01, 100 poäng, SKOLFS 2023:136).',
+    verified: 'egen-formulering',
+  },
+  {
+    text: 'Det centrala innehållet för nivå 1 är ordnat under tre rubriker: ”Artificiell intelligens”, ”Praktisk användning av AI” och ”Förhållningssätt till AI” – 15 punkter totalt.',
+    verified: 'citat',
+  },
+  {
+    text: 'Betygskriterierna (E, C och A) gäller för ämnet som helhet och handlar om kunskaper om AI, att använda AI för att lösa enkla problem, jämförelser av mänsklig och artificiell intelligens, lagar och andra bestämmelser samt resonemang om möjligheter och risker.',
+    verified: 'egen-formulering',
+  },
+];
+
+/** Kort sammanfattning av ämnets syfte, med egna ord. */
+export const purposeSummary =
+  'Ämnet ska ge en introduktion till och överblick av AI: centrala begrepp och tekniker, hur AI fungerar och är uppbyggt, och hur det påverkar vardagen och vår bild av omvärlden. Det behandlar AI framför allt ur ett samhällsperspektiv – lagar och andra bestämmelser, juridiska, etiska, ekonomiska och säkerhetsmässiga överväganden, hållbar utveckling och likheter och skillnader mellan mänsklig och artificiell intelligens. Teori ska varvas med praktiskt arbete med digitala verktyg och programmering, och det ska finnas utrymme att diskutera etiska frågor.';
+
+/** Ämnets fem syftespunkter, ordagrant. */
+export const purposeGoals: string[] = [
+  'Kunskaper om AI, dess tillämpningar, tekniker och beståndsdelar.',
+  'Förmåga att använda AI i problemlösning.',
+  'Kunskaper om skillnader och likheter mellan mänsklig och artificiell intelligens.',
+  'Kunskaper om lagar och andra bestämmelser relevanta för AI.',
+  'Förmåga att resonera om möjligheter och risker med AI och dess konsekvenser för samhället.',
+];
+
+/** Rubrikerna för det centrala innehållet, i ämnesplanens ordning. */
+export const planGroups = ['Artificiell intelligens', 'Praktisk användning av AI', 'Förhållningssätt till AI'] as const;
+export type PlanGroup = (typeof planGroups)[number];
+
+export type Coverage = 'täcks' | 'delvis' | 'täcks-inte';
+
+export const coverageLabel: Record<Coverage, string> = {
+  täcks: 'Täcks',
+  delvis: 'Delvis',
+  'täcks-inte': 'Täcks inte',
 };
 
 export interface PlanItem {
   id: string;
-  /** Innehållspunkten. Citattecken används bara när verified = 'citat'. */
+  group: PlanGroup;
+  /** Innehållspunkten. Inom citattecken ”…” när verified = 'citat'. */
   text: string;
   verified: Verification;
+  coverage: Coverage;
   /** Kapitel (id) som behandlar punkten. */
   chapters: string[];
   /** Labbar (id) som behandlar punkten. */
   labs: string[];
-  /** Hur webbplatsen täcker punkten, och eventuella luckor. */
+  /** Hur webbplatsen täcker punkten, luckor och förslag. Markdown. */
   comment: string;
 }
 
 export const planItems: PlanItem[] = [
+  // Artificiell intelligens
   {
     id: 'definition',
-    text: 'Definition av AI och centrala begrepp inom området.',
-    verified: 'utdrag',
-    chapters: ['introduktion'],
-    labs: ['ar-det-ai', 'fran-expertregler-till-stora-modeller'],
-    comment: 'Labb 1 sorterar system efter regler och lärande. Begreppslistan samlar kursens begrepp.',
+    group: 'Artificiell intelligens',
+    text: '”Definition av AI samt centrala begrepp inom området.”',
+    verified: 'citat',
+    coverage: 'täcks',
+    chapters: ['introduktion', 'sokning'],
+    labs: ['ar-det-ai', 'programmera-en-stadrobot'],
+    comment: 'Labb 1 sorterar system efter fasta regler och lärande, kapitel 2 inför agentbegreppet. Begreppslistan samlar kursens begrepp.',
   },
   {
     id: 'data',
-    text: 'Datas betydelse för AI, datakvalitet och urval av data.',
-    verified: 'utdrag',
+    group: 'Artificiell intelligens',
+    text: '”Vikten av data, datakvalitet för AI och val av data.”',
+    verified: 'citat',
+    coverage: 'täcks',
     chapters: ['introduktion', 'maskininlarning', 'etik'],
-    labs: ['vad-finns-i-datamangden', 'vem-far-fel-svar', 'trana-valj-och-testa', 'vilka-uppgifter-behover-systemet'],
-    comment: 'Obalans, urval, gruppvisa fel, tränings-/valideringsdata/testdata och dataminimering.',
+    labs: ['vad-finns-i-datamangden', 'vem-far-fel-svar', 'trana-en-klassificerare', 'trana-valj-och-testa', 'vilka-uppgifter-behover-systemet'],
+    comment: 'Obalans och urval, gruppvisa fel, felmärkta punkter, tränings-, validerings- och testdata, dataläckage och dataminimering.',
   },
   {
     id: 'drivkrafter',
-    text: 'Drivkrafter bakom AI:s utveckling.',
-    verified: 'sammanfattning',
+    group: 'Artificiell intelligens',
+    text: '”Drivkrafter bakom utvecklingen av AI.”',
+    verified: 'citat',
+    coverage: 'täcks',
     chapters: ['introduktion'],
     labs: ['fran-expertregler-till-stora-modeller'],
-    comment: 'Historiska milstolpar kopplade till data, beräkningskraft och metoder.',
+    comment: 'Milstolpar 1956–2022 kopplade till data, beräkningskraft, algoritmer och investeringar.',
   },
   {
-    id: 'tekniker-oversikt',
+    id: 'anvandning',
+    group: 'Artificiell intelligens',
+    text: '”Översikt över användningen av AI, däribland prediktion, robotik, vision och generativ AI samt olika tekniker och metoder som ligger bakom dessa.”',
+    verified: 'citat',
+    coverage: 'delvis',
+    chapters: ['maskininlarning', 'sprak', 'robotik'],
+    labs: ['forutsag-ett-tal', 'styr-en-robot', 'valj-robot-for-ett-uppdrag', 'samma-mening-flera-tolkningar', 'fran-expertregler-till-stora-modeller'],
+    comment:
+      'Prediktion och robotik täcks. Generativ AI behandlas delvis genom nästa-ord-prediktion och jämförelsen med stora språkmodeller i labb 18. **Vision (datorseende) har ingen labb** – förslag: en genomgång av hur en bild blir tal (pixlar) och hur en bildklassificerare tränas, gärna med ett färdigt verktyg i helklass.',
+  },
+  {
+    id: 'tekniker',
+    group: 'Artificiell intelligens',
     text: '”Översikt av tekniker för AI, däribland sökning, klassificering och objektigenkänning.”',
     verified: 'citat',
+    coverage: 'delvis',
     chapters: ['sokning', 'maskininlarning', 'sprak'],
-    labs: [
-      'programmera-en-stadrobot',
-      'bygg-en-graf',
-      'bredden-forst-och-djupet-forst',
-      'sok-med-kostnad-och-ledtrad',
-      'tre-i-rad-mot-en-agent',
-      'trana-en-klassificerare',
-      'sortera-meddelanden',
-    ],
-    comment: 'Sökning och klassificering täcks utförligt. **Objektigenkänning (bildigenkänning) har ingen egen labb** – komplettera t.ex. med ett exempel på bildklassificering i helklass.',
+    labs: ['bygg-en-graf', 'bredden-forst-och-djupet-forst', 'sok-med-kostnad-och-ledtrad', 'trana-en-klassificerare', 'sortera-meddelanden'],
+    comment:
+      'Sökning och klassificering täcks utförligt. **Objektigenkänning har ingen labb** – förslag: visa ett exempel där en modell hittar och ringar in föremål i en bild och diskutera hur det skiljer sig från att klassificera hela bilden. Labb 3 jämför bilddata med text- och tabelldata och kan användas som ingång.',
   },
   {
-    id: 'principer',
-    text: '”Principer för, och tillämpningar av, vanliga tekniker inom AI, däribland maskininlärning och robotik.”',
+    id: 'metoder',
+    group: 'Artificiell intelligens',
+    text: '”Översikt av metoder och algoritmer inom AI, däribland beslutsträd, regression samt övervakat och oövervakat lärande.”',
     verified: 'citat',
-    chapters: ['maskininlarning', 'robotik'],
+    coverage: 'delvis',
+    chapters: ['maskininlarning'],
+    labs: ['trana-en-klassificerare', 'forutsag-ett-tal', 'grupper-utan-facit', 'lar-en-agent-med-beloning', 'oppna-ett-neuralt-natverk'],
+    comment:
+      'Regression, övervakat lärande (k-närmaste grannar) och oövervakat lärande (klustring) täcks, liksom förstärkningsinlärning och neurala nätverk. **Beslutsträd som inlärningsmetod har ingen labb** – trädet i labb 9 är ett spelträd för sökning, inte ett beslutsträd för klassificering. Förslag: låt eleverna bygga ett litet beslutsträd för hand på frukterna i labb 10 och jämföra med k-närmaste grannar.',
+  },
+  // Praktisk användning av AI
+  {
+    id: 'process',
+    group: 'Praktisk användning av AI',
+    text: '”Översikt över processen för problemlösning med AI.”',
+    verified: 'citat',
+    coverage: 'täcks',
+    chapters: ['sokning', 'maskininlarning', 'robotik'],
+    labs: ['bygg-en-graf', 'trana-valj-och-testa', 'valj-robot-for-ett-uppdrag', 'granska-ett-ai-system'],
+    comment: 'Problemformulering som graf, arbetsgången träna–välja–testa, val av lösning för ett uppdrag och slutprojektets mål, data, metod och utvärdering.',
+  },
+  {
+    id: 'enklare-problemlosning',
+    group: 'Praktisk användning av AI',
+    text: '”Enklare typ av problemlösning med hjälp av AI, till exempel klassificering, objektigenkänning, prediktion, tolkning och bearbetning av naturligt språk (NLP), enklare maskininlärning och användning av spelagent.”',
+    verified: 'citat',
+    coverage: 'delvis',
+    chapters: ['sokning', 'maskininlarning', 'sprak'],
     labs: [
       'trana-en-klassificerare',
       'forutsag-ett-tal',
+      'gor-text-till-data',
+      'sortera-meddelanden',
+      'samma-mening-flera-tolkningar',
+      'tre-i-rad-mot-en-agent',
+    ],
+    comment:
+      'Klassificering, prediktion, NLP, enklare maskininlärning och spelagent (minimax i tre i rad) täcks med egna labbar. **Objektigenkänning saknas** – förslag: samma bildexempel som under ”Översikt av tekniker för AI”, gärna som en praktisk övning där eleverna testar ett färdigt verktyg för objektigenkänning och noterar var det gör fel.',
+  },
+  {
+    id: 'principer',
+    group: 'Praktisk användning av AI',
+    text: '”Principer för, och tillämpningar av, vanliga tekniker inom AI, däribland maskininlärning och robotik.”',
+    verified: 'citat',
+    coverage: 'täcks',
+    chapters: ['maskininlarning', 'robotik'],
+    labs: [
+      'trana-en-klassificerare',
       'trana-valj-och-testa',
       'grupper-utan-facit',
-      'lar-en-agent-med-beloning',
       'oppna-ett-neuralt-natverk',
       'styr-en-robot',
       'hitta-fram-nar-kartan-forandras',
@@ -140,59 +241,67 @@ export const planItems: PlanItem[] = [
     comment: 'Kapitel 3 (maskininlärning) och kapitel 5 (robotik).',
   },
   {
-    id: 'anvandning',
-    text: 'Översikt av hur AI används, till exempel för prediktion, robotik, datorseende och generativ AI.',
-    verified: 'sammanfattning',
-    chapters: ['maskininlarning', 'sprak', 'robotik', 'etik'],
-    labs: ['forutsag-ett-tal', 'samma-mening-flera-tolkningar', 'valj-robot-for-ett-uppdrag', 'bygg-ett-rekommendationsflode'],
-    comment: 'Prediktion, robotik, språkmodeller och rekommendationssystem. Datorseende behandlas bara översiktligt.',
+    id: 'traning',
+    group: 'Praktisk användning av AI',
+    text: '”Metoder för enklare träning av AI.”',
+    verified: 'citat',
+    coverage: 'täcks',
+    chapters: ['maskininlarning', 'sprak'],
+    labs: ['trana-en-klassificerare', 'forutsag-ett-tal', 'trana-valj-och-testa', 'lar-en-agent-med-beloning', 'oppna-ett-neuralt-natverk', 'sortera-meddelanden'],
+    comment: 'Träning med facit, med belöning och av ett litet neuralt nätverk, uppdelning i tränings-, validerings- och testdata.',
   },
+  // Förhållningssätt till AI
   {
-    id: 'problemlosning',
-    text: 'Hur AI kan användas för att lösa problem.',
-    verified: 'sammanfattning',
-    chapters: ['sokning', 'robotik', 'etik'],
-    labs: ['bygg-en-graf', 'valj-robot-for-ett-uppdrag', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system'],
-    comment: 'Problemformulering som graf, val av lösning för ett uppdrag och slutprojektet.',
-  },
-  {
-    id: 'manniska-ai',
-    text: 'Jämförelse mellan mänsklig och artificiell intelligens.',
-    verified: 'sammanfattning',
+    id: 'jamforelse-manniska',
+    group: 'Förhållningssätt till AI',
+    text: '”Jämförelse mellan hur enklare lösningar med AI fungerar och hur en människa löser samma problem.”',
+    verified: 'citat',
+    coverage: 'täcks',
     chapters: ['introduktion', 'sprak'],
-    labs: ['ar-det-ai', 'samma-mening-flera-tolkningar'],
-    comment: 'Enligt sökresultatet förekommer detta i betygskriterierna. Diskutera i samband med labb 1 och 18.',
+    labs: ['ar-det-ai', 'sortera-meddelanden', 'samma-mening-flera-tolkningar'],
+    comment:
+      'Labb 1 jämför uttryckligen en regelmodell och en lärande modell med mänsklig förståelse och situationsbedömning. I labb 17 och 18 jämförs modellens beslut med hur en människa läser samma text.',
+  },
+  {
+    id: 'overlagsen',
+    group: 'Förhållningssätt till AI',
+    text: '”Några situationer där AI är överlägsen människan och tvärtom.”',
+    verified: 'citat',
+    coverage: 'delvis',
+    chapters: ['introduktion', 'sokning'],
+    labs: ['ar-det-ai', 'tre-i-rad-mot-en-agent'],
+    comment:
+      'Labb 1 visar var människan är överlägsen; i labb 9 spelar minimax-agenten felfritt. Ingen labb ställer frågan direkt – förslag: ett diskussionsstopp efter labb 9 där eleverna listar uppgifter där AI är bättre (snabbhet, stora datamängder, uttömmande sökning) och sämre (nya situationer, sammanhang) än människan.',
   },
   {
     id: 'lagar',
-    text: 'Lagar och andra bestämmelser som gäller för AI.',
-    verified: 'sammanfattning',
+    group: 'Förhållningssätt till AI',
+    text: '”Normer samt lagar och andra bestämmelser som gäller AI och dess användning.”',
+    verified: 'citat',
+    coverage: 'täcks',
     chapters: ['etik'],
     labs: ['vilka-uppgifter-behover-systemet', 'hur-regleras-ett-ai-system', 'besluta-om-ett-framtida-ai-system'],
-    comment: 'GDPR och EU:s AI-förordning. Enligt sökresultatet nämns detta i betygskriterierna för nivå 1.',
-  },
-  {
-    id: 'nlp',
-    text: 'Bearbetning av naturligt språk.',
-    verified: 'sammanfattning',
-    chapters: ['sprak'],
-    labs: ['gor-text-till-data', 'sortera-meddelanden', 'samma-mening-flera-tolkningar'],
-    comment: 'Fanns enligt sökresultatet i den **tidigare** versionen av ämnesplanen. Om och var det ingår i nuvarande nivå 1 kunde inte kontrolleras.',
+    comment: 'GDPR (ändamålsbegränsning, dataminimering) och EU:s AI-förordning. Normer behandlas genom de etiska principerna i kapitel 6.',
   },
   {
     id: 'etik',
-    text: 'Etiska frågor vid användning av AI, till exempel transparens.',
-    verified: 'sammanfattning',
-    chapters: ['etik'],
-    labs: ['bygg-ett-rekommendationsflode', 'bedom-en-rattvisekonflikt', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system'],
-    comment: 'Fanns enligt sökresultatet i den **tidigare** versionen. Om formuleringen finns i nuvarande nivå 1 kunde inte kontrolleras.',
+    group: 'Förhållningssätt till AI',
+    text: '”Etiska dilemman med användandet av AI, däribland transparens.”',
+    verified: 'citat',
+    coverage: 'täcks',
+    chapters: ['introduktion', 'etik'],
+    labs: ['vem-far-fel-svar', 'bygg-ett-rekommendationsflode', 'bedom-en-rattvisekonflikt', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system'],
+    comment: 'Rättvisa mellan grupper, avvägningen mellan falskt positiva och falskt negativa, transparens och mänsklig insyn.',
   },
   {
-    id: 'ovrigt',
-    text: 'Övriga punkter i ämnesplanens centrala innehåll och syfte.',
-    verified: 'ej-verifierat',
-    chapters: [],
-    labs: [],
-    comment: 'Hela listan över centralt innehåll kunde inte läsas. Lägg till de punkter som saknas här och markera vilka labbar som täcker dem.',
+    id: 'mojligheter-risker',
+    group: 'Förhållningssätt till AI',
+    text: '”Demokratiska, sociala, ekonomiska, miljömässiga och säkerhetsmässiga möjligheter och risker med AI-användning samt dess konsekvenser för samhället.”',
+    verified: 'citat',
+    coverage: 'delvis',
+    chapters: ['robotik', 'etik'],
+    labs: ['bygg-ett-rekommendationsflode', 'valj-robot-for-ett-uppdrag', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system'],
+    comment:
+      'Demokratiska och sociala aspekter (rekommendationsflöden, rättvisa), säkerhet (robotar, mänskligt övertagande) och nytta mot risk i beslut täcks. **Miljömässiga aspekter har ingen labb och ekonomiska behandlas bara indirekt** – förslag: en lektion om AI:s energi- och resursanvändning och om hur AI kan bidra till hållbar utveckling (nämns i ämnets syfte), samt om kostnader, arbetsmarknad och vem som tjänar på ett system.',
   },
 ];

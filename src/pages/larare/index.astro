@@ -7,7 +7,18 @@ import { chapterTeacher } from '../../course/chapterExtras';
 import { routes } from '../../course/routes';
 import { md } from '../../lib/render';
 import { lessonTemplate, lessonsPerWeek, termPlan } from '../../teacher/termplan';
-import { checkedDate, courseFacts, planItems, sources, verificationLabel } from '../../teacher/amnesplan';
+import {
+  checkedDate,
+  course,
+  courseFacts,
+  coverageLabel,
+  planGroups,
+  planItems,
+  purposeGoals,
+  purposeSummary,
+  sources,
+  verificationLabel,
+} from '../../teacher/amnesplan';
 import { rubric, rubricLevels, rubricNote, workForms } from '../../teacher/projekt';
 
 const finalLab = getLab(finale.labs[0]!);
@@ -301,12 +312,12 @@ const toc: { id: string; text: string; children?: { id: string; text: string }[]
 
   <section id="amnesplan" aria-labelledby="amnesplan-rubrik" class="teacher-section">
     <h2 id="amnesplan-rubrik">Koppling till ämnesplanen</h2>
-    <aside class="callout callout-varning">
-      <p class="callout-title">Kontrollera mot ämnesplanen</p>
+    <aside class="callout callout-tips">
+      <p class="callout-title">Kontrollerat mot ämnesplanen</p>
       <p>
-        Kopplingen kontrollerades {checkedDate}. Skolverkets webbplatser gick då inte att öppna direkt från den miljö där webbplatsen byggdes, så uppgifterna nedan bygger på
-        sökresultat (titlar, adresser och korta utdrag) – inte på en fullständig läsning av ämnesplanen. Varje punkt är märkt med hur säker den är. Läs ämnesplanen och
-        betygskriterierna hos Skolverket och komplettera tabellen innan du använder den i planering eller bedömning.
+        Kopplingen kontrollerades {checkedDate} mot Skolverkets ämnesplan i artificiell intelligens ({course.regulation}, ämneskod {course.subjectCode}, gäller från 1 juli
+        2025). Det centrala innehållet för nivå 1 återges ordagrant. Täckningen är vår egen bedömning av vad webbplatsens labbar behandlar. Skolverkets kommentarmaterial gick
+        inte att läsa, så den finns inte med i bedömningen. Kontrollera gärna själv om ämnesplanen har ändrats sedan dess.
       </p>
     </aside>
 
@@ -322,78 +333,109 @@ const toc: { id: string; text: string; children?: { id: string; text: string }[]
     </ul>
 
     <h3>Om kursen</h3>
+    <dl class="course-facts">
+      <dt>Kurs</dt>
+      <dd>{course.name}</dd>
+      <dt>Nivåkod</dt>
+      <dd>{course.levelCode}</dd>
+      <dt>Omfattning</dt>
+      <dd>{course.points} gymnasiepoäng</dd>
+      <dt>Ämnesplan</dt>
+      <dd>
+        {course.subject} ({course.subjectCode}), {course.regulation}, gäller från {course.validFrom}
+      </dd>
+    </dl>
     <ul>
       {
         courseFacts.map((f) => (
           <li>
-            {f.text} <span class="verify-tag">({verificationLabel[f.verified]})</span>
+            {f.text} <span class={`verify-tag verify-${f.verified}`}>({verificationLabel[f.verified]})</span>
           </li>
         ))
       }
     </ul>
 
+    <h3>Ämnets syfte</h3>
+    <p>{purposeSummary}</p>
+    <p>Undervisningen ska enligt ämnesplanen ge eleverna förutsättningar att utveckla följande:</p>
+    <ol>
+      {purposeGoals.map((g) => <li>{g}</li>)}
+    </ol>
+
     <h3>Centralt innehåll och webbplatsens labbar</h3>
     <p>
-      Formuleringar inom citattecken fanns ordagrant i utdrag ur ämnesplanen. Övriga punkter är återgivna med egna ord och kan skilja sig från Skolverkets formulering. Sista
-      raden är tom med avsikt: där fyller du i det som saknas.
+      Tabellen tar upp alla {planItems.length} punkter i det centrala innehållet för nivå 1, ordagrant och under ämnesplanens tre rubriker. Täckningen anger om webbplatsens
+      kapitel och labbar behandlar punkten helt, delvis eller inte alls. Där något saknas finns ett förslag på hur du kan komplettera.
     </p>
     <div class="table-wrap">
       <table class="table plan-map">
-        <caption>Ämnesplanens innehåll kopplat till kapitel och labbar</caption>
+        <caption>Det centrala innehållet för nivå 1 kopplat till kapitel och labbar</caption>
         <thead>
           <tr>
-            <th scope="col">Innehåll i ämnesplanen</th>
-            <th scope="col">Säkerhet</th>
+            <th scope="col">Centralt innehåll</th>
+            <th scope="col">Täckning</th>
             <th scope="col">Kapitel</th>
             <th scope="col">Labbar</th>
             <th scope="col">Kommentar</th>
           </tr>
         </thead>
-        <tbody>
-          {
-            planItems.map((p) => (
-              <tr data-plan={p.id}>
-                <th scope="row">{p.text}</th>
-                <td>
-                  <span class={`verify-tag verify-${p.verified}`}>{verificationLabel[p.verified]}</span>
-                </td>
-                <td>
-                  {p.chapters.length ? (
-                    <ul class="plain">
-                      {p.chapters.map((id) => {
-                        const c = chapterTitle(id);
-                        return (
-                          <li>
-                            <a href={`#kapitel-${id}`}>Kapitel {c?.number}</a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    '–'
-                  )}
-                </td>
-                <td>
-                  {p.labs.length ? (
-                    <ul class="plain">
-                      {p.labs.map((id) => {
-                        const l = labLink(id);
-                        return (
-                          <li>
-                            <a href={l.href}>{l.text}</a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  ) : (
-                    '–'
-                  )}
-                </td>
-                <td set:html={md(p.comment)} />
+        {
+          planGroups.map((g) => (
+            <tbody>
+              <tr class="plan-group">
+                <th scope="colgroup" colspan="5">
+                  {g}
+                </th>
               </tr>
-            ))
-          }
-        </tbody>
+              {planItems
+                .filter((p) => p.group === g)
+                .map((p) => (
+                  <tr data-plan={p.id} data-coverage={p.coverage}>
+                    <th scope="row">
+                      {p.text}
+                      <span class={`verify-tag verify-${p.verified}`}>{verificationLabel[p.verified]}</span>
+                    </th>
+                    <td>
+                      <span class={`coverage-tag coverage-${p.coverage}`}>{coverageLabel[p.coverage]}</span>
+                    </td>
+                    <td>
+                      {p.chapters.length ? (
+                        <ul class="plain">
+                          {p.chapters.map((id) => {
+                            const c = chapterTitle(id);
+                            return (
+                              <li>
+                                <a href={`#kapitel-${id}`}>Kapitel {c?.number}</a>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : (
+                        '–'
+                      )}
+                    </td>
+                    <td>
+                      {p.labs.length ? (
+                        <ul class="plain">
+                          {p.labs.map((id) => {
+                            const l = labLink(id);
+                            return (
+                              <li>
+                                <a href={l.href}>{l.text}</a>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : (
+                        '–'
+                      )}
+                    </td>
+                    <td set:html={md(p.comment)} />
+                  </tr>
+                ))}
+            </tbody>
+          ))
+        }
       </table>
     </div>
   </section>
@@ -486,12 +528,42 @@ const toc: { id: string; text: string; children?: { id: string; text: string }[]
     font-size: 0.85rem;
     font-weight: 600;
   }
-  .verify-ej-verifierat,
-  .verify-sammanfattning {
+  .plan-map .verify-tag {
+    display: block;
+    margin-top: 0.3rem;
+  }
+  .verify-ej-verifierat {
     color: var(--warn);
   }
-  .verify-citat {
+  .verify-citat,
+  .verify-egen-formulering {
     color: var(--ok);
+  }
+  .coverage-tag {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .coverage-täcks {
+    color: var(--ok);
+  }
+  .coverage-delvis,
+  .coverage-täcks-inte {
+    color: var(--warn);
+  }
+  .plan-group th {
+    background: var(--surface-2);
+    font-size: 1.05rem;
+  }
+  .course-facts {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.2rem 1rem;
+  }
+  .course-facts dt {
+    font-weight: 700;
+  }
+  .course-facts dd {
+    margin: 0;
   }
   .workforms {
     display: grid;

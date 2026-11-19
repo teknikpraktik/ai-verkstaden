@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { chapters, labOrder } from '../course/chapters';
-import { planItems, sources, checkedDate } from './amnesplan';
+import { course, planGroups, planItems, sources, checkedDate } from './amnesplan';
 import { termPlan } from './termplan';
 import { rubric, rubricLevels, workForms } from './projekt';
 import { labStatus } from './labStatus';
@@ -34,6 +34,23 @@ describe('ämnesplanskopplingen', () => {
   });
   it('citat används bara för ordagranna formuleringar', () => {
     for (const p of planItems) expect(p.text.startsWith('”'), p.id).toBe(p.verified === 'citat');
+  });
+  it('återger hela det centrala innehållet för nivå 1 ordagrant under ämnesplanens rubriker', () => {
+    expect(checkedDate).toBe('2026-11-19');
+    expect(course).toMatchObject({ levelCode: 'ARTI1000X', points: 100, validFrom: '2025-07-01', subjectCode: 'ARTI' });
+    expect(planItems).toHaveLength(15);
+    expect(planGroups.map((g) => planItems.filter((p) => p.group === g).length)).toEqual([6, 4, 5]);
+    expect(new Set(planItems.map((p) => p.id)).size).toBe(planItems.length);
+    for (const p of planItems) {
+      expect(p.verified, p.id).toBe('citat');
+      expect(p.text.endsWith('”'), p.id).toBe(true);
+    }
+  });
+  it('har labbar för allt som täcks och förslag för det som saknas', () => {
+    for (const p of planItems) {
+      if (p.coverage !== 'täcks-inte') expect(p.labs.length, p.id).toBeGreaterThan(0);
+      if (p.coverage !== 'täcks') expect(p.comment, p.id).toMatch(/förslag:/i);
+    }
   });
 });
 
