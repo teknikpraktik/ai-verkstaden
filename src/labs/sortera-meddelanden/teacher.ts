@@ -29,7 +29,7 @@ export default defineTeacher({
     {
       question: 'Välj ett av felen. Förklara med ordens bidrag varför modellen gjorde fel och föreslå en förbättring.',
       answer: [
-        'Exempelresonemang: ”Det blir inget prov i morgon” blev Viktigt eftersom ”morgon” (+1,09) och ”i” (+0,40) bara finns i träningsdatans viktiga meddelanden. ”inget” och ”prov” är okända och hoppas över, och modellen ser inte att ”inget” vänder betydelsen. Förbättringar: fler träningsexempel med negationer, stemming så att ”prov” känns igen som ”provet”, eller ordpar som ”inget prov”. Felen måste mätas på reserverade exempel, annars ser modellen bättre ut än den är.',
+        'Exempelresonemang: ”Det blir inget prov i morgon” blev Viktigt eftersom ”morgon” (+1,09) och ”i” (+0,40) bara finns i träningsdatans viktiga meddelanden. ”inget” och ”prov” är okända och hoppas över, och modellen ser inte att ”inget” vänder betydelsen. Förbättringar: fler träningsexempel med negationer, eller ordpar som ”inget prov”. Stemming räcker inte här: då känns ”prov” igen som ”provet” och meddelandet dras ännu mer mot Viktigt (+2,86 i stället för +1,49). Felen måste mätas på reserverade exempel, annars ser modellen bättre ut än den är.',
       ],
     },
   ],
