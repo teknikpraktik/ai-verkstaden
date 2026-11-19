@@ -337,7 +337,7 @@ export default function Lab() {
       body: (
         <>
           <p>
-            Slumpen styrs av ett [[startvarde]]: samma startvärde ger exakt samma körning igen. Prova några olika startvärden och jämför med tabellen.
+            Slumpen styrs av ett startvärde: samma startvärde ger exakt samma körning igen. Prova några olika startvärden och jämför med tabellen.
           </p>
           {seedField}
           <Question

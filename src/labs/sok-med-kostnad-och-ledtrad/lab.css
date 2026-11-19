@@ -1,0 +1,72 @@
+/* Lokala stilar för labb 8 (prefix karta-) */
+.karta-svg {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.karta-svg text {
+  fill: var(--text);
+  font-family: var(--font);
+}
+.karta-svg text.karta-halo {
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.karta-lake {
+  fill: var(--accent-soft);
+  stroke: var(--c1);
+  stroke-dasharray: 5 3;
+}
+.karta-road {
+  stroke: var(--text-muted);
+  stroke-width: 2.5;
+}
+.karta-road.is-path {
+  stroke: var(--c3);
+  stroke-width: 7;
+}
+.karta-cost-bg {
+  fill: var(--surface);
+  stroke: var(--border);
+}
+.karta-node {
+  fill: var(--surface-2);
+  stroke: var(--text-muted);
+  stroke-width: 2;
+}
+.karta-node.is-visited {
+  fill: var(--visited);
+}
+.karta-node.is-frontier {
+  fill: var(--frontier);
+}
+.karta-node.is-path {
+  fill: var(--path);
+}
+.karta-node.is-current {
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+.karta-next td,
+.karta-next th {
+  font-weight: 700;
+  background: var(--frontier);
+}
+.karta-table-wrap {
+  overflow-x: auto;
+}
+.karta-map-wrap {
+  overflow-x: auto;
+}
+.karta-map-wrap:focus-visible {
+  outline: 3px solid var(--focus);
+}
+.karta-map-wrap .karta-svg {
+  min-width: 540px;
+}

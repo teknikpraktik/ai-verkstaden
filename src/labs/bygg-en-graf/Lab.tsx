@@ -315,7 +315,7 @@ function SearchPanel({ g }: { g: GraphModel }) {
   const frame = result ? result.frames[Math.min(stepper.index, result.frames.length - 1)]! : null;
   return (
     <Panel title={`Grafsökning med besökta noder: ${g.weighted ? 'uniformkostnadssökning (billigaste väg)' : 'bredden först (minst antal steg)'}`}>
-      <GraphView g={g} frame={frame} />
+      <div className="graf-map-wrap" tabIndex={0} role="group" aria-label="Grafen (rulla i sidled på smala skärmar)"><GraphView g={g} frame={frame} /></div>
       {problem ? (
         <p className="callout callout-tips" data-testid="resultat">
           {problemText[problem]}
@@ -533,7 +533,7 @@ export default function Lab() {
           <SearchPanel key={JSON.stringify(g)} g={g} />
         ) : (
           <Panel title="Grafen">
-            <GraphView g={g} frame={null} />
+            <div className="graf-map-wrap" tabIndex={0} role="group" aria-label="Grafen (rulla i sidled på smala skärmar)"><GraphView g={g} frame={null} /></div>
             <h4>Grafen i text</h4>
             <AdjacencyList g={g} />
           </Panel>
