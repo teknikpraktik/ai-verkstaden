@@ -137,7 +137,7 @@
   display: inline-block;
   font-weight: 700;
   padding: 0.1rem 0.5rem;
-  border-radius: 999px;
+  border-radius: 6px;
   border: 1px solid currentColor;
 }
 .rb-status-klart {
@@ -184,4 +184,23 @@
   font-weight: 600;
   margin-bottom: 0.25rem;
   padding: 0;
+}
+/* Hinder som sensorn träffar: behåll väggfärgen, markera med ram. */
+.cell-wall.rb-beam {
+  background-color: var(--wall);
+  background-image: none;
+  box-shadow: inset 0 0 0 3px var(--c5);
+}
+/* Rutnät som ska rymmas på smala skärmar: (kolumner + koordinatkolumn), panelens marginaler borträknade. */
+.grid-board.rb-fit-10 {
+  --cell-fit: min(var(--cell), calc((100vw - 7.5rem) / 11));
+}
+.grid-board.rb-fit-11 {
+  --cell-fit: min(var(--cell), calc((100vw - 7.5rem) / 12));
+}
+.grid-board.rb-fit-13 {
+  --cell-fit: min(var(--cell), calc((100vw - 7.5rem) / 14));
+}
+.grid-board.rb-fit-13 {
+  overflow-x: auto;
 }
