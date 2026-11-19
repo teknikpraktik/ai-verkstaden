@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useScrollLog } from '../styr-en-robot/useScrollLog';
 import { Grid } from '../../components/lab/Grid';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
@@ -46,7 +47,8 @@ function MapView({ world, frame, which, onEdit }: { world: World; frame: RouteFr
       onActivate={onEdit}
       rows={world.rows}
       cols={world.cols}
-      cellSize={world.cols > 11 ? 30 : 34}
+      cellSize={world.cols > 11 ? 26 : 30}
+      className={`rb-fit-${world.cols}`}
       coordinates
       cell={(r, c) => {
         const id = cellId(r, c);
@@ -117,9 +119,10 @@ function MapView({ world, frame, which, onEdit }: { world: World; frame: RouteFr
 }
 
 function EventLog({ frames, current }: { frames: RouteFrame[]; current: number }) {
+  const logRef = useScrollLog<HTMLDivElement>(current);
   const events = frames.slice(0, current + 1).filter((f) => f.kind !== 'flytt');
   return (
-    <div className="rb-log" tabIndex={0} role="region" aria-label="Händelser">
+    <div ref={logRef} className="rb-log" tabIndex={0} role="region" aria-label="Händelser">
       <table className="table" data-testid="handelser">
         <caption className="visually-hidden">Viktiga händelser hittills</caption>
         <thead>
@@ -494,7 +497,7 @@ export default function Lab() {
         </Panel>
         {guided && setup.ranges.length > 1 && (
           <Panel title="Jämförelse">
-            <RangeCompare scenario={setup.scenario} ranges={setup.ranges} />
+            <div className="table-wrap" tabIndex={0} role="region" aria-label="Jämförelsetabell"><RangeCompare scenario={setup.scenario} ranges={setup.ranges} /></div>
           </Panel>
         )}
       </div>

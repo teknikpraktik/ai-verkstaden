@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useScrollLog } from './useScrollLog';
 import { Grid } from '../../components/lab/Grid';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
@@ -70,6 +71,7 @@ function WorldView({ world, frame, range, editable, onEdit }: { world: World; fr
       rows={world.rows}
       cols={world.cols}
       cellSize={40}
+      className={`rb-fit-${world.cols}`}
       coordinates
       onActivate={editable ? onEdit : undefined}
       cell={(r, c) => {
@@ -136,9 +138,10 @@ function ChainView({ record, range }: { record: StepRecord | null; range: number
 }
 
 function LogTable({ records, current, range }: { records: StepRecord[]; current: number; range: number }) {
+  const logRef = useScrollLog<HTMLDivElement>(current);
   const shown = records.slice(0, current);
   return (
-    <div className="rb-log" tabIndex={0} role="region" aria-label="Logg över alla steg">
+    <div ref={logRef} className="rb-log" tabIndex={0} role="region" aria-label="Logg över alla steg">
       <table className="table" data-testid="logg">
         <caption className="visually-hidden">Mätvärde, beslut och konsekvens i varje steg</caption>
         <thead>
@@ -220,6 +223,19 @@ function CompareTable({ variants }: { variants: PresetId[] }) {
   );
 }
 
+const predictionText: Record<string, string> = { ingen: 'inga krockar', nagra: 'några krockar', manga: 'många krockar' };
+
+/** Läser förutsägelsen när steget visas (Question sparar den i lokal lagring). */
+function PredictionEcho() {
+  const [prediction] = usePrediction('gissa-krockar');
+  if (!prediction) return null;
+  return (
+    <p>
+      Du trodde: <strong>{predictionText[prediction] ?? prediction}</strong>. Kör till slutet och jämför med resultatet.
+    </p>
+  );
+}
+
 const defaultCtrl: Controller = presets.grund.ctrl;
 const defaultSensor: SensorSetup = presets.grund.sensor;
 const isWorldId = (v: unknown): v is WorldId => v === 'klassrum' || v === 'vaska';
@@ -233,7 +249,6 @@ export default function Lab() {
   const [expSensor, setExpSensor] = useStoredState<SensorSetup>('exp-sensor', defaultSensor, isSensor);
   const [expWorldId, setExpWorldId] = useStoredState<WorldId>('exp-world', 'klassrum', isWorldId);
   const [custom, setCustom] = useStoredState<World | null>('custom-world', null, (v): v is World | null => v === null || isWorld(v));
-  const [prediction] = usePrediction('gissa-krockar');
 
   const variants = stepVariants[Math.min(step, stepVariants.length - 1)]!;
   const presetId = variants[Math.min(variantIdx, variants.length - 1)] ?? variants[0]!;
@@ -263,8 +278,6 @@ export default function Lab() {
         onChange={(v) => setVariantIdx(variants.indexOf(v))}
       />
     ) : null;
-
-  const predictionText: Record<string, string> = { ingen: 'inga krockar', nagra: 'några krockar', manga: 'många krockar' };
 
   const steps: GuidedStep[] = [
     {
@@ -301,11 +314,7 @@ export default function Lab() {
           <p>
             Tryck på <strong>Steg framåt</strong>. I varje steg ser du kedjan: vad <strong>sensorn</strong> mätte, vad <strong>styrprogrammet</strong> bestämde och vad <strong>motorn</strong> gjorde – och vad som hände i rummet. Loggen sparar alla steg.
           </p>
-          {prediction && (
-            <p>
-              Du trodde: <strong>{predictionText[prediction] ?? prediction}</strong>. Kör till slutet och jämför med resultatet.
-            </p>
-          )}
+          <PredictionEcho />
           <Question
             spec={{
               kind: 'choice',
@@ -560,7 +569,7 @@ export default function Lab() {
         </Panel>
         {guided && variants.length > 1 && (
           <Panel title="Jämförelse">
-            <CompareTable variants={variants} />
+            <div className="table-wrap" tabIndex={0} role="region" aria-label="Jämförelsetabell"><CompareTable variants={variants} /></div>
           </Panel>
         )}
       </div>

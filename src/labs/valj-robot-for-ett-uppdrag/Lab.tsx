@@ -30,7 +30,7 @@ const stepVariants: PresetId[][] = [['lagerKamera'], ['lagerKamera'], ['lagerKam
 /** Förhållandet som visas först i varje steg. */
 const stepCondition = ['normalt', 'morker', 'morker', 'regn', 'trangt', 'trangt'];
 
-const statusSymbol: Record<Status, string> = { klart: '✓', hjalp: '◐', misslyckat: '✗', risk: '⚠' };
+const statusSymbol: Record<Status, string> = { klart: '✓', hjalp: '◆', misslyckat: '✗', risk: '⚠' };
 const stateLabel = { ok: 'fungerar', osaker: 'osäker', nej: 'fungerar inte', saknas: 'saknas' } as const;
 
 function StatusBadge({ status }: { status: Status }) {
@@ -167,7 +167,7 @@ export default function Lab() {
       body: (
         <>
           <p>
-            Lagerroboten har en <strong>kamera</strong> och en <strong>närhetssensor</strong>. Den kör <strong>självständigt</strong> och kallar på en människa när sensorerna är osäkra eller vägen är blockerad. Läs reglerna till höger. Just nu visas resultatet under normala förhållanden.
+            Lagerroboten har en <strong>kamera</strong> och en <strong>närhetssensor</strong>. Den kör <strong>självständigt</strong> och kallar på en människa när sensorerna är osäkra eller vägen är blockerad. Läs reglerna i panelen ”Reglerna i simuleringen”. Just nu visas resultatet under normala förhållanden.
           </p>
           <Question
             spec={{
@@ -352,10 +352,6 @@ export default function Lab() {
             </fieldset>
           </Panel>
         )}
-        <Panel title="Reglerna i simuleringen">
-          <p className="hint">Simuleringen är påhittad och förenklad. Allt som händer följer av de här reglerna – inget annat.</p>
-          <RuleList fired={outcome.fired} />
-        </Panel>
       </div>
 
       <div className="lab-stack">
@@ -380,12 +376,18 @@ export default function Lab() {
             Övertagande: {ct.t}
           </p>
           <LiveStatus>
-            {guided ? guidedCond.name : 'Dina förhållanden'}: {statusNames[outcome.status]}. {outcome.takeovers} övertaganden, {outcome.staffMinutes} minuters personaltid.
+            {guided ? guidedCond.name : 'Dina förhållanden'}: {statusNames[outcome.status]}. {outcome.takeovers} {outcome.takeovers === 1 ? 'övertagande' : 'övertaganden'}, {outcome.staffMinutes} minuters personaltid.
           </LiveStatus>
           <OutcomeView outcome={outcome} />
         </Panel>
         <Panel title="Jämförelse">
-          <CompareTable mission={mission} cfg={cfg} />
+          <div className="table-wrap" tabIndex={0} role="region" aria-label="Jämförelsetabell">
+            <CompareTable mission={mission} cfg={cfg} />
+          </div>
+        </Panel>
+        <Panel title="Reglerna i simuleringen">
+          <p className="hint">Simuleringen är påhittad och förenklad. Allt som händer följer av de här reglerna – inget annat.</p>
+          <RuleList fired={outcome.fired} />
         </Panel>
       </div>
     </div>
