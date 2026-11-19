@@ -145,7 +145,8 @@ export default function Lab() {
       body: (
         <>
           <p>
-            En påhittad skola vill sortera sina meddelanden i <strong>Viktigt</strong> och <strong>Kan vänta</strong>. Modellen har lärt sig av 16 exempel som en människa har sorterat (se tabellen <em>Träningsdata</em>). Den räknar bara vilka ord som finns – ordningen ignoreras.
+            En påhittad skola vill sortera sina meddelanden i <strong>Viktigt</strong> och <strong>Kan vänta</strong>. Modellen har lärt sig av 16 exempel som en människa har
+            sorterat (se tabellen <em>Träningsdata</em>). Den räknar bara vilka ord som finns – ordningen ignoreras.
           </p>
           <p>
             Modellen säger <strong>Viktigt</strong> om meddelandet ”{PROBES.start}”.
@@ -157,7 +158,10 @@ export default function Lab() {
               prompt: `Vad tror du händer om meddelandet blir ”${PROBES.negation}”?`,
               options: [
                 { id: 'byter', text: 'Modellen byter till Kan vänta' },
-                { id: 'nastan', text: 'Modellen säger fortfarande Viktigt, med nästan samma poäng' },
+                {
+                  id: 'nastan',
+                  text: 'Modellen säger fortfarande Viktigt, med nästan samma poäng',
+                },
                 { id: 'vet-ej', text: 'Modellen kan inte avgöra' },
               ],
             }}
@@ -172,7 +176,8 @@ export default function Lab() {
       body: (
         <>
           <p>
-            Varje känt ord får ett <strong>bidrag</strong>: positivt (▲) om ordet är vanligare i Viktigt-exemplen, negativt (▼) om det är vanligare i Kan vänta. Bidragen läggs ihop till en poäng. Över 0 blir det Viktigt, under 0 Kan vänta.
+            Varje känt ord får ett <strong>bidrag</strong>: positivt (▲) om ordet är vanligare i Viktigt-exemplen, negativt (▼) om det är vanligare i Kan vänta. Bidragen läggs ihop
+            till en poäng. Över 0 blir det Viktigt, under 0 Kan vänta.
           </p>
           <Question
             spec={{
@@ -181,9 +186,21 @@ export default function Lab() {
               prompt: `Vilket ord i ”${PROBES.start}” drar mest mot Viktigt?`,
               options: [
                 { id: 'morgon', text: 'morgon', correct: true },
-                { id: 'i', text: 'i', feedback: '”i” finns i många exempel, men i båda klasserna (5 mot 3). Därför är bidraget litet: +0,40. Ett ord som är vanligt överallt säger inte mycket.' },
-                { id: 'lektionen', text: 'lektionen', feedback: '”lektionen” finns bara i ett Viktigt-exempel. Bidraget är +0,68, men ”morgon” finns i två och ger +1,09.' },
-                { id: 'installd', text: 'inställd', feedback: '”inställd” känns viktigt för oss, men modellen har bara sett ordet en gång. Bidraget är +0,68.' },
+                {
+                  id: 'i',
+                  text: 'i',
+                  feedback: '”i” finns i många exempel, men i båda klasserna (5 mot 3). Därför är bidraget litet: +0,40. Ett ord som är vanligt överallt säger inte mycket.',
+                },
+                {
+                  id: 'lektionen',
+                  text: 'lektionen',
+                  feedback: '”lektionen” finns bara i ett Viktigt-exempel. Bidraget är +0,68, men ”morgon” finns i två och ger +1,09.',
+                },
+                {
+                  id: 'installd',
+                  text: 'inställd',
+                  feedback: '”inställd” känns viktigt för oss, men modellen har bara sett ordet en gång. Bidraget är +0,68.',
+                },
               ],
               explanation: '”morgon” finns i två Viktigt-exempel och inga Kan vänta-exempel. Bidraget blir +1,09, störst av orden i meddelandet. Summan är +3,54.',
             }}
@@ -206,9 +223,21 @@ export default function Lab() {
               id: 'negation-varfor',
               prompt: 'Poängen sjönk bara från +3,54 till +3,53. Varför?',
               options: [
-                { id: 'a', text: '”inte” finns lika ofta i båda klasserna, och modellen ser inte vilket ord ”inte” hör ihop med', correct: true },
-                { id: 'b', text: 'Modellen förstår att lektionen ändå är viktig', feedback: 'Modellen förstår ingenting om lektioner. Den lägger bara ihop bidrag från ord den har räknat i träningsdata.' },
-                { id: 'c', text: '”inte” är ett okänt ord', feedback: '”inte” finns i träningsdata, en gång i varje klass. Därför blir bidraget nästan 0 (−0,01).' },
+                {
+                  id: 'a',
+                  text: '”inte” finns lika ofta i båda klasserna, och modellen ser inte vilket ord ”inte” hör ihop med',
+                  correct: true,
+                },
+                {
+                  id: 'b',
+                  text: 'Modellen förstår att lektionen ändå är viktig',
+                  feedback: 'Modellen förstår ingenting om lektioner. Den lägger bara ihop bidrag från ord den har räknat i träningsdata.',
+                },
+                {
+                  id: 'c',
+                  text: '”inte” är ett okänt ord',
+                  feedback: '”inte” finns i träningsdata, en gång i varje klass. Därför blir bidraget nästan 0 (−0,01).',
+                },
               ],
               explanation: 'I en bag-of-words-modell är ”inte inställd” bara två ord i en påse. Att ”inte” vänder betydelsen kräver att modellen ser ordningen – det gör den inte.',
             }}
@@ -231,9 +260,21 @@ export default function Lab() {
               id: 'okanda-ord',
               prompt: 'Varför blir det oavgjort?',
               options: [
-                { id: 'a', text: 'Okända ord hoppas över, så det finns inga bidrag – och klasserna är lika vanliga i träningsdata', correct: true },
-                { id: 'b', text: 'Modellen gissar att okända ord är oviktiga', feedback: 'Modellen gissar inte. Ett ord den inte har räknat ger inget bidrag åt något håll.' },
-                { id: 'c', text: 'Meddelandet är för kort', feedback: 'Längden spelar ingen roll. ”Provet” ensamt ger ett tydligt beslut, eftersom ordet finns i träningsdata.' },
+                {
+                  id: 'a',
+                  text: 'Okända ord hoppas över, så det finns inga bidrag – och klasserna är lika vanliga i träningsdata',
+                  correct: true,
+                },
+                {
+                  id: 'b',
+                  text: 'Modellen gissar att okända ord är oviktiga',
+                  feedback: 'Modellen gissar inte. Ett ord den inte har räknat ger inget bidrag åt något håll.',
+                },
+                {
+                  id: 'c',
+                  text: 'Meddelandet är för kort',
+                  feedback: 'Längden spelar ingen roll. ”Provet” ensamt ger ett tydligt beslut, eftersom ordet finns i träningsdata.',
+                },
               ],
               explanation: 'Modellen kan bara använda det den har sett. Nya ord, stavfel och andra böjningsformer (”inställt” i stället för ”inställd”) är osynliga för den.',
             }}
@@ -247,9 +288,7 @@ export default function Lab() {
       title: 'Testa på reserverade exempel',
       body: (
         <>
-          <p>
-            Sex meddelanden har hållits utanför träningen. En människa har sorterat dem i förväg. Jämför modellens beslut med facit i tabellen.
-          </p>
+          <p>Sex meddelanden har hållits utanför träningen. En människa har sorterat dem i förväg. Jämför modellens beslut med facit i tabellen.</p>
           <Question
             spec={{
               kind: 'numeric',
@@ -257,12 +296,22 @@ export default function Lab() {
               prompt: 'Hur många av de 6 reserverade exemplen sorterar modellen fel?',
               answer: 2,
               wrong: [
-                { value: 4, feedback: '4 är antalet som blev rätt. Frågan gäller hur många som blev fel.' },
-                { value: 1, feedback: 'Titta på båda klasserna: ett viktigt meddelande har missats, och ett oviktigt har blivit falsklarm.' },
-                { value: 0, feedback: 'Modellen gör inga fel på träningsexemplen, men de reserverade är nya. Jämför kolumnerna Facit och Modellen.' },
+                {
+                  value: 4,
+                  feedback: '4 är antalet som blev rätt. Frågan gäller hur många som blev fel.',
+                },
+                {
+                  value: 1,
+                  feedback: 'Titta på båda klasserna: ett viktigt meddelande har missats, och ett oviktigt har blivit falsklarm.',
+                },
+                {
+                  value: 0,
+                  feedback: 'Modellen gör inga fel på träningsexemplen, men de reserverade är nya. Jämför kolumnerna Facit och Modellen.',
+                },
               ],
               hint: 'Räkna raderna med ✗ i tabellen.',
-              explanation: 'Två fel: snöstormsmeddelandet avgörs bara av ordet ”på” (−1,11) och blir Kan vänta, och ”Det blir inget prov i morgon” blir Viktigt på grund av ”i morgon”. Felandelen är 2 av 6 (33 %).',
+              explanation:
+                'Två fel: snöstormsmeddelandet avgörs bara av ordet ”på” (−1,11) och blir Kan vänta, och ”Det blir inget prov i morgon” blir Viktigt på grund av ”i morgon”. Felandelen är 2 av 6 (33 %).',
             }}
           />
         </>
@@ -399,7 +448,15 @@ export default function Lab() {
               <strong>Fel:</strong> {ratioText(report.errors, report.rows.length)}
               {report.undecided > 0 ? ` (varav ${report.undecided} oavgjorda, räknas som fel)` : ''}.
             </p>
-            <ConfusionMatrix tp={report.tp} fn={report.fn} fp={report.fp} tn={report.tn} positive="Viktigt" negative="Kan vänta" caption="Förväxlingsmatris för de reserverade exemplen" />
+            <ConfusionMatrix
+              tp={report.tp}
+              fn={report.fn}
+              fp={report.fp}
+              tn={report.tn}
+              positive="Viktigt"
+              negative="Kan vänta"
+              caption="Förväxlingsmatris för de reserverade exemplen"
+            />
             <p className="hint">Undersök felen: knapparna visar meddelandet med ordens bidrag.</p>
             <div className="row" role="group" aria-label="Visa ett reserverat exempel i testrutan">
               {report.rows

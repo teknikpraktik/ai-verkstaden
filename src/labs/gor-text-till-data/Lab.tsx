@@ -24,7 +24,12 @@ const isString = (v: unknown): v is string => typeof v === 'string';
 const isBool = (v: unknown): v is boolean => typeof v === 'boolean';
 
 /** Vad arbetsytan visar i varje genomgångssteg – en sak i taget. */
-const stepViews: { tokens: boolean; stem: boolean; lemma: boolean; vectors: boolean }[] = [
+const stepViews: {
+  tokens: boolean;
+  stem: boolean;
+  lemma: boolean;
+  vectors: boolean;
+}[] = [
   { tokens: false, stem: false, lemma: false, vectors: false },
   { tokens: true, stem: false, lemma: false, vectors: false },
   { tokens: true, stem: true, lemma: false, vectors: false },
@@ -33,7 +38,11 @@ const stepViews: { tokens: boolean; stem: boolean; lemma: boolean; vectors: bool
   { tokens: true, stem: true, lemma: true, vectors: true },
 ];
 
-const kindLabel = { ord: 'ord', tal: 'tal', skiljetecken: 'skiljetecken' } as const;
+const kindLabel = {
+  ord: 'ord',
+  tal: 'tal',
+  skiljetecken: 'skiljetecken',
+} as const;
 
 function TokenList({ rows }: { rows: TokenRow[] }) {
   if (rows.length === 0) return <p className="sp-muted">(inga token – texten är tom)</p>;
@@ -55,7 +64,10 @@ function CompareTable({ rows, stemCol, lemmaCol }: { rows: TokenRow[]; stemCol: 
   return (
     <div className="sp-scroll-y">
       <table className="table" data-testid="jamfor-tabell">
-        <caption>Varje ord: tokenisering{stemCol ? ', stemming' : ''}{lemmaCol ? ' och lemmatisering' : ''}</caption>
+        <caption>
+          Varje ord: tokenisering{stemCol ? ', stemming' : ''}
+          {lemmaCol ? ' och lemmatisering' : ''}
+        </caption>
         <thead>
           <tr>
             <th scope="col">Token</th>
@@ -100,7 +112,15 @@ function CompareTable({ rows, stemCol, lemmaCol }: { rows: TokenRow[]; stemCol: 
 }
 
 function VectorView({ docs, rep, lowercase }: { docs: { name: string; short: string; text: string }[]; rep: Representation; lowercase: boolean }) {
-  const table = useMemo(() => countVectors(docs.map((d) => d.text), rep, lowercase), [docs, rep, lowercase]);
+  const table = useMemo(
+    () =>
+      countVectors(
+        docs.map((d) => d.text),
+        rep,
+        lowercase,
+      ),
+    [docs, rep, lowercase],
+  );
   const pairs: [number, number][] = [];
   for (let a = 0; a < docs.length; a++) for (let b = a + 1; b < docs.length; b++) pairs.push([a, b]);
   return (
@@ -113,7 +133,8 @@ function VectorView({ docs, rep, lowercase }: { docs: { name: string; short: str
         ))}
       </ul>
       <p data-testid="ordforrad">
-        <strong>Ordförråd med {representationLabel[rep].toLowerCase()}:</strong> {table.vocabulary.length} olika termer. Varje dokument blir en vektor med {table.vocabulary.length} tal.
+        <strong>Ordförråd med {representationLabel[rep].toLowerCase()}:</strong> {table.vocabulary.length} olika termer. Varje dokument blir en vektor med {table.vocabulary.length}{' '}
+        tal.
       </p>
       <div className="sp-scroll-y">
         <table className="table" data-testid="vektor-tabell">
@@ -143,8 +164,7 @@ function VectorView({ docs, rep, lowercase }: { docs: { name: string; short: str
         </table>
       </div>
       <p>
-        <strong>Gemensamma förekomster:</strong>{' '}
-        {pairs.map(([a, b]) => `${docs[a]!.short}–${docs[b]!.short}: ${sharedCount(table, a, b)}`).join(' · ')}
+        <strong>Gemensamma förekomster:</strong> {pairs.map(([a, b]) => `${docs[a]!.short}–${docs[b]!.short}: ${sharedCount(table, a, b)}`).join(' · ')}
       </p>
     </>
   );
@@ -166,7 +186,10 @@ export default function Lab() {
 
   const rows = useMemo(() => analyze(text, lowercase), [text, lowercase]);
   const summary = useMemo(() => summarizeAnalysis(rows), [rows]);
-  const docs = useMemo(() => [...DOCUMENTS.map((d) => ({ name: d.name, short: d.id, text: d.text })), ...(includeOwn ? [{ name: 'Din text', short: 'Din text', text }] : [])], [includeOwn, text]);
+  const docs = useMemo(
+    () => [...DOCUMENTS.map((d) => ({ name: d.name, short: d.id, text: d.text })), ...(includeOwn ? [{ name: 'Din text', short: 'Din text', text }] : [])],
+    [includeOwn, text],
+  );
   const changed = text !== START_TEXT;
 
   const resetText = (
@@ -193,7 +216,10 @@ export default function Lab() {
               prompt: 'Kommer datorn att räkna ”Hundarna” och ”Hunden” som samma ord?',
               options: [
                 { id: 'ja', text: 'Ja, det är ju samma ord' },
-                { id: 'efter', text: 'Bara om texten bearbetas först, till exempel genom att ändelser tas bort' },
+                {
+                  id: 'efter',
+                  text: 'Bara om texten bearbetas först, till exempel genom att ändelser tas bort',
+                },
                 { id: 'nej', text: 'Nej, aldrig – bokstäverna är olika' },
               ],
             }}
@@ -208,7 +234,8 @@ export default function Lab() {
       body: (
         <>
           <p>
-            Första steget är <strong>tokenisering</strong>: texten delas upp i token. Här blir varje ord, varje tal och varje skiljetecken en egen token. Titta på token-listan och prova gärna att ändra texten.
+            Första steget är <strong>tokenisering</strong>: texten delas upp i token. Här blir varje ord, varje tal och varje skiljetecken en egen token. Titta på token-listan och
+            prova gärna att ändra texten.
           </p>
           {startNote}
           <Question
@@ -218,8 +245,14 @@ export default function Lab() {
               prompt: 'Hur många token blir starttexten?',
               answer: 9,
               wrong: [
-                { value: 7, feedback: '7 är antalet ord. Här räknas också punkten och utropstecknet som token – de kan bära betydelse, till exempel att en mening tar slut.' },
-                { value: 8, feedback: 'Nästan. Kontrollera att du har räknat både punkten och utropstecknet.' },
+                {
+                  value: 7,
+                  feedback: '7 är antalet ord. Här räknas också punkten och utropstecknet som token – de kan bära betydelse, till exempel att en mening tar slut.',
+                },
+                {
+                  value: 8,
+                  feedback: 'Nästan. Kontrollera att du har räknat både punkten och utropstecknet.',
+                },
               ],
               hint: 'Räkna rutorna i token-listan, även de gula skiljetecknen.',
               explanation: '7 ord och 2 skiljetecken ger 9 token. ”Hundarna” och ”Hunden” är fortfarande två olika token.',
@@ -235,7 +268,8 @@ export default function Lab() {
       body: (
         <>
           <p>
-            <strong>Stemming</strong> klipper bort ändelser enligt fasta regler, till exempel <em>-arna</em>, <em>-en</em> och <em>-er</em>. Labbens stemmer är en egen förenklad regelsamling. Titta på kolumnen <em>Stam</em>.
+            <strong>Stemming</strong> klipper bort ändelser enligt fasta regler, till exempel <em>-arna</em>, <em>-en</em> och <em>-er</em>. Labbens stemmer är en egen förenklad
+            regelsamling. Titta på kolumnen <em>Stam</em>.
           </p>
           {startNote}
           <Question
@@ -244,11 +278,24 @@ export default function Lab() {
               id: 'sprang-stam',
               prompt: '”Hundarna” och ”Hunden” får samma stam, hund. Varför får ”sprang” och ”springer” olika stammar?',
               options: [
-                { id: 'a', text: 'Stemming klipper bara ändelser. I ”sprang” har vokalen inuti ordet ändrats, och det ser reglerna inte', correct: true },
-                { id: 'b', text: 'Datorn vet inte att det är verb', feedback: 'Stemmern bryr sig inte om ordklass alls. Den jämför bara slutet av ordet med en lista över ändelser.' },
-                { id: 'c', text: 'Det är ett fel i labben – en riktig stemmer klarar det', feedback: 'Även riktiga stemmers bygger på regler för ändelser. Starka verb som springa–sprang kräver en ordlista.' },
+                {
+                  id: 'a',
+                  text: 'Stemming klipper bara ändelser. I ”sprang” har vokalen inuti ordet ändrats, och det ser reglerna inte',
+                  correct: true,
+                },
+                {
+                  id: 'b',
+                  text: 'Datorn vet inte att det är verb',
+                  feedback: 'Stemmern bryr sig inte om ordklass alls. Den jämför bara slutet av ordet med en lista över ändelser.',
+                },
+                {
+                  id: 'c',
+                  text: 'Det är ett fel i labben – en riktig stemmer klarar det',
+                  feedback: 'Även riktiga stemmers bygger på regler för ändelser. Starka verb som springa–sprang kräver en ordlista.',
+                },
               ],
-              explanation: '”springer” minus -er ger spring, men ”sprang” har ingen ändelse att klippa. Stemming fungerar bra för regelbundna böjningar men missar starka verb och omljud (bok–böcker).',
+              explanation:
+                '”springer” minus -er ger spring, men ”sprang” har ingen ändelse att klippa. Stemming fungerar bra för regelbundna böjningar men missar starka verb och omljud (bok–böcker).',
             }}
           />
         </>
@@ -261,7 +308,8 @@ export default function Lab() {
       body: (
         <>
           <p>
-            <strong>Lemmatisering</strong> slår upp varje ord i en ordlista och ersätter det med grundformen (lemmat). Labbens ordlista är <strong>reducerad</strong>: den har bara {DICT_SIZE.lemmas} grundformer och {DICT_SIZE.forms} böjningsformer. Prova knappen <em>Ord utanför ordlistan</em> eller skriv egna ord.
+            <strong>Lemmatisering</strong> slår upp varje ord i en ordlista och ersätter det med grundformen (lemmat). Labbens ordlista är <strong>reducerad</strong>: den har bara{' '}
+            {DICT_SIZE.lemmas} grundformer och {DICT_SIZE.forms} böjningsformer. Prova knappen <em>Ord utanför ordlistan</em> eller skriv egna ord.
           </p>
           <Question
             spec={{
@@ -269,9 +317,21 @@ export default function Lab() {
               id: 'okant-ord',
               prompt: 'Vad händer med ett ord som inte finns i den reducerade ordlistan, till exempel ”robotdammsugaren”?',
               options: [
-                { id: 'a', text: 'Det passerar oförändrat – det ”faller igenom” – och räknas som ett eget ord', correct: true },
-                { id: 'b', text: 'Datorn gissar grundformen', feedback: 'Ordlistan kan inte gissa. Den hittar antingen ordet eller inte. Att gissa utifrån ändelser är vad stemming gör.' },
-                { id: 'c', text: 'Ordet tas bort ur texten', feedback: 'Ordet finns kvar, men oförändrat. Därför blir ”robotdammsugaren” och ”robotdammsugare” fortfarande två olika ord.' },
+                {
+                  id: 'a',
+                  text: 'Det passerar oförändrat – det ”faller igenom” – och räknas som ett eget ord',
+                  correct: true,
+                },
+                {
+                  id: 'b',
+                  text: 'Datorn gissar grundformen',
+                  feedback: 'Ordlistan kan inte gissa. Den hittar antingen ordet eller inte. Att gissa utifrån ändelser är vad stemming gör.',
+                },
+                {
+                  id: 'c',
+                  text: 'Ordet tas bort ur texten',
+                  feedback: 'Ordet finns kvar, men oförändrat. Därför blir ”robotdammsugaren” och ”robotdammsugare” fortfarande två olika ord.',
+                },
               ],
               explanation: 'En ordlista är exakt men bara så bra som den är stor. Stemming klarar okända ord men ger ibland stammar som inte är ord, som ”bättr” eller ”böck”.',
             }}
@@ -286,7 +346,8 @@ export default function Lab() {
       body: (
         <>
           <p>
-            Nu räknar vi hur många gånger varje term förekommer i tre korta dokument. Varje dokument blir en <strong>ordvektor</strong> – en lista med tal. Byt representation med knapparna ovanför tabellen, en i taget, och se hur ordförrådet ändras.
+            Nu räknar vi hur många gånger varje term förekommer i tre korta dokument. Varje dokument blir en <strong>ordvektor</strong> – en lista med tal. Byt representation med
+            knapparna ovanför tabellen, en i taget, och se hur ordförrådet ändras.
           </p>
           <Question
             spec={{
@@ -295,8 +356,14 @@ export default function Lab() {
               prompt: 'Välj Lemma. Hur många gånger förekommer termen ”hund” i dokument A?',
               answer: 2,
               wrong: [
-                { value: 0, feedback: '0 gäller ordformer: ordet ”hund” står inte exakt så i dokument A. Välj Lemma – då räknas ”Hunden” och ”Hundarna” båda som hund.' },
-                { value: 1, feedback: 'Du har nog bara räknat ett av orden. Både ”Hunden” och ”Hundarna” blir lemmat hund.' },
+                {
+                  value: 0,
+                  feedback: '0 gäller ordformer: ordet ”hund” står inte exakt så i dokument A. Välj Lemma – då räknas ”Hunden” och ”Hundarna” båda som hund.',
+                },
+                {
+                  value: 1,
+                  feedback: 'Du har nog bara räknat ett av orden. Både ”Hunden” och ”Hundarna” blir lemmat hund.',
+                },
               ],
               hint: 'Leta upp raden ”hund” i tabellen och läs av kolumn A när Lemma är valt.',
               explanation: 'Med lemman blir ”Hunden” och ”Hundarna” samma term, så dokument A får 2. Ordförrådet krymper från 21 ordformer till 18 stammar och 17 lemman.',
@@ -338,7 +405,12 @@ export default function Lab() {
         <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
         {!guided && (
           <Panel title="Inställningar">
-            <Toggle label="Gör om till små bokstäver" checked={lowercase} onChange={setLowercase} hint="Gäller ordformer. Stemming och ordlistan arbetar alltid med små bokstäver." />
+            <Toggle
+              label="Gör om till små bokstäver"
+              checked={lowercase}
+              onChange={setLowercase}
+              hint="Gäller ordformer. Stemming och ordlistan arbetar alltid med små bokstäver."
+            />
             <Toggle label="Lägg till din text som ett fjärde dokument" checked={includeOwn} onChange={setIncludeOwn} />
           </Panel>
         )}
@@ -373,7 +445,8 @@ export default function Lab() {
             <CompareTable rows={rows} stemCol={view.stem} lemmaCol={view.lemma} />
             {view.lemma && (
               <p className="callout callout-forenklad">
-                Reducerad ordlista: {DICT_SIZE.lemmas} grundformer och {DICT_SIZE.forms} böjningsformer, handgjorda för labben. En riktig svensk ordlista har hundratusentals former. Ord som saknas märks med ⚠.
+                Reducerad ordlista: {DICT_SIZE.lemmas} grundformer och {DICT_SIZE.forms} böjningsformer, handgjorda för labben. En riktig svensk ordlista har hundratusentals
+                former. Ord som saknas märks med ⚠.
               </p>
             )}
           </Panel>
