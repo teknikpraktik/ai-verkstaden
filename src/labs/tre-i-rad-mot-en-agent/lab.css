@@ -1,0 +1,59 @@
+/* Lokala stilar för labb 9 (prefix ttt-) */
+.ttt-board .grid-cell {
+  font-size: 2rem;
+}
+.ttt-x {
+  color: var(--c1);
+}
+.ttt-o {
+  color: var(--c2);
+}
+.ttt-mini {
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-weight: 700;
+  margin: 0.25rem 0;
+}
+.ttt-mini td {
+  width: 1.6rem;
+  height: 1.6rem;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.ttt-mini td.is-new {
+  background: var(--frontier);
+}
+.ttt-tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.ttt-tree > li {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.6rem;
+}
+.ttt-tree ul {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0.4rem 0 0;
+  border-left: 2px solid var(--border);
+  display: grid;
+  gap: 0.3rem;
+}
+.ttt-move-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+}
+.ttt-best {
+  font-weight: 700;
+  color: var(--ok);
+}
+.ttt-bad {
+  color: var(--bad);
+}
