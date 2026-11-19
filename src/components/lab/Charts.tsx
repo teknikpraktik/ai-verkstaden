@@ -47,7 +47,7 @@ export function PlotFrame(props: {
 }) {
   const W = props.width ?? 480;
   const H = props.height ?? 320;
-  const m = { l: 48, r: 12, t: 12, b: 40 };
+  const m = { l: 48, r: 24, t: 12, b: 40 };
   const x = linearScale(props.xDomain, [m.l, W - m.r]);
   const y = linearScale(props.yDomain, [H - m.b, m.t]);
   return (
