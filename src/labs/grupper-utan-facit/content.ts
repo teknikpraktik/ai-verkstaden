@@ -33,7 +33,7 @@ export default defineContent({
     {
       heading: 'Grupper måste tolkas',
       blocks: [
-        'Algoritmen säger bara vilka punkter som ligger nära varandra. Den vet inte att en grupp ”tränar mycket” eller att en annan ”läser mycket” – det är vi som tolkar. Den väljer inte heller k. Summan av kvadratavstånd blir alltid mindre med fler grupper (49,3 för k = 3 men 24,4 för k = 5), så den kan inte ensam avgöra vilket k som är rätt.',
+        'Algoritmen säger bara vilka punkter som ligger nära varandra. Den vet inte att en grupp ”tränar mycket” eller att en annan ”läser mycket” – det är vi som tolkar. Den väljer inte heller k. Summan av kvadratavstånd blir i regel mindre med fler grupper (49,3 för k = 3 men 24,4 för k = 5) – den bästa möjliga summan kan aldrig öka när k ökar – så den kan inte ensam avgöra vilket k som är rätt.',
         { type: 'note', kind: 'varning', text: 'Grupper från klustring kan se objektiva ut men bygger på val: vilka egenskaper som mäts, hur de skalas och vilket k som används. Att dela in människor i grupper kan få följder – var försiktig med vad grupperna används till.' },
       ],
     },
