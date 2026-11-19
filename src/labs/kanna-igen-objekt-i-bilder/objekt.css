@@ -32,9 +32,14 @@
 .pixel-scene {
   margin: 0.5rem 0;
 }
+/* På smala skärmar rullas bilden i sidled i stället för att texten blir oläsligt liten. */
+.pixel-scene-scroll {
+  overflow-x: auto;
+}
 .pixel-scene svg {
   display: block;
   width: 100%;
+  min-width: 540px;
   height: auto;
   max-width: 900px;
 }

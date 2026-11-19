@@ -60,6 +60,7 @@ export function SceneView({ scene, window: win, found, verdicts, thresholdPct }:
   ].join(' ');
   return (
     <figure className="pixel-scene">
+      <div className="pixel-scene-scroll" tabIndex={0} aria-label="Den stora bilden (rulla i sidled på smala skärmar)" role="region">
       <svg viewBox={`-0.3 ${-top} ${w + 0.6} ${h + top + bottom}`} role="img" aria-label={desc}>
         <rect x={-0.3} y={-top} width={w + 0.6} height={h + top + bottom} fill="var(--surface)" />
         {scene.map((row, r) => row.map((v, c) => <rect key={`${r}-${c}`} x={c} y={r} width={1} height={1} fill={v ? ON : OFF} stroke="#c9ced8" strokeWidth={0.03} />))}
@@ -82,6 +83,7 @@ export function SceneView({ scene, window: win, found, verdicts, thresholdPct }:
           </text>
         ))}
       </svg>
+      </div>
       <figcaption className="hint">Grå text under bilden: vad som egentligen finns där (facit). Streckad ram: fönstret just nu. Hel ram med ✓ eller ✗: modellens fynd.</figcaption>
     </figure>
   );
