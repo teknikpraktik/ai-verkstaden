@@ -20,7 +20,7 @@ export default defineTeacher({
   ],
   answers: [
     { question: 'Förutsägelse: Hur många gånger finns Stockholm i sökträdet till djup 3?', answer: ['3 gånger: Västerås → Enköping → Stockholm, Västerås → Enköping → Uppsala → Stockholm och Västerås → Sala → Uppsala → Stockholm.'] },
-    { question: 'Hur många noder har sökträdet till djup 3?', answer: ['20 (1 + 2 + 5 + 12). Felsvaren 5 (antal noder i grafen) och 12 (bara djup 3) är vanliga.'] },
+    { question: 'Hur många noder finns på djup 2 i sökträdet?', answer: ['5. Trädet har 1 + 2 + 5 + 12 = 20 noder till djup 3. Vanliga felsvar: 2 (djup 1), 12 (djup 3) och 20 (hela trädet, som står i meningen ovanför trädet).'] },
     { question: 'Vad kostar den billigaste vägen från Västerås till Stockholm?', answer: ['100 minuter via Enköping och Uppsala. Vägen med minst antal steg kostar 110.'] },
     {
       question: 'Förklara start, mål, kostnad och cykel, och varför en sökning behöver komma ihåg besökta noder.',

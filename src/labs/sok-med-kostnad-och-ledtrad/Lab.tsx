@@ -43,6 +43,13 @@ const stepSetup: Setup[] = [
 
 const priorityName: Record<CostAlgorithm, string> = { ucs: 'g', greedy: 'h', astar: 'f = g + h' };
 
+
+/** Flyttade h-etiketter där standardläget (under noden) krockar med en väg. */
+const hLabelOffset: Record<string, { dx: number; dy: number; anchor: 'start' | 'middle' }> = {
+  bjorkas: { dx: 20, dy: 16, anchor: 'start' },
+  ekeby: { dx: 0, dy: -37, anchor: 'middle' },
+};
+
 function MapView({ s, frame, mode, showSearch }: { s: MapScenario; frame: Frame; mode: HeuristicMode; showSearch: boolean }) {
   const titleId = useId();
   const h = heuristic(s, mode);
@@ -103,7 +110,13 @@ function MapView({ s, frame, mode, showSearch }: { s: MapScenario; frame: Frame;
             <text className="karta-halo" x={p.x} y={p.y - 21} textAnchor="middle" fontSize={14} fontWeight={700}>
               {p.name}
             </text>
-            <text className="karta-halo" x={p.x} y={p.y + 31} textAnchor="middle" fontSize={12}>
+            <text
+              className="karta-halo"
+              x={p.x + (hLabelOffset[p.id]?.dx ?? 0)}
+              y={p.y + (hLabelOffset[p.id]?.dy ?? 31)}
+              textAnchor={hLabelOffset[p.id]?.anchor ?? 'middle'}
+              fontSize={12}
+            >
               h = {h(p.id)}
             </text>
             {role && (

@@ -405,15 +405,16 @@ export default function Lab() {
           <Question
             spec={{
               kind: 'numeric',
-              id: 'trad-storlek',
-              prompt: 'Hur många noder har sökträdet till djup 3?',
-              answer: 20,
+              id: 'trad-djup2',
+              prompt: 'Titta i trädet: hur många noder finns på djup 2, alltså två steg från Västerås?',
+              answer: 5,
               wrong: [
-                { value: 5, feedback: '5 är antalet noder i grafen. Sökträdet har fler eftersom samma ort kan nås på flera sätt och därför ritas flera gånger.' },
-                { value: 12, feedback: '12 är bara noderna på djup 3. Räkna också med start och djup 1 och 2.' },
+                { value: 2, feedback: '2 är antalet noder på djup 1 – grannarna till Västerås. Gå ett steg längre ned i trädet och räkna barnen till båda.' },
+                { value: 20, feedback: '20 är alla noder i trädet tillsammans. Räkna bara noderna som ligger två steg från Västerås.' },
+                { value: 12, feedback: '12 är noderna på djup 3. Frågan gäller djup 2.' },
               ],
-              hint: 'Läs meningen ovanför trädet, eller räkna alla rader i trädet.',
-              explanation: 'Trädet har 20 noder fast grafen bara har 5. Stockholm finns 3 gånger, och 7 trädnoder går tillbaka längs en cykel.',
+              hint: 'Varje nivå i listan är ett steg. Räkna noderna på andra nivån under Västerås.',
+              explanation: 'Djup 2 har 5 noder. Hela trädet har 1 + 2 + 5 + 12 = 20 noder fast grafen bara har 5 – varje nivå blir större eftersom samma orter nås på flera sätt. Stockholm finns 3 gånger, och 7 trädnoder går tillbaka längs en cykel.',
             }}
           />
         </>

@@ -71,10 +71,10 @@ test.describe('Kapitel 2 på dator', () => {
     await next(page);
     await expect(page.getByTestId('tradfakta')).toContainText('20 noder');
     await expect(page.getByTestId('tradfakta')).toContainText('Stockholm finns 3 gånger');
-    const q = await answerNumeric(page, 'trad-storlek', '5');
-    await expect(q.getByText(/antalet noder i grafen/)).toBeVisible();
+    const q = await answerNumeric(page, 'trad-djup2', '20');
+    await expect(q.getByText(/alla noder i trädet tillsammans/)).toBeVisible();
     await q.getByRole('button', { name: 'Försök igen' }).click();
-    await answerNumeric(page, 'trad-storlek', '20');
+    await answerNumeric(page, 'trad-djup2', '5');
     await expect(q.getByText('Rätt!')).toBeVisible();
 
     await toStep(page, 2);

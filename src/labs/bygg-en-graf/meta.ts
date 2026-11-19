@@ -26,7 +26,7 @@ export default defineLab({
     {
       topic: 'Visa en möjlig sökning som träd med dubbletter',
       outcome: 'Eleven ser att sökträdet till djup 3 har 20 noder medan grafen har 5, och att Stockholm finns 3 gånger.',
-      verification: 'logic.test.ts (treeStats: 20 noder, 15 dubbletter, 7 cykelupprepningar); fråga trad-storlek; Playwright kapitel2.spec.ts',
+      verification: 'logic.test.ts (treeStats: 20 noder, 15 dubbletter, 7 cykelupprepningar); fråga trad-djup2 (1, 2, 5, 12 noder per djup); Playwright kapitel2.spec.ts',
     },
     {
       topic: 'Samma problem som graf med besökta noder',

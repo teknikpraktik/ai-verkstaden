@@ -41,6 +41,14 @@ describe('labb 6: bygg en graf', () => {
     expect(t.duplicates).toBe(15);
     expect(t.cycleRepeats).toBe(7);
     expect(treeStats(exampleGraph, 1)!.size).toBe(3);
+    // Frågan trad-djup2: antal noder per djup i trädet till djup 3 är 1, 2, 5, 12.
+    const perDepth: number[] = [];
+    const walk = (n: { depth: number; children: unknown[] }) => {
+      perDepth[n.depth] = (perDepth[n.depth] ?? 0) + 1;
+      (n.children as { depth: number; children: unknown[] }[]).forEach(walk);
+    };
+    walk(treeStats(exampleGraph, 3)!.tree);
+    expect(perDepth).toEqual([1, 2, 5, 12]);
     expect(treeStats(exampleGraph, 4)!.size).toBe(50);
   });
 
