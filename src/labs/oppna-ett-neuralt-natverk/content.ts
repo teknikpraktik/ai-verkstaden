@@ -40,7 +40,7 @@ export default defineContent({
         'Förlusten är L = (1/4) · Σ (ŷ − y)² över de fyra exemplen. För varje vikt w räknar man derivatan ∂L/∂w och uppdaterar',
         { type: 'formula', text: 'w ← w − η · ∂L/∂w', caption: 'η är inlärningstakten (2 i labben).' },
         'För utdataneuronen med utdata ŷ = σ(z) och dold aktivering h ger kedjeregeln',
-        { type: 'formula', text: '∂L/∂w = (2/4) · (ŷ − y) · ŷ · (1 − ŷ) · h', caption: 'σ′(z) = σ(z) · (1 − σ(z)).' },
+        { type: 'formula', text: '∂L/∂w = (2/4) · Σ (ŷ − y) · ŷ · (1 − ŷ) · h', caption: 'Summan går över de fyra exemplen. σ′(z) = σ(z) · (1 − σ(z)).' },
         'För vikterna i det dolda lagret fortsätter kedjeregeln ett steg till bakåt genom utdataneuronens vikt. Det kallas *bakåtpropagering*.',
         {
           type: 'pseudo',
