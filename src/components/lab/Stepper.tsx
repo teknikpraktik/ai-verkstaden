@@ -58,8 +58,30 @@ export type StepperState = ReturnType<typeof useStepper>;
 
 export function StepperControls({ stepper, label = 'Förlopp', showSpeed = true }: { stepper: StepperState; label?: string; showSpeed?: boolean }) {
   const s = stepper;
+  // En knapp som blir inaktiv (t.ex. "Till slutet" när slutet nåtts) tappar
+  // fokus, och tangentbordsanvändaren hamnar då på sidans början. Flytta i så
+  // fall fokus till närmaste knapp som fortfarande går att använda.
+  const group = useRef<HTMLDivElement>(null);
+  const lastFocused = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const el = lastFocused.current;
+    if (!(el instanceof HTMLButtonElement) || !el.disabled) return;
+    const active = document.activeElement;
+    if (active && active !== document.body && active !== el) return;
+    const buttons = [...(group.current?.querySelectorAll<HTMLButtonElement>('button') ?? [])];
+    const prefer = s.atEnd ? buttons.slice().reverse() : buttons.slice(2).concat(buttons.slice(0, 2));
+    prefer.find((b) => !b.disabled)?.focus();
+  }, [s.atStart, s.atEnd, s.playing]);
   return (
-    <div className="stepper" role="group" aria-label={label}>
+    <div
+      className="stepper"
+      role="group"
+      aria-label={label}
+      ref={group}
+      onFocus={(e) => {
+        lastFocused.current = e.target;
+      }}
+    >
       <button type="button" className="btn" onClick={s.reset} disabled={s.atStart}>
         <span aria-hidden="true">⏮ </span>Till början
       </button>

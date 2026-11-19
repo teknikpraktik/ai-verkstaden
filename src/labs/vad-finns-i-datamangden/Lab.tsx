@@ -59,7 +59,7 @@ function PixelImage({ apple, asNumbers }: { apple: Apple; asNumbers: boolean }) 
 function DataTable({ apples, selected, onSelect }: { apples: Apple[]; selected: number | null; onSelect: (id: number) => void }) {
   if (apples.length === 0) return <p data-testid="tom">Datamängden är tom. Samla in nya äpplen eller återställ.</p>;
   return (
-    <div className="table-wrap" style={{ maxHeight: '26rem', overflowY: 'auto' }} tabIndex={0} aria-label="Datamängden, rullbar tabell">
+    <div className="table-wrap" style={{ maxHeight: '26rem', overflowY: 'auto' }} tabIndex={0} role="region" aria-label="Datamängden, rullbar tabell">
       <table className="table" data-testid="datatabell">
         <caption>
           Datamängden: {apples.length} observationer (en rad = ett äpple)

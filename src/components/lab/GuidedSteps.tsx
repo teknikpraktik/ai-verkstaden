@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { useLab, useStoredState } from './LabContext';
 
 export type Phase = 'forutsag' | 'prova' | 'jamfor' | 'forklara';
@@ -42,6 +42,16 @@ export function GuidedSteps({
   const setCurrent = controlled === undefined ? setStored : () => {};
   const index = Math.min(Math.max(current, 0), steps.length - 1);
   const step = steps[index];
+  // Efter "Gå vidare"/"Tillbaka" flyttas fokus till stegets rubrik, så att
+  // skärmläsare läser upp det nya steget och fokus inte försvinner när en
+  // knapp blir inaktiv (första/sista steget).
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const moved = useRef(false);
+  useEffect(() => {
+    if (!moved.current) return;
+    moved.current = false;
+    headingRef.current?.focus();
+  }, [index]);
   const go = (i: number) => {
     setCurrent(i);
     const s = steps[i];
@@ -78,17 +88,33 @@ export function GuidedSteps({
           </li>
         ))}
       </ol>
-      <h3 className="guided-title" tabIndex={-1}>
+      <h3 className="guided-title" tabIndex={-1} ref={headingRef}>
         <span className={`phase-tag phase-${step.phase}`}>{phaseLabel[step.phase]}</span> Steg {index + 1} av {steps.length}: {step.title}
       </h3>
       <div className="guided-body" key={step.id}>
         {step.body}
       </div>
       <div className="guided-nav">
-        <button type="button" className="btn" onClick={() => go(index - 1)} disabled={index === 0}>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => {
+            moved.current = true;
+            go(index - 1);
+          }}
+          disabled={index === 0}
+        >
           <span aria-hidden="true">← </span>Tillbaka
         </button>
-        <button type="button" className="btn btn-primary" onClick={() => go(index + 1)} disabled={index === steps.length - 1}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => {
+            moved.current = true;
+            go(index + 1);
+          }}
+          disabled={index === steps.length - 1}
+        >
           Gå vidare<span aria-hidden="true"> →</span>
         </button>
       </div>

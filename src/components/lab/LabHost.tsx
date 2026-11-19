@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useEffect, useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react';
 import { LabContext, type LabMode } from './LabContext';
 import { markVisited, resetLab } from '../../lib/progress';
 import { readJSON, writeJSON } from '../../lib/storage';
@@ -51,6 +51,16 @@ export default function LabHost({ labId, hasModes = true }: { labId: string; has
   const [generation, setGeneration] = useState(0);
   const [confirming, setConfirming] = useState(false);
   const [announce, setAnnounce] = useState('');
+  // När bekräftelsen stängs (Ja eller Avbryt) försvinner knappen som hade fokus.
+  // Fokus lämnas då tillbaka till "Börja om" i stället för att hamna på sidans början.
+  const resetButton = useRef<HTMLButtonElement>(null);
+  const returnFocus = useRef(false);
+  useEffect(() => {
+    if (!confirming && returnFocus.current) {
+      returnFocus.current = false;
+      resetButton.current?.focus();
+    }
+  }, [confirming]);
 
   useEffect(() => {
     markVisited(labId);
@@ -65,6 +75,7 @@ export default function LabHost({ labId, hasModes = true }: { labId: string; has
   const doReset = () => {
     resetLab(labId);
     setGeneration((g) => g + 1);
+    returnFocus.current = true;
     setConfirming(false);
     setAnnounce('Labben är återställd till startläget.');
   };
@@ -93,7 +104,7 @@ export default function LabHost({ labId, hasModes = true }: { labId: string; has
         )}
         <div className="toolbar-spacer" />
         {!confirming ? (
-          <button type="button" className="btn" onClick={() => setConfirming(true)}>
+          <button type="button" className="btn" ref={resetButton} onClick={() => setConfirming(true)}>
             <span aria-hidden="true">↺ </span>Börja om
           </button>
         ) : (
@@ -102,7 +113,14 @@ export default function LabHost({ labId, hasModes = true }: { labId: string; has
             <button type="button" className="btn btn-danger" onClick={doReset} autoFocus>
               Ja, börja om
             </button>
-            <button type="button" className="btn" onClick={() => setConfirming(false)}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => {
+                returnFocus.current = true;
+                setConfirming(false);
+              }}
+            >
               Avbryt
             </button>
           </span>

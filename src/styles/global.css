@@ -6,6 +6,8 @@
   --text: #1a1d23;
   --text-muted: #4a5160;
   --border: #c9ced8;
+  /* Kant som visar var ett formulärfält finns – minst 3:1 mot bakgrunden (WCAG 1.4.11). */
+  --border-strong: #767d8c;
   --accent: #1d4ed8;
   --accent-contrast: #ffffff;
   --accent-soft: #e0e8fd;
@@ -44,6 +46,7 @@
     --text: #eceef2;
     --text-muted: #b3bac7;
     --border: #3a4150;
+    --border-strong: #7d8597;
     --accent: #8fb0ff;
     --accent-contrast: #0b1020;
     --accent-soft: #1e2a4a;
@@ -359,7 +362,7 @@ textarea {
   font: inherit;
   color: var(--text);
   background: var(--surface);
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-strong);
   border-radius: 8px;
   padding: 0.45rem 0.6rem;
   min-height: 44px;
@@ -404,7 +407,7 @@ output {
 .segmented-options {
   display: inline-flex;
   flex-wrap: wrap;
-  border: 2px solid var(--border);
+  border: 2px solid var(--border-strong);
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -440,6 +443,10 @@ output {
 .segmented-options label:has(input:focus-visible) {
   outline: 3px solid var(--focus);
   outline-offset: -3px;
+}
+/* Fokusringen syns inte mot accentfärgen – en ljus kant innanför ringen ger kontrast. */
+.segmented-options label.is-selected:has(input:focus-visible) {
+  box-shadow: inset 0 0 0 6px var(--surface);
 }
 
 /* ---------- Sidor ---------- */
@@ -1073,6 +1080,8 @@ output {
 .grid-cell:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 1px;
+  /* Ljus spalt mellan ruta och ring, så att ringen syns även mot mörka väggrutor. */
+  box-shadow: 0 0 0 1px var(--surface);
   z-index: 1;
 }
 .cell-wall {
