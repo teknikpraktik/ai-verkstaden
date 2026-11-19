@@ -24,7 +24,7 @@ test.describe('Alla sidor laddar utan konsolfel', () => {
       expect(res?.status()).toBe(200);
       await expect(page.locator('.lab-root[data-ready="true"]')).toBeVisible();
       await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-      await expect(page.getByRole('heading', { name: 'Mål', level: 2 })).toBeVisible();
+      await expect(page.locator('h2#mal')).toHaveText('Mål');
       await expect(page.getByRole('button', { name: /Börja om/ })).toBeVisible();
       await expect(page.locator('.pager a').first()).toBeVisible();
       // ingen horisontell sidrullning
