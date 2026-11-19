@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import '../../chapters/etik/etik.css';
+import { keyedSteps } from '../../chapters/etik/keyedSteps';
 import { LiveStatus, Panel, SelectField } from '../../components/lab/Controls';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
@@ -187,7 +188,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={keyedSteps(steps)} index={step} onStepChange={(i) => setStep(i)} />
         {purposeFree && (
           <Panel title="Ändamål">
             <SelectField<PurposeId> label="Ändamål" value={expPurpose} options={purposes.map((x) => ({ value: x.id, label: x.name }))} onChange={setExpPurpose} />

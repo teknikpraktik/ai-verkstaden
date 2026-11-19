@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import '../../chapters/etik/etik.css';
+import { keyedSteps } from '../../chapters/etik/keyedSteps';
 import { LiveStatus, Panel, Segmented, SelectField } from '../../components/lab/Controls';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
@@ -303,7 +304,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={keyedSteps(steps)} index={step} onStepChange={(i) => setStep(i)} />
         {!guided && (
           <Panel title="Välj scenario">
             <SelectField label="Scenario" value={picked} options={scenarios.map((s) => ({ value: s.id, label: s.title }))} onChange={setPicked} />

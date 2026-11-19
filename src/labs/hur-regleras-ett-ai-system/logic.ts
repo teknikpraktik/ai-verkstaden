@@ -120,7 +120,7 @@ export const scenarios: Scenario[] = [
     description: 'Ett påhittat gymnasium använder ett AI-system som föreslår vilka salar som ska användas för vilka lektioner, utifrån salarnas storlek och när lärarna är lediga.',
     assumptions: ['Systemet fattar inga beslut om enskilda elever och bedömer ingen.', 'Det används inte för något av områdena i bilaga III.', 'Människor interagerar inte direkt med det som med en chatt.'],
     answer: 'ingen',
-    explanation: 'Systemet är varken förbjudet, högrisk eller omfattat av öppenhetskraven i art. 50. Allmänna regler gäller ändå, till exempel bestämmelsen om AI-kunnighet (art. 4), och GDPR om personuppgifter behandlas.',
+    explanation: 'Systemet är varken förbjudet, högrisk eller omfattat av öppenhetskraven i art. 50. Allmänna regler gäller ändå, till exempel bestämmelsen om AI-kunnighet (art. 4, förenklad genom 2026/1744), och GDPR om personuppgifter behandlas.',
     wrong: {
       hogrisk: 'Att ett system används i en skola gör det inte automatiskt till högrisk. Bilaga III punkt 3 gäller bland annat antagning, bedömning av läranderesultat och övervakning vid prov – inte salsbokning.',
       transparens: 'Art. 50 gäller bland annat system som interagerar direkt med människor och genererat innehåll. Schemaförslag omfattas inte enligt antagandena.',
@@ -215,6 +215,7 @@ export const milestones: Milestone[] = [
   { date: '2 augusti 2025', iso: '2025-08-02', kind: 'tillampning', text: 'Bland annat reglerna om AI-modeller för allmänna ändamål, styrning och sanktioner börjar tillämpas.', source: 'art. 113 b' },
   { date: '27 juli 2026', iso: '2026-07-27', kind: 'ikrafttradande', text: 'Ändringsförordningen (EU) 2026/1744 (”AI-omnibus”) träder i kraft och skjuter upp bland annat högriskkraven.', source: '(EU) 2026/1744' },
   { date: '2 augusti 2026', iso: '2026-08-02', kind: 'tillampning', text: 'Huvuddelen av förordningen börjar tillämpas, bland annat öppenhetskraven i art. 50.', source: 'art. 113' },
+  { date: '2 december 2026', iso: '2026-12-02', kind: 'tillampning', text: 'De nya förbuden som infördes genom 2026/1744, bland annat mot AI som skapar sexuellt explicita bilder av människor utan samtycke, börjar tillämpas.', source: 'art. 113 a i ändrad lydelse' },
   { date: '2 december 2027', iso: '2027-12-02', kind: 'tillampning', text: 'Kraven på högrisksystem enligt bilaga III (t.ex. utbildning och rekrytering) börjar tillämpas.', source: '(EU) 2026/1744' },
   { date: '2 augusti 2028', iso: '2028-08-02', kind: 'tillampning', text: 'Kraven på högrisksystem som ingår i produkter enligt bilaga I (art. 6.1) börjar tillämpas.', source: '(EU) 2026/1744' },
 ];

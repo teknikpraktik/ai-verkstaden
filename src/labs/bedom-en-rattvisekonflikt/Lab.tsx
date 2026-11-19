@@ -1,4 +1,5 @@
 import '../../chapters/etik/etik.css';
+import { keyedSteps } from '../../chapters/etik/keyedSteps';
 import { ConfusionMatrix, ratioText } from '../../components/lab/Charts';
 import { Legend, LiveStatus, Panel, Slider, Toggle } from '../../components/lab/Controls';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
@@ -301,7 +302,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={keyedSteps(steps)} index={step} onStepChange={(i) => setStep(i)} />
         {(!guided || fixed === null) && (
           <Panel title="Tröskel">
             <Slider
