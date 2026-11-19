@@ -1,0 +1,187 @@
+/* Gemensamma, prefixade klasser för labbarna i kapitel 6 (etik). */
+
+.etik-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+}
+.etik-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 0.6rem 0.75rem;
+  min-width: 0;
+}
+.etik-card h4,
+.etik-card h5 {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+}
+.etik-card p {
+  margin: 0.25rem 0;
+}
+.etik-post {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-left-width: 6px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.etik-post:hover {
+  background: var(--surface-2);
+}
+.etik-post:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+.etik-post:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+.etik-topic {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.etik-symbol {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  color: var(--surface);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+.etik-two {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 720px) {
+  .etik-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.etik-kv {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.2rem 0.75rem;
+  margin: 0.5rem 0;
+}
+.etik-kv dt {
+  font-weight: 700;
+}
+.etik-kv dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.etik-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.etik-badge-ok {
+  background: var(--ok-soft);
+  color: var(--ok);
+  border-color: var(--ok);
+}
+.etik-badge-bad {
+  background: var(--bad-soft);
+  color: var(--bad);
+  border-color: var(--bad);
+}
+.etik-badge-warn {
+  background: var(--warn-soft);
+  color: var(--warn);
+  border-color: var(--warn);
+}
+.etik-fields {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.etik-field {
+  display: grid;
+  gap: 0.4rem 0.75rem;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+}
+@media (min-width: 640px) {
+  .etik-field {
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, 14rem);
+  }
+}
+.etik-field .field {
+  margin: 0;
+}
+.etik-field select {
+  max-width: 100%;
+}
+.etik-refdate {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.etik-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  border-left: 3px solid var(--border);
+}
+.etik-timeline li {
+  position: relative;
+  padding: 0.2rem 0 0.6rem 1rem;
+}
+.etik-timeline li::before {
+  content: '';
+  position: absolute;
+  left: -0.45rem;
+  top: 0.55rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.etik-timeline time {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.etik-meter {
+  font-variant-numeric: tabular-nums;
+}
+.etik-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.etik-feedback {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+  display: grid;
+  gap: 0.45rem;
+}
