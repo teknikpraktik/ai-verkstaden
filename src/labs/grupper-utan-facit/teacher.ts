@@ -11,7 +11,7 @@ export default defineTeacher({
   ],
   misconceptions: [
     { myth: 'Algoritmen hittar de ”riktiga” grupperna.', reality: 'Den hittar en indelning som är lokalt bäst för det valda k och startvärdet. Startvärde 8 ger en tydligt sämre indelning.' },
-    { myth: 'Lägre summa betyder alltid bättre.', reality: 'Summan sjunker alltid med större k och blir 0 när varje punkt är en egen grupp.' },
+    { myth: 'Lägre summa betyder alltid bättre.', reality: 'Den bästa möjliga summan kan aldrig öka med större k, och den blir 0 när varje punkt är en egen grupp. (En enskild körning kan fastna i en sämre lösning, se startvärde 8.)' },
     { myth: 'Slump betyder att resultatet inte går att upprepa.', reality: 'Datorns slump styrs av startvärdet. Samma startvärde ger exakt samma resultat.' },
     { myth: 'Algoritmen vet vad grupperna betyder.', reality: 'Den räknar bara avstånd. Namn som ”idrottarna” är vår tolkning.' },
   ],
@@ -24,7 +24,7 @@ export default defineTeacher({
     { question: 'Förutsägelse: Hur många grupper ser du?', answer: ['Det finns inget rätt svar. De flesta ser tre (idrottare, läsare, lite av varje), men punkt 20 och 21 kan tolkas som en fjärde grupp. Det illustrerar att k är ett val.'] },
     { question: 'Vad händer i ett uppdateringssteg?', answer: ['Varje centrum flyttas till medelpunkten av punkterna i sin grupp. Punkterna byter grupp i tilldelningssteget.'] },
     { question: 'Vilket startvärde ger en annan indelning?', answer: ['Startvärde 8: grupperna blir {1, 3, 6, 17}, {2, 4, 5, 7} och resten. Summan blir 143,4 mot 49,3 för startvärde 1–7.'] },
-    { question: 'Är större k alltid bättre?', answer: ['Nej. Summan blir 153,7 (k = 2), 49,3 (k = 3), 29,7 (k = 4) och 24,4 (k = 5). Den sjunker alltid, men grupperna blir till slut meningslöst små.'] },
+    { question: 'Är större k alltid bättre?', answer: ['Nej. Summan blir 153,7 (k = 2), 49,3 (k = 3), 29,7 (k = 4) och 24,4 (k = 5). Den sjunker hela vägen, men grupperna blir till slut meningslöst små.'] },
     {
       question: 'Öppen fråga: Namnge och tolka grupperna.',
       answer: [

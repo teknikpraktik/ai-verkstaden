@@ -7,6 +7,8 @@ export const PREFIX = 'aiv:v1:';
 export const STORAGE_EVENT = 'aiv-storage';
 
 const memory = new Map<string, string>();
+/** Nycklar vars senaste värde bara finns i minnet (skrivningen till localStorage misslyckades). */
+const memoryOnly = new Set<string>();
 let cachedAvailable: boolean | null = null;
 
 function ls(): Storage | null {
@@ -36,11 +38,12 @@ export function storageAvailable(): boolean {
 export function _resetStorageForTests(): void {
   cachedAvailable = null;
   memory.clear();
+  memoryOnly.clear();
 }
 
 function rawGet(key: string): string | null {
   const full = PREFIX + key;
-  if (storageAvailable()) {
+  if (storageAvailable() && !memoryOnly.has(full)) {
     try {
       return ls()!.getItem(full);
     } catch {
@@ -56,8 +59,10 @@ function rawSet(key: string, value: string): void {
   if (storageAvailable()) {
     try {
       ls()!.setItem(full, value);
+      memoryOnly.delete(full);
     } catch {
-      /* t.ex. full lagring – minnet räcker för stunden */
+      /* t.ex. full lagring – minnet räcker för stunden, och rawGet läser då därifrån */
+      memoryOnly.add(full);
     }
   }
 }
@@ -87,6 +92,7 @@ export function writeJSON(key: string, value: unknown): void {
 export function removeKey(key: string): void {
   const full = PREFIX + key;
   memory.delete(full);
+  memoryOnly.delete(full);
   if (storageAvailable()) {
     try {
       ls()!.removeItem(full);
@@ -119,6 +125,7 @@ export function removePrefix(prefix: string): void {
   for (const k of listKeys(prefix)) {
     const full = PREFIX + k;
     memory.delete(full);
+    memoryOnly.delete(full);
     if (storageAvailable()) {
       try {
         ls()!.removeItem(full);

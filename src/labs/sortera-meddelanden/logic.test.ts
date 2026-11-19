@@ -121,4 +121,11 @@ describe('labb 17: reserverade exempel', () => {
   it('reserverade exempel finns inte i träningsdata', () => {
     for (const h of HELD_OUT) expect(TRAINING.some((t) => t.text === h.text)).toBe(false);
   });
+  it('stemming löser inte det falskt positiva felet: ”prov” känns igen och drar ännu mer mot Viktigt (siffror i lärarhandledningen)', () => {
+    const text = 'Det blir inget prov i morgon';
+    expect(classify(model, text).score).toBeCloseTo(1.49, 2);
+    const stemmed = train(TRAINING, { alpha: 1, useStems: true });
+    expect(classify(stemmed, text).score).toBeCloseTo(2.86, 2);
+    expect(evaluate(stemmed, HELD_OUT).errors).toBe(2);
+  });
 });

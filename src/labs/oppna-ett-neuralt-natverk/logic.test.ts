@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { correctCount, defaultSettings, fmt, forward, initNet, loss, netCorrect, neuron, sigmoid, tasks, trainBoth, type Net } from './logic';
+import { correctCount, defaultSettings, fmt, forward, initNet, loss, netCorrect, neuron, neuronLoss, neuronTrainStep, sigmoid, tasks, trainBoth, trainStep, type Net } from './logic';
 
 const xor = tasks.xor.examples;
 
@@ -71,5 +71,23 @@ describe('labb 15: nätverk', () => {
 
   it('tom data ger ingen förlust', () => {
     expect(Number.isNaN(loss(initNet(2, 1), []))).toBe(true);
+  });
+  it('gradienterna i trainStep och neuronTrainStep stämmer med numerisk derivata av förlusten (summa över alla exempel)', () => {
+    const net = initNet(2, 3);
+    const lr = 1e-6;
+    const eps = 1e-6;
+    const stepped = trainStep(net, xor, lr);
+    const numeric = (f: (n: Net) => void) => {
+      const c: Net = structuredClone(net);
+      f(c);
+      return (loss(c, xor) - loss(net, xor)) / eps;
+    };
+    expect((net.out[0]! - stepped.out[0]!) / lr).toBeCloseTo(numeric((c) => (c.out[0]! += eps)), 5);
+    expect((net.outBias - stepped.outBias) / lr).toBeCloseTo(numeric((c) => (c.outBias += eps)), 5);
+    expect((net.hidden[0]![0] - stepped.hidden[0]![0]) / lr).toBeCloseTo(numeric((c) => (c.hidden[0]![0] += eps)), 5);
+    expect((net.hidden[1]![2] - stepped.hidden[1]![2]) / lr).toBeCloseTo(numeric((c) => (c.hidden[1]![2] += eps)), 5);
+    const n = { w1: 0.3, w2: -0.7, b: 0.1 };
+    const s = neuronTrainStep(n, xor, lr);
+    expect((n.w2 - s.w2) / lr).toBeCloseTo((neuronLoss({ ...n, w2: n.w2 + eps }, xor) - neuronLoss(n, xor)) / eps, 5);
   });
 });
