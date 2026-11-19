@@ -25,3 +25,11 @@ Se avsnittet *Status* nedan; kör `npm run test:content` för att se vilka labba
 ## Status
 
 - [x] Etapp 1–2 klara och verifierade lokalt (lint, typkontroll, enhetstester, bygge, länkkontroll, 48 Playwright-tester).
+- [ ] Etapp 3 pågår. Första körningen avbröts av en användningsgräns innan något var klart; arbetsströmmarna är omstartade och committar nu efter varje färdig labb i sina worktree-grenar (`worktree-agent-*`).
+
+### Återuppta efter avbrott
+
+1. `git worktree list` och `git log <gren>` för varje `worktree-agent-*`-gren visar vilka labbar som är committade.
+2. Slå ihop färdiga grenar till arbetsgrenen (`git merge --no-ff <gren>`); mapparna är disjunkta så konflikter ska inte uppstå.
+3. Labbar som fortfarande är platshållare har `// STUB` i `Lab.tsx`: `grep -l STUB src/labs/*/Lab.tsx`.
+4. Kör `npm run verify` och `npm run test:content` efter varje sammanslagning.
