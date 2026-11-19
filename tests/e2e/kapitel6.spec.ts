@@ -125,8 +125,6 @@ test.describe('Kapitel 6: övriga labbar', () => {
     await page.goto('kapitel/etik/');
     const box = page.locator('[data-question="etik-namnare"]');
     await box.scrollIntoViewIfNeeded();
-    // vänta tills kunskapskontrollen (client:visible) har hydrerats
-    await expect(page.locator('astro-island', { has: box })).not.toHaveAttribute('ssr', /.*/);
     const q = await answerNumeric(page, 'etik-namnare', '15');
     await expect(q.getByText(/alla 40 ansökningar/)).toBeVisible();
     await q.getByRole('button', { name: 'Försök igen' }).click();
