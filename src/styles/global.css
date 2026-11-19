@@ -113,6 +113,9 @@ h3,
 h4 {
   line-height: 1.25;
   margin: 1.4em 0 0.5em;
+  /* Långa svenska sammansättningar får brytas hellre än att ge sidledsrullning på 320 px. */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 h1 {
   font-size: clamp(1.7rem, 4vw, 2.4rem);
@@ -1179,6 +1182,18 @@ output {
   border: 1px solid var(--border);
   padding: 0.4rem 0.6rem;
   text-align: center;
+}
+/* Smala skärmar (och projektorläge på mobil): matrisen ska få plats utan sidledsrullning. */
+@media (max-width: 480px) {
+  .confusion {
+    font-size: 0.9rem;
+  }
+  .confusion th,
+  .confusion td {
+    padding: 0.3rem;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
 }
 .confusion td strong {
   display: block;
