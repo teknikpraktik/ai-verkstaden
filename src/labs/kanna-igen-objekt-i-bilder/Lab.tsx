@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
 import { LiveStatus, Panel, Segmented, SelectField, Slider, Toggle } from '../../components/lab/Controls';
@@ -125,6 +125,11 @@ export default function Lab() {
   const [prediction] = usePrediction('flytta-kopp');
 
   const stepper = useStepper(WINDOW_COUNT + 1, { initial: guided && step !== 4 ? 0 : WINDOW_COUNT });
+  // I experimentläget visas hela resultatet direkt (fönstret kan ändå stegas från början).
+  const { toEnd } = stepper;
+  useEffect(() => {
+    if (!guided) toEnd();
+  }, [guided, toEnd]);
 
   // Vilken bild som testas
   const img: Img = guided
