@@ -59,7 +59,7 @@ const next = chapters[i + 1];
     <p>Gör kontrollen när du har gjort labbarna. Du får återkoppling direkt och kan försöka igen.</p>
     {
       check.length > 0 ? (
-        <KnowledgeCheck client:visible checkId={`kapitel-${chapter.id}`} questions={check} />
+        <KnowledgeCheck client:only="react" checkId={`kapitel-${chapter.id}`} questions={check} />
       ) : (
         <p>Kunskapskontrollen är inte klar ännu.</p>
       )
