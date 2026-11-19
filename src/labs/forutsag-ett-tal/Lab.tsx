@@ -146,7 +146,7 @@ export default function Lab() {
           <p>
             Den blå linjen är en första gissning: 60 glassar oavsett väder. De röda strecken är <strong>residualerna</strong> – hur långt varje dag ligger från linjen. Medelkvadratfelet (MSE) sammanfattar alla residualer i ett tal.
           </p>
-          <Question
+          <Question key="gissa-lutning"
             spec={{
               kind: 'predict',
               id: 'gissa-lutning',
@@ -170,7 +170,7 @@ export default function Lab() {
           <p>
             Residual = <strong>verkligt värde − förutsagt värde</strong>. En positiv residual betyder att kiosken sålde fler än linjen trodde.
           </p>
-          <Question
+          <Question key="residual-28"
             spec={{
               kind: 'numeric',
               id: 'residual-28',
@@ -197,7 +197,7 @@ export default function Lab() {
           <p>
             Använd reglagen för <strong>lutning</strong> och <strong>nivå vid 20 °C</strong>. Ändra en sak i taget och se hur residualerna och MSE ändras. Försök få MSE under {GOAL}.
           </p>
-          <Question
+          <Question key="kvadrat-varfor"
             spec={{
               kind: 'choice',
               id: 'kvadrat-varfor',
@@ -222,7 +222,7 @@ export default function Lab() {
           <p>
             Den streckade gröna linjen har datorn räknat fram med <strong>minsta kvadratmetoden</strong>: den linje som ger lägst möjliga MSE på träningsdatan.
           </p>
-          <Question
+          <Question key="mse-anpassad"
             spec={{
               kind: 'numeric',
               id: 'mse-anpassad',
@@ -234,7 +234,7 @@ export default function Lab() {
               explanation: `MSE ≈ ${fmt(fitMse)}. Lutningen är ${fmt(fit.slope)} glassar per grad.`,
             }}
           />
-          <Question
+          <Question key="sla-anpassad"
             spec={{
               kind: 'choice',
               id: 'sla-anpassad',
@@ -259,7 +259,7 @@ export default function Lab() {
           <p>
             Nu är axlarna utdragna. Det skuggade området visar temperaturerna i träningsdatan (14–28 °C). Fyrkanterna är <strong>nya dagar</strong> som modellen aldrig har sett: en kall vårdag och två värmeböljedagar då kiosken sålde slut.
           </p>
-          <Question
+          <Question key="extrapolera-5"
             spec={{
               kind: 'numeric',
               id: 'extrapolera-5',
@@ -271,7 +271,7 @@ export default function Lab() {
               explanation: 'Linjen säger ungefär −30 glassar – ett omöjligt svar. Linjen vet inte att man inte kan sälja färre än noll.',
             }}
           />
-          <Question
+          <Question key="extrapolera-varfor"
             spec={{
               kind: 'choice',
               id: 'extrapolera-varfor',
@@ -292,7 +292,7 @@ export default function Lab() {
       phase: 'forklara',
       title: 'Förklara för kiosken',
       body: (
-        <Question
+        <Question key="rad-till-kiosken"
           spec={{
             kind: 'open',
             id: 'rad-till-kiosken',

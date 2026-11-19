@@ -216,7 +216,7 @@ export default function Lab() {
           <p>
             21 påhittade elever har svarat på hur många timmar per vecka de tränar och läser. Det finns <strong>inget facit</strong> – ingen har sagt vilka grupper som finns. Kan en algoritm hitta grupper ändå?
           </p>
-          <Question
+          <Question key="gissa-grupper"
             spec={{
               kind: 'predict',
               id: 'gissa-grupper',
@@ -241,7 +241,7 @@ export default function Lab() {
           <p>
             k-means med <strong>k = 3</strong> börjar med tre centrum på slumpvalda punkter. Sedan växlar den mellan två steg: <strong>tilldelning</strong> (varje punkt går till närmaste centrum) och <strong>uppdatering</strong> (varje centrum flyttas till medelpunkten av sina punkter). Tryck på Steg framåt.
           </p>
-          <Question
+          <Question key="uppdatering"
             spec={{
               kind: 'choice',
               id: 'uppdatering',
@@ -266,7 +266,7 @@ export default function Lab() {
           <p>
             Startvärdet bestämmer vilka punkter som blir startcentrum. Behåll k = 3 och byt <strong>bara</strong> startvärde. Stega igenom och jämför med tabellen.
           </p>
-          <Question
+          <Question key="annat-startvarde"
             spec={{
               kind: 'numeric',
               id: 'annat-startvarde',
@@ -287,7 +287,7 @@ export default function Lab() {
       body: (
         <>
           <p>Behåll startvärde 1 och ändra bara k. Titta på summan av kvadratavstånd i tabellen.</p>
-          <Question
+          <Question key="storre-k"
             spec={{
               kind: 'choice',
               id: 'storre-k',
@@ -308,7 +308,7 @@ export default function Lab() {
       phase: 'forklara',
       title: 'Tolka grupperna',
       body: (
-        <Question
+        <Question key="tolka-grupper"
           spec={{
             kind: 'open',
             id: 'tolka-grupper',

@@ -246,7 +246,7 @@ export default function Lab() {
           <p>
             Med <strong>k = 1</strong> ger modellen den nya frukten samma klass som den <em>enda närmaste</em> frukten.
           </p>
-          <Question
+          <Question key="gissa-k1"
             spec={{
               kind: 'predict',
               id: 'gissa-k1',
@@ -271,7 +271,7 @@ export default function Lab() {
             Nu syns svaret och bakgrunden visar vad modellen skulle svara för en frukt på varje plats. Den svarta linjen är <strong>klassificeringsgränsen</strong>. Streckade linjer går från ★ till de grannar som röstar.
           </p>
           <p>Dra reglaget eller använd piltangenterna för att ändra k. Titta på ★ och på punkt 8.</p>
-          <Question
+          <Question key="k3-svar"
             spec={{
               kind: 'choice',
               id: 'k3-svar',
@@ -296,7 +296,7 @@ export default function Lab() {
           <p>
             Nu är <strong>k = 2</strong>. Då kan det bli en röst för varje klass. Labben har en fast regel för det: <strong>vid lika röster vinner klassen hos den närmaste grannen</strong>. Om två grannar ligger exakt lika långt bort räknas den med lägst nummer som närmast.
           </p>
-          <Question
+          <Question key="lika-roster"
             spec={{
               kind: 'choice',
               id: 'lika-roster',
@@ -321,7 +321,7 @@ export default function Lab() {
           <p>
             Punkt 8 är ett äpple som är ovanligt högt – det ligger mitt bland päronen. Kanske är det ett udda äpple, kanske har någon sorterat fel. Jämför <strong>en sak i taget</strong>: byt k, eller ta bort punkt 8.
           </p>
-          <Question
+          <Question key="k5-paron"
             spec={{
               kind: 'numeric',
               id: 'k5-paron',
@@ -335,7 +335,7 @@ export default function Lab() {
               explanation: 'Fyra päron och ett äpple. Med större k väger en ensam avvikande punkt mindre.',
             }}
           />
-          <Question
+          <Question key="avvikande-o"
             spec={{
               kind: 'choice',
               id: 'avvikande-o',
@@ -360,7 +360,7 @@ export default function Lab() {
           <p>
             Nu är <strong>k = 14</strong>, alltså lika många som alla frukter i lådan.
           </p>
-          <Question
+          <Question key="stort-k-varfor"
             spec={{
               kind: 'choice',
               id: 'stort-k-varfor',
@@ -383,7 +383,7 @@ export default function Lab() {
       body: (
         <>
           <p>Nu kan du både ändra k och flytta ★ med knapparna eller sifferfälten. Prova några platser nära gränsen.</p>
-          <Question
+          <Question key="valj-k"
             spec={{
               kind: 'open',
               id: 'valj-k',

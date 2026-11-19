@@ -185,7 +185,7 @@ export default function Lab() {
           <p>
             Uppgiften <strong>XOR</strong> (”antingen eller”) ska ge 1 när exakt en av x1 och x2 är 1, och 0 annars.
           </p>
-          <Question
+          <Question key="gissa-xor"
             spec={{
               kind: 'predict',
               id: 'gissa-xor',
@@ -209,7 +209,7 @@ export default function Lab() {
           <p>
             OCH ska ge 1 bara när <em>både</em> x1 och x2 är 1. Prova vikterna 1 och 1 och ändra bara bias tills alla fyra blir rätt.
           </p>
-          <Question
+          <Question key="z-och"
             spec={{
               kind: 'numeric',
               id: 'z-och',
@@ -234,7 +234,7 @@ export default function Lab() {
       body: (
         <>
           <p>Nu är uppgiften ELLER: svaret ska vara 1 om minst en av x1 och x2 är 1. Behåll vikterna 1 och 1 och ändra bara bias.</p>
-          <Question
+          <Question key="bias-eller"
             spec={{
               kind: 'choice',
               id: 'bias-eller',
@@ -257,7 +257,7 @@ export default function Lab() {
       body: (
         <>
           <p>Nu är uppgiften XOR. Prova så många inställningar du vill. Titta på den svarta linjen i kartan.</p>
-          <Question
+          <Question key="xor-omojlig"
             spec={{
               kind: 'choice',
               id: 'xor-omojlig',
@@ -282,7 +282,7 @@ export default function Lab() {
           <p>
             Nätverket har två <strong>dolda neuroner</strong> mellan indata och utdata. Vikterna börjar slumpvis (startvärde 3). Varje steg kör 50 varv <strong>gradientnedstigning</strong>: alla vikter justeras en liten bit åt det håll som minskar förlusten. Samtidigt tränas en ensam neuron på samma sätt.
           </p>
-          <Question
+          <Question key="forlust-ensam"
             spec={{
               kind: 'numeric',
               id: 'forlust-ensam',
@@ -304,7 +304,7 @@ export default function Lab() {
       body: (
         <>
           <p>Titta på nätverksdiagrammet för de fyra indata. Vad svarar de dolda neuronerna h1 och h2 på?</p>
-          <Question
+          <Question key="dolt-lager"
             spec={{
               kind: 'open',
               id: 'dolt-lager',
