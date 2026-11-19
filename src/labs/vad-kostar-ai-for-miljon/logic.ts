@@ -95,7 +95,7 @@ export const assumptions: { id: AssumptionId; name: string; unit: string; affect
   { id: 'perFraga', name: 'Energi per fråga', unit: 'Wh', affects: 'co2' },
   { id: 'perBild', name: 'Energi per bild', unit: 'Wh', affects: 'co2' },
   { id: 'traning', name: 'Energi för träningen', unit: 'MWh', affects: 'co2' },
-  { id: 'livstid', name: 'Hur många frågor modellen besvarar under sin livstid', unit: 'frågor', affects: 'co2' },
+  { id: 'livstid', name: 'Antal frågor under modellens livstid', unit: 'frågor', affects: 'co2' },
   { id: 'elmix', name: 'Elmixen (utsläpp per kWh)', unit: 'g CO₂e/kWh', affects: 'co2' },
   { id: 'vatten', name: 'Vatten per kWh', unit: 'liter/kWh', affects: 'vatten' },
 ];

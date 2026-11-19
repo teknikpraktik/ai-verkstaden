@@ -68,14 +68,29 @@ const stepViews: StepView[] = ['start', 'fragor', 'traning', 'antaganden', 'reky
 function ResultPanel({ s, r, title }: { s: Settings; r: Result; title: string }) {
   const sp = span(s);
   const rows: { name: string; lag: string; bas: string; hog: string }[] = [
-    { name: 'Energi (kWh)', lag: fmtRough(sp.lag.kWh.total), bas: fmt(r.kWh.total), hog: fmtRough(sp.hog.kWh.total) },
-    { name: 'Utsläpp (kg CO₂e)', lag: fmtRough(sp.lag.co2Kg), bas: fmt(r.co2Kg), hog: fmtRough(sp.hog.co2Kg) },
-    { name: 'Vatten till kylning (liter)', lag: fmtRough(sp.lag.waterL), bas: fmt(r.waterL), hog: fmtRough(sp.hog.waterL) },
+    {
+      name: 'Energi (kWh)',
+      lag: fmtRough(sp.lag.kWh.total),
+      bas: fmt(r.kWh.total),
+      hog: fmtRough(sp.hog.kWh.total),
+    },
+    {
+      name: 'Utsläpp (kg CO₂e)',
+      lag: fmtRough(sp.lag.co2Kg),
+      bas: fmt(r.co2Kg),
+      hog: fmtRough(sp.hog.co2Kg),
+    },
+    {
+      name: 'Vatten till kylning (liter)',
+      lag: fmtRough(sp.lag.waterL),
+      bas: fmt(r.waterL),
+      hog: fmtRough(sp.hog.waterL),
+    },
   ];
   return (
     <Panel title={title}>
       <p className="hint">
-        Påhittad skola, förenklad modell. {fmt(sanitize(s).students)} elever, {SCHOOL_TEXT}. {models.find((m) => m.id === s.model)!.name}, {mixes.find((m) => m.id === s.mix)!.name.toLowerCase()}.
+        Påhittad skola, förenklad modell. {fmt(sanitize(s).students)} elever, {SCHOOL_TEXT}. {models.find((m) => m.id === s.model)!.name}. {mixes.find((m) => m.id === s.mix)!.name}.
       </p>
       <LiveStatus>
         <span data-testid="sammanfattning">
@@ -111,9 +126,17 @@ function ResultPanel({ s, r, title }: { s: Settings; r: Result; title: string })
         title="Var går energin? (kWh per läsår, huvudberäkning)"
         format={(v) => `${fmt(v)} kWh`}
         data={[
-          { label: 'Elevernas frågor', value: r.kWh.fragor, color: 'var(--c1)' },
+          {
+            label: 'Elevernas frågor',
+            value: r.kWh.fragor,
+            color: 'var(--c1)',
+          },
           { label: 'Bilder', value: r.kWh.bilder, color: 'var(--c2)' },
-          { label: 'Skolans andel av träningen', value: r.kWh.traning, color: 'var(--c4)' },
+          {
+            label: 'Skolans andel av träningen',
+            value: r.kWh.traning,
+            color: 'var(--c4)',
+          },
         ]}
       />
       <h4 className="miljo-sub">Jämför med vardagen</h4>
@@ -163,7 +186,8 @@ function HeatingPanel({ r }: { r: Result }) {
   return (
     <Panel title="Nyttosidan: AI-styrd värme (påhittat exempel)">
       <p>
-        Kommunen kan också använda AI för att styra värmen i skolans byggnader efter väder och schema. Antagande: skolan värms med {fmt(HEATING.heatKWh)} kWh fjärrvärme per år och styrningen sparar {fmt(HEATING.saving.bas * 100)} % (spann {fmt(HEATING.saving.lag * 100)}–{fmt(HEATING.saving.hog * 100)} %).
+        Kommunen kan också använda AI för att styra värmen i skolans byggnader efter väder och schema. Antagande: skolan värms med {fmt(HEATING.heatKWh)} kWh fjärrvärme per år och styrningen sparar{' '}
+        {fmt(HEATING.saving.bas * 100)} % (spann {fmt(HEATING.saving.lag * 100)}–{fmt(HEATING.saving.hog * 100)} %).
       </p>
       <dl className="etik-kv" data-testid="nytta">
         <dt>Sparad värme</dt>
@@ -183,7 +207,9 @@ function HeatingPanel({ r }: { r: Result }) {
           <strong>{h.netKg < 0 ? `minskar med ${fmt(-h.netKg)} kg CO₂e` : `ökar med ${fmt(h.netKg)} kg CO₂e`}</strong>
         </dd>
         <dt>Netto i pengar</dt>
-        <dd>{h.netKr > 0 ? `kostar ${fmt(h.netKr)} kr` : `sparar ${fmt(-h.netKr)} kr`} per år (licens {fmt(HEATING.licenseKr)} kr minus sparad värme)</dd>
+        <dd>
+          {h.netKr > 0 ? `kostar ${fmt(h.netKr)} kr` : `sparar ${fmt(-h.netKr)} kr`} per år (licens {fmt(HEATING.licenseKr)} kr minus sparad värme)
+        </dd>
       </dl>
       <p className="hint">Jämför: AI-assistenten för eleverna ger {fmt(r.co2Kg)} kg CO₂e. Nyttan av den är främst lärande – den går inte att mäta i kilo.</p>
     </Panel>
@@ -195,7 +221,9 @@ function TrainingTable() {
     <Panel title="Träning sker en gång, användning sker miljontals gånger">
       <div className="etik-wrap">
         <table className="table" data-testid="traning-tabell">
-          <caption>Stor modell: träning {fmt(trainingMWh.stor.bas)} MWh en gång, {fmtRough(whPerQuestion.stor.bas)} Wh per fråga (huvudvärden)</caption>
+          <caption>
+            Stor modell: träning {fmt(trainingMWh.stor.bas)} MWh en gång, {fmtRough(whPerQuestion.stor.bas)} Wh per fråga (huvudvärden)
+          </caption>
           <thead>
             <tr>
               <th scope="col">Frågor under modellens livstid</th>
@@ -228,7 +256,16 @@ function SensitivityPanel({ s }: { s: Settings }) {
   return (
     <Panel title="Ett antagande i taget">
       <p className="hint">Varje rad: bara det antagandet ändras från lågt till högt, alla andra står kvar. Stapeln visar hur mycket utsläppen kan skilja.</p>
-      <BarChart title="Hur mycket ändras utsläppen? (kg CO₂e per läsår)" format={(v) => `${fmt(v)} kg`} data={list.map((x, i) => ({ label: x.name, value: x.spreadKg, color: i === 0 ? 'var(--c2)' : 'var(--c1)', note: i === 0 ? '(störst)' : undefined }))} />
+      <BarChart
+        title="Hur mycket ändras utsläppen? (kg CO₂e per läsår)"
+        format={(v) => `${fmt(v)} kg`}
+        data={list.map((x, i) => ({
+          label: x.name,
+          value: x.spreadKg,
+          color: i === 0 ? 'var(--c2)' : 'var(--c1)',
+          note: i === 0 ? '(störst)' : undefined,
+        }))}
+      />
       <div className="etik-wrap">
         <table className="table" data-testid="kanslighet">
           <caption>Utsläpp när ett antagande ändras (kg CO₂e)</caption>
@@ -345,14 +382,17 @@ function SettingsPanel({ s, set }: { s: Settings; set: (v: Settings) => void }) 
       <p className="hint">{models.find((m) => m.id === s.model)!.detail}</p>
       <SelectField<MixId> label="Var körs modellen?" value={s.mix} options={mixes.map((m) => ({ value: m.id, label: m.name }))} onChange={(v) => u({ mix: v })} />
       <Toggle label="Visa också AI-styrd värme (nyttosidan)" checked={s.heating} onChange={(v) => u({ heating: v })} />
-      <fieldset className="miljo-levels">
+      <fieldset className="miljo-levels miljo-seg">
         <legend>Antagandenas nivå</legend>
         {assumptions.map((a) => (
           <Segmented<Level>
             key={a.id}
             legend={a.name}
             value={s.levels[a.id]}
-            options={levels.map((l) => ({ value: l, label: `${levelName[l]}: ${valueText(a.id, l, s.model, s.mix)}` }))}
+            options={levels.map((l) => ({
+              value: l,
+              label: `${levelName[l]}: ${valueText(a.id, l, s.model, s.mix)}`,
+            }))}
             onChange={(l) => u({ levels: { ...s.levels, [a.id]: l } })}
           />
         ))}
@@ -378,7 +418,10 @@ export default function Lab() {
       case 'fragor':
         return { ...baseSettings, questionsPerDay: perDay };
       case 'antaganden':
-        return { ...baseSettings, levels: { ...baseLevels, [probe.id]: probe.level } };
+        return {
+          ...baseSettings,
+          levels: { ...baseLevels, [probe.id]: probe.level },
+        };
       case 'rekyl':
         return { ...baseSettings, heating: true };
       case 'eget':
@@ -434,10 +477,22 @@ export default function Lab() {
               tolerance: 0.001,
               unit: 'kWh',
               wrong: [
-                { value: 3000, feedback: '3 000 är rätt antal wattimmar (Wh). Frågan gäller kilowattimmar: 1 kWh = 1 000 Wh.' },
-                { value: 0.003, feedback: 'Du har delat med 1 000 en gång för mycket. 10 000 frågor × 0,3 Wh = 3 000 Wh.' },
-                { value: 0.3, feedback: '0,3 Wh gäller en enda fråga. Hur många frågor ställs totalt under dagen?' },
-                { value: 30, feedback: 'Kontrollera antalet frågor: 1 000 elever × 10 frågor = 10 000 frågor, inte 100 000.' },
+                {
+                  value: 3000,
+                  feedback: '3 000 är rätt antal wattimmar (Wh). Frågan gäller kilowattimmar: 1 kWh = 1 000 Wh.',
+                },
+                {
+                  value: 0.003,
+                  feedback: 'Du har delat med 1 000 en gång för mycket. 10 000 frågor × 0,3 Wh = 3 000 Wh.',
+                },
+                {
+                  value: 0.3,
+                  feedback: '0,3 Wh gäller en enda fråga. Hur många frågor ställs totalt under dagen?',
+                },
+                {
+                  value: 30,
+                  feedback: 'Kontrollera antalet frågor: 1 000 elever × 10 frågor = 10 000 frågor, inte 100 000.',
+                },
               ],
               hint: 'Räkna först antalet frågor, sedan Wh, och dela sist med 1 000 för att få kWh.',
               explanation: '1 000 × 10 = 10 000 frågor. 10 000 × 0,3 Wh = 3 000 Wh = 3 kWh per skoldag. Under 180 skoldagar blir det 540 kWh.',
@@ -461,11 +516,20 @@ export default function Lab() {
               id: 'traning-eller-anvandning',
               prompt: 'Modellen tränas en gång med 10 000 MWh och besvarar sedan 100 miljarder frågor à 0,3 Wh. Vad drar mest energi totalt?',
               options: [
-                { id: 'traning', text: 'Träningen', feedback: 'Träningen är en stor engångspost, men 100 miljarder × 0,3 Wh = 30 000 MWh. Användningen blir tre gånger större eftersom den upprepas så många gånger.' },
+                {
+                  id: 'traning',
+                  text: 'Träningen',
+                  feedback: 'Träningen är en stor engångspost, men 100 miljarder × 0,3 Wh = 30 000 MWh. Användningen blir tre gånger större eftersom den upprepas så många gånger.',
+                },
                 { id: 'anvandning', text: 'Användningen', correct: true },
-                { id: 'lika', text: 'Ungefär lika mycket', feedback: 'Räkna om: 100 miljarder × 0,3 Wh = 30 000 000 000 Wh = 30 000 MWh, alltså tre gånger träningens 10 000 MWh.' },
+                {
+                  id: 'lika',
+                  text: 'Ungefär lika mycket',
+                  feedback: 'Räkna om: 100 miljarder × 0,3 Wh = 30 000 000 000 Wh = 30 000 MWh, alltså tre gånger träningens 10 000 MWh.',
+                },
               ],
-              explanation: 'Användningen: 30 000 MWh mot 10 000 MWh. Varje fråga får bära 0,1 Wh av träningen – en tredjedel av sin egen energi. Med bara 1 miljon frågor hade träningen dominerat helt.',
+              explanation:
+                'Användningen: 30 000 MWh mot 10 000 MWh. Varje fråga får bära 0,1 Wh av träningen – en tredjedel av sin egen energi. Med bara 1 miljon frågor hade träningen dominerat helt.',
             }}
           />
         </>
@@ -486,12 +550,17 @@ export default function Lab() {
                 options={assumptions.filter((a) => a.affects === 'co2').map((a) => ({ value: a.id, label: a.name }))}
                 onChange={(id) => setProbe({ ...probe, id })}
               />
-              <Segmented<Level>
-                legend="Nivå"
-                value={probe.level}
-                options={levels.map((l) => ({ value: l, label: `${levelName[l]}: ${valueText(probe.id, l, 'stor', 'norden')}` }))}
-                onChange={(level) => setProbe({ ...probe, level })}
-              />
+              <div className="miljo-seg">
+                <Segmented<Level>
+                  legend="Nivå"
+                  value={probe.level}
+                  options={levels.map((l) => ({
+                    value: l,
+                    label: `${levelName[l]}: ${valueText(probe.id, l, 'stor', 'norden')}`,
+                  }))}
+                  onChange={(level) => setProbe({ ...probe, level })}
+                />
+              </div>
             </>
           )}
           <Question
@@ -500,12 +569,29 @@ export default function Lab() {
               id: 'vilket-antagande',
               prompt: 'Vilket antagande ändrar utsläppen mest i huvudscenariot?',
               options: [
-                { id: 'elmix', text: 'Elmixen (utsläpp per kWh)', correct: true },
-                { id: 'perFraga', text: 'Energi per fråga', feedback: 'Energin per fråga är viktig, men den kan ”bara” fyrdubblas (0,15–0,6 Wh). Elmixen kan skilja tio gånger (20–210 g per kWh) och slår på all energi samtidigt.' },
-                { id: 'traning', text: 'Energi för träningen', feedback: 'Träningen ger en spridning på ca 79 kg. Titta på stapeln som är längst – den gäller ett antagande som påverkar varje kilowattimme.' },
-                { id: 'perBild', text: 'Energi per bild', feedback: 'Bilderna är bara en del av energin, så även en stor osäkerhet där flyttar totalen mindre än ett antagande som gäller all energi.' },
+                {
+                  id: 'elmix',
+                  text: 'Elmixen (utsläpp per kWh)',
+                  correct: true,
+                },
+                {
+                  id: 'perFraga',
+                  text: 'Energi per fråga',
+                  feedback: 'Energin per fråga är viktig, men den kan ”bara” fyrdubblas (0,15–0,6 Wh). Elmixen kan skilja tio gånger (20–210 g per kWh) och slår på all energi samtidigt.',
+                },
+                {
+                  id: 'traning',
+                  text: 'Energi för träningen',
+                  feedback: 'Träningen ger en spridning på ca 79 kg. Titta på stapeln som är längst – den gäller ett antagande som påverkar varje kilowattimme.',
+                },
+                {
+                  id: 'perBild',
+                  text: 'Energi per bild',
+                  feedback: 'Bilderna är bara en del av energin, så även en stor osäkerhet där flyttar totalen mindre än ett antagande som gäller all energi.',
+                },
               ],
-              explanation: 'Elmixen: från ca 19 till ca 197 kg CO₂e, alltså en skillnad på ca 178 kg. Den multipliceras med all energi. Men i ett datacenter med världsgenomsnittlig el blir i stället träningen och livslängden viktigast – vilket antagande som styr beror på scenariot.',
+              explanation:
+                'Elmixen: från ca 19 till ca 197 kg CO₂e, alltså en skillnad på ca 178 kg. Den multipliceras med all energi. Men i ett datacenter med världsgenomsnittlig el blir i stället träningen och livslängden viktigast – vilket antagande som styr beror på scenariot.',
             }}
           />
         </>
@@ -517,9 +603,7 @@ export default function Lab() {
       title: 'Effektivare – men mer användning',
       body: (
         <>
-          <p>
-            När något blir billigare eller snabbare använder vi ofta mer av det. Det kallas rekyleffekt. Samtidigt kan AI också spara energi – se exemplet med AI-styrd värme.
-          </p>
+          <p>När något blir billigare eller snabbare använder vi ofta mer av det. Det kallas rekyleffekt. Samtidigt kan AI också spara energi – se exemplet med AI-styrd värme.</p>
           <Question
             spec={{
               kind: 'numeric',
@@ -529,9 +613,18 @@ export default function Lab() {
               tolerance: 0.5,
               unit: 'kWh',
               wrong: [
-                { value: 90, feedback: '90 kWh hade det blivit om eleverna fortsatt med 10 frågor per dag. Men användningen ökade åtta gånger.' },
-                { value: 540, feedback: '540 kWh var före bytet. Räkna med den lilla modellen och 80 frågor per dag.' },
-                { value: 4320, feedback: 'Det är 80 frågor med den stora modellen (0,3 Wh). Efter bytet kräver varje fråga 0,05 Wh.' },
+                {
+                  value: 90,
+                  feedback: '90 kWh hade det blivit om eleverna fortsatt med 10 frågor per dag. Men användningen ökade åtta gånger.',
+                },
+                {
+                  value: 540,
+                  feedback: '540 kWh var före bytet. Räkna med den lilla modellen och 80 frågor per dag.',
+                },
+                {
+                  value: 4320,
+                  feedback: 'Det är 80 frågor med den stora modellen (0,3 Wh). Efter bytet kräver varje fråga 0,05 Wh.',
+                },
               ],
               hint: '1 000 elever × 80 frågor × 180 dagar × 0,05 Wh, och dela sedan med 1 000.',
               explanation: '1 000 × 80 × 180 × 0,05 Wh = 720 000 Wh = 720 kWh – mer än de 540 kWh före bytet. Effektiviseringen åts upp av den ökade användningen.',
@@ -568,7 +661,7 @@ export default function Lab() {
 
   const showSettings = !guided || view === 'eget';
   return (
-    <div className="lab-layout">
+    <div className="lab-layout miljo">
       <div className="lab-stack">
         <GuidedSteps steps={keyedSteps(steps)} index={step} onStepChange={(i) => setStep(i)} />
         {showSettings && <SettingsPanel s={own} set={(v) => setOwn(sanitize(v))} />}

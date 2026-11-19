@@ -23,3 +23,25 @@
   font-size: 0.85rem;
   min-width: 12rem;
 }
+/* Nivåval med långa etiketter staplas lodrätt så att de ryms i smala kolumner. */
+.miljo-seg .segmented-options {
+  display: flex;
+  flex-direction: column;
+}
+.miljo-seg .segmented-options label + label {
+  border-left: 0;
+  border-top: 2px solid var(--border);
+}
+.miljo-seg .segmented-options label {
+  overflow-wrap: anywhere;
+}
+/* En select blir annars lika bred som sitt längsta alternativ och spränger den smala kolumnen. */
+.miljo select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.miljo .guided,
+.miljo .panel {
+  min-width: 0;
+}
