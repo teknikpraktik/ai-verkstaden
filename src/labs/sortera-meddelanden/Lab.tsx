@@ -417,7 +417,7 @@ export default function Lab() {
         {view.heldOut && (
           <Panel title="Reserverade exempel (används inte i träningen)">
             <div className="sp-scroll">
-              <table className="table" data-testid="reserverade">
+              <table className="table" data-testid="reserverade" style={{ minWidth: '30rem' }}>
                 <caption>Modellens beslut jämfört med facit</caption>
                 <thead>
                   <tr>
