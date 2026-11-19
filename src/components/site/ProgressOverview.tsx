@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { correctCount, getLastLab, getProgress } from '../../lib/progress';
 import { clearAll, storageAvailable } from '../../lib/storage';
 import { useStorageListener } from '../lab/LabContext';
@@ -20,6 +20,15 @@ export default function ProgressOverview({ labs }: { labs: LabRow[] }) {
   const [rows, setRows] = useState(read);
   const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState('');
+  // Fokus tillbaka till "Rensa"-knappen när bekräftelsen stängs (knappen med fokus försvinner).
+  const clearButton = useRef<HTMLButtonElement>(null);
+  const returnFocus = useRef(false);
+  useEffect(() => {
+    if (!confirm && returnFocus.current) {
+      returnFocus.current = false;
+      clearButton.current?.focus();
+    }
+  }, [confirm]);
   useStorageListener(() => setRows(read()));
   const last = getLastLab();
   const done = rows.filter((r) => r.done).length;
@@ -33,6 +42,8 @@ export default function ProgressOverview({ labs }: { labs: LabRow[] }) {
       <p role="status">
         Du har öppnat {visited} av {labs.length} labbar och markerat {done} som klara.
       </p>
+      {/* Rullbar på smala skärmar; tabIndex gör att den kan rullas med tangentbordet. */}
+      <div className="table-wrap" role="region" aria-label="Status per labb" tabIndex={0}>
       <table className="table">
         <caption className="visually-hidden">Status per labb</caption>
         <thead>
@@ -57,10 +68,11 @@ export default function ProgressOverview({ labs }: { labs: LabRow[] }) {
           ))}
         </tbody>
       </table>
+      </div>
       <h2>Rensa sparat arbete</h2>
       <p>Allt sparas bara i den här webbläsaren på den här datorn. Använder du en delad dator kan du rensa ditt arbete när du är klar.</p>
       {!confirm ? (
-        <button type="button" className="btn btn-danger" onClick={() => setConfirm(true)}>
+        <button type="button" className="btn btn-danger" ref={clearButton} onClick={() => setConfirm(true)}>
           Rensa allt sparat arbete
         </button>
       ) : (
@@ -72,6 +84,7 @@ export default function ProgressOverview({ labs }: { labs: LabRow[] }) {
             autoFocus
             onClick={() => {
               clearAll();
+              returnFocus.current = true;
               setConfirm(false);
               setRows(read());
               setMessage('Allt sparat arbete är rensat.');
@@ -79,7 +92,14 @@ export default function ProgressOverview({ labs }: { labs: LabRow[] }) {
           >
             Ja, rensa allt
           </button>
-          <button type="button" className="btn" onClick={() => setConfirm(false)}>
+          <button
+            type="button"
+            className="btn"
+            onClick={() => {
+              returnFocus.current = true;
+              setConfirm(false);
+            }}
+          >
             Avbryt
           </button>
         </span>

@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { useStoredState } from './LabContext';
 
 /**
@@ -92,6 +92,24 @@ export function QuestionList({ specs }: { specs: QuestionSpec[] }) {
   );
 }
 
+/**
+ * "Kontrollera svaret" och "Försök igen" försvinner när de används. Flytta då
+ * fokus till återkopplingen respektive till svarsfältet, så att den som
+ * använder tangentbord eller skärmläsare inte hamnar på sidans början.
+ */
+function useAnswerFocus(submitted: boolean, feedback: RefObject<HTMLElement | null>, input: () => HTMLElement | null | undefined) {
+  const acted = useRef(false);
+  useEffect(() => {
+    if (!acted.current) return;
+    acted.current = false;
+    if (submitted) feedback.current?.focus();
+    else input()?.focus();
+  }, [submitted, feedback, input]);
+  return () => {
+    acted.current = true;
+  };
+}
+
 function sameSet(a: string[], b: string[]) {
   return a.length === b.length && a.every((x) => b.includes(x));
 }
@@ -102,6 +120,9 @@ export function ChoiceQuestion({ spec, children }: { spec: ChoiceSpec; children?
   const [submitted, setSubmitted] = useState<boolean>(stored !== null);
   const name = useId();
   const correctIds = spec.options.filter((o) => o.correct).map((o) => o.id);
+  const box = useRef<HTMLFieldSetElement>(null);
+  const feedback = useRef<HTMLDivElement>(null);
+  const markAction = useAnswerFocus(submitted, feedback, () => box.current?.querySelector('input'));
 
   const isCorrect = submitted && sameSet(selected, correctIds);
   const wrongPicked = submitted && !isCorrect ? spec.options.filter((o) => selected.includes(o.id) && !o.correct) : [];
@@ -110,16 +131,18 @@ export function ChoiceQuestion({ spec, children }: { spec: ChoiceSpec; children?
   const submit = () => {
     if (selected.length === 0) return;
     const ok = sameSet(selected, correctIds);
+    markAction();
     setSubmitted(true);
     setStored({ value: spec.multiple ? selected : selected[0]!, correct: ok, attempts: (stored?.attempts ?? 0) + 1 });
   };
   const retry = () => {
+    markAction();
     setSubmitted(false);
     setSelected([]);
   };
 
   return (
-    <fieldset className={`question ${submitted ? (isCorrect ? 'is-correct' : 'is-wrong') : ''}`} data-question={spec.id}>
+    <fieldset ref={box} className={`question ${submitted ? (isCorrect ? 'is-correct' : 'is-wrong') : ''}`} data-question={spec.id}>
       <legend>{spec.prompt}</legend>
       {children}
       {spec.multiple && <p className="hint">Välj alla som stämmer.</p>}
@@ -146,7 +169,7 @@ export function ChoiceQuestion({ spec, children }: { spec: ChoiceSpec; children?
           Kontrollera svaret
         </button>
       ) : (
-        <div className="feedback" role="status" aria-live="polite">
+        <div className="feedback" role="status" aria-live="polite" tabIndex={-1} ref={feedback}>
           {isCorrect ? (
             <>
               <p className="feedback-title">
@@ -199,9 +222,12 @@ export function NumericQuestion({ spec, children }: { spec: NumericSpec; childre
   const value = parseNumber(text);
   const isCorrect = submitted && value !== null && Math.abs(value - spec.answer) <= tol;
   const known = submitted && !isCorrect && value !== null ? spec.wrong?.find((w) => Math.abs(w.value - value) <= tol) : undefined;
+  const feedback = useRef<HTMLDivElement>(null);
+  const markAction = useAnswerFocus(submitted, feedback, () => document.getElementById(id));
 
   const submit = () => {
     if (value === null) return;
+    markAction();
     setSubmitted(true);
     setStored({ value: text, correct: Math.abs(value - spec.answer) <= tol, attempts: (stored?.attempts ?? 0) + 1 });
   };
@@ -236,7 +262,7 @@ export function NumericQuestion({ spec, children }: { spec: NumericSpec; childre
       </div>
       {!submitted && text !== '' && value === null && <p className="hint">Skriv ett tal, till exempel 4 eller 2,5.</p>}
       {submitted && (
-        <div className="feedback" role="status" aria-live="polite">
+        <div className="feedback" role="status" aria-live="polite" tabIndex={-1} ref={feedback}>
           {isCorrect ? (
             <>
               <p className="feedback-title">
@@ -256,6 +282,7 @@ export function NumericQuestion({ spec, children }: { spec: NumericSpec; childre
             type="button"
             className={isCorrect ? 'btn btn-quiet' : 'btn'}
             onClick={() => {
+              markAction();
               setSubmitted(false);
               if (!isCorrect) setText('');
             }}
