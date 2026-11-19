@@ -91,9 +91,9 @@ const fmtTemp = (t: number) => (t < 0 ? `−${-t}` : String(t));
 const exampleText = (e: Example) => `${weatherSymbol[e.vader]} ${e.vader}, ${fmtTemp(e.temp)} °C, vind ${e.vind} m/s`;
 
 function featureValueText(s: Split, e: Example): string {
-  if (s.feature === 'vader') return `vädret är ${e.vader}`;
-  if (s.feature === 'temp') return `temperaturen är ${fmtTemp(e.temp)} °C`;
-  return `vinden är ${e.vind} m/s`;
+  if (s.feature === 'vader') return `är vädret ${e.vader}`;
+  if (s.feature === 'temp') return `är temperaturen ${fmtTemp(e.temp)} °C`;
+  return `är vinden ${e.vind} m/s`;
 }
 
 /* ---------- Förhandsvisning av en delning ---------- */
@@ -596,7 +596,7 @@ export default function Lab() {
         <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
         {setup.builder && (
           <Panel title="Bygg ditt träd">
-            <SplitEditor key={selNode.path} node={selNode.rows} path={selNode.path} describe={handDescribe} current={selNode.split} onApply={applySplit} />
+            <SplitEditor node={selNode.rows} path={selNode.path} describe={handDescribe} current={selNode.split} onApply={applySplit} />
           </Panel>
         )}
         {setup.depth && (
