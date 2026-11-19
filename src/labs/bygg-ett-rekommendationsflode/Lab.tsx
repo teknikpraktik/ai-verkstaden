@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import '../../chapters/etik/etik.css';
+import { keyedSteps } from '../../chapters/etik/keyedSteps';
 import { BarChart } from '../../components/lab/Charts';
 import { LiveStatus, NumberField, Panel, Segmented, SelectField } from '../../components/lab/Controls';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
@@ -353,7 +354,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={keyedSteps(steps)} index={step} onStepChange={(i) => setStep(i)} />
         {!guided && (
           <Panel title="Inställningar">
             <Segmented

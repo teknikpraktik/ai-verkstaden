@@ -32,6 +32,6 @@ export default defineTeacher({
     },
   ],
   sources: [
-    { title: 'Förordning (EU) 2016/679 (GDPR), art. 5, 6, 9, 13, 35 – EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj', checked: '2026-11-19', note: 'EUR-Lex kunde inte öppnas direkt från arbetsmiljön (nätverksspärr). Artikelinnehållet bygger på förordningstexten som den var känd före kontrollen och har inte kunnat jämföras ord för ord. GDPR har inte ändrats i de delar som används. Kontrollera före publicering.' },
+    { title: 'Förordning (EU) 2016/679 (GDPR), art. 5, 6, 9, 13, 35 – EUR-Lex', url: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj', checked: '2026-11-19', note: 'EUR-Lex kunde inte läsas maskinellt (webbläsarkontroll, HTTP 202). Artikelinnehållet bygger på förordningstexten som den var känd före kontrollen och har inte kunnat jämföras ord för ord. GDPR har inte ändrats i de delar som används. Kontrollera före publicering.' },
   ],
 });
