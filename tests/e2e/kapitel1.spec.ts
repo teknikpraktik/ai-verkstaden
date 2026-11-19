@@ -144,10 +144,9 @@ test.describe('Kapitel 1 på dator', () => {
 
   test('kunskapskontroll för kapitel 1', async ({ page }) => {
     await page.goto('kapitel/introduktion/');
+    // kontrollen renderas i webbläsaren (client:only)
     const q = page.locator('[data-question="k1-felandel"]');
     await q.scrollIntoViewIfNeeded();
-    // kontrollen hydreras först när den syns (client:visible)
-    await expect(page.locator('astro-island[client="visible"]')).not.toHaveAttribute('ssr', /.*/);
     await q.getByLabel('Ditt svar').fill('6');
     await q.getByRole('button', { name: 'Kontrollera svaret' }).click();
     await expect(q.getByText(/antalet testade i grupp B/)).toBeVisible();

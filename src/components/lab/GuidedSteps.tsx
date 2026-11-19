@@ -81,7 +81,9 @@ export function GuidedSteps({
       <h3 className="guided-title" tabIndex={-1}>
         <span className={`phase-tag phase-${step.phase}`}>{phaseLabel[step.phase]}</span> Steg {index + 1} av {steps.length}: {step.title}
       </h3>
-      <div className="guided-body">{step.body}</div>
+      <div className="guided-body" key={step.id}>
+        {step.body}
+      </div>
       <div className="guided-nav">
         <button type="button" className="btn" onClick={() => go(index - 1)} disabled={index === 0}>
           <span aria-hidden="true">← </span>Tillbaka
