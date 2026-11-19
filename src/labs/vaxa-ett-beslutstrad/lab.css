@@ -1,0 +1,101 @@
+/* Lokala stilar för labb 29 (prefix dt-) */
+.dt-tree,
+.dt-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+.dt-tree ul {
+  padding-left: 0.9rem;
+  margin-top: 0.4rem;
+  border-left: 2px solid var(--border);
+}
+.dt-node {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.35rem 0.6rem;
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+.dt-leaf {
+  background: var(--surface-2);
+}
+.dt-node-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  align-items: baseline;
+}
+.dt-node-info {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.dt-node-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+.dt-branch {
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  padding: 0 0.45rem;
+}
+.dt-answer-installd {
+  color: var(--bad);
+}
+.dt-answer-genomfors {
+  color: var(--ok);
+}
+.dt-on-path {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.dt-current {
+  border: 3px solid var(--accent);
+}
+.dt-selected {
+  border: 3px dashed var(--focus);
+}
+.dt-newest {
+  border: 3px solid var(--c3);
+}
+.dt-marker {
+  font-weight: 700;
+  color: var(--accent);
+}
+.dt-marker-soft {
+  color: var(--text-muted);
+}
+.dt-tag {
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+.dt-row-mine th,
+.dt-row-mine td {
+  background: var(--warn-soft);
+}
+.dt-row-best th,
+.dt-row-best td {
+  background: var(--ok-soft);
+}
+.dt-formula,
+.dt-calc {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+.dt-node,
+.dt-tree ul {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dt-node,
+  .dt-tree ul {
+    transition: none;
+  }
+}
