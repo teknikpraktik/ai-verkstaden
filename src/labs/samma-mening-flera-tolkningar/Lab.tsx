@@ -110,7 +110,7 @@ function DecisionCell({ r, should }: { r: ModerationResult; should?: boolean }) 
   );
 }
 
-function ModerationPanel({ rules, reveal }: { rules: ContextRuleId[]; reveal: boolean }) {
+function ModerationPanel({ rules, reveal, showWho }: { rules: ContextRuleId[]; reveal: boolean; showWho: boolean }) {
   const cmp = useMemo(() => compareModeration(FORUM, rules), [rules]);
   const [own, setOwn] = useStoredState<string>('own-comment', 'Jag ska slå upp läxan i boken.', isString);
   const ownId = useId();
@@ -135,7 +135,7 @@ function ModerationPanel({ rules, reveal }: { rules: ContextRuleId[]; reveal: bo
         </ul>
         <p className="hint">Facit är en mänsklig bedömning i det påhittade scenariot.</p>
         <div className="sp-scroll">
-          <table className="table" data-testid="moderering">
+          <table className="table" data-testid="moderering" style={{ minWidth: showWho ? '50rem' : '40rem' }}>
             <caption>Samma tio kommentarer, två beslutssätt</caption>
             <thead>
               <tr>
@@ -143,7 +143,7 @@ function ModerationPanel({ rules, reveal }: { rules: ContextRuleId[]; reveal: bo
                 <th scope="col">Facit</th>
                 {reveal && <th scope="col">Nyckelordsregel</th>}
                 {reveal && <th scope="col">Kontextregel</th>}
-                {reveal && <th scope="col">Vem påverkas om det blir fel?</th>}
+                {reveal && showWho && <th scope="col">Vem påverkas om det blir fel?</th>}
               </tr>
             </thead>
             <tbody>
@@ -153,7 +153,7 @@ function ModerationPanel({ rules, reveal }: { rules: ContextRuleId[]; reveal: bo
                   <td>{r.comment.shouldStop ? 'Bör stoppas' : 'Ofarlig'}</td>
                   {reveal && <DecisionCell r={r.keyword} should={r.comment.shouldStop} />}
                   {reveal && <DecisionCell r={r.context} should={r.comment.shouldStop} />}
-                  {reveal && <td>{r.comment.affected}</td>}
+                  {reveal && showWho && <td>{r.comment.affected}</td>}
                 </tr>
               ))}
             </tbody>
@@ -601,7 +601,7 @@ export default function Lab() {
       </div>
       <div className="lab-stack">
         {show('tvetydighet') && <AmbiguityPanel />}
-        {show('moderering') && <ModerationPanel rules={rules} reveal={!guided || idx >= 3} />}
+        {show('moderering') && <ModerationPanel rules={rules} reveal={!guided || idx >= 3} showWho={!guided || idx >= 4} />}
         {show('nasta') && <NextWordPanel experiment={!guided} />}
       </div>
     </div>
