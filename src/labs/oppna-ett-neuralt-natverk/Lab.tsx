@@ -34,15 +34,14 @@ function NeuronPanel({ n, setN, task }: { n: Neuron; setN: (n: Neuron) => void; 
       </LiveStatus>
       <div className="table-wrap">
         <table className="table" data-testid="neuron-tabell">
-          <caption>Neuronens beräkning för de fyra exemplen</caption>
+          <caption>Neuronens beräkning: z före aktivering, σ(z) efter</caption>
           <thead>
             <tr>
               <th scope="col">x1</th>
               <th scope="col">x2</th>
-              <th scope="col">z (före aktivering)</th>
-              <th scope="col">Utdata σ(z)</th>
-              <th scope="col">Svar</th>
-              <th scope="col">Önskat</th>
+              <th scope="col">z</th>
+              <th scope="col">σ(z)</th>
+              <th scope="col">Svar (önskat)</th>
             </tr>
           </thead>
           <tbody>
@@ -55,9 +54,8 @@ function NeuronPanel({ n, setN, task }: { n: Neuron; setN: (n: Neuron) => void; 
                   <td>{e.x[1]}</td>
                   <td>{fmt(r.z)}</td>
                   <td>{fmt(r.out)}</td>
-                  <td>{classify(r.out)}</td>
                   <td>
-                    {e.y} {right ? '✓' : '✗'}
+                    {classify(r.out)} ({e.y}) {right ? '✓' : '✗'}
                   </td>
                 </tr>
               );
