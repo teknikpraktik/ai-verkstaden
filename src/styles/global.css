@@ -788,6 +788,12 @@ output {
   background: var(--surface);
   min-width: 0;
 }
+/* Långa ord (t.ex. "uniformkostnadssökningen") ska brytas i stället för att ge sidledsrullning på 320 px. */
+.guided-body,
+.question {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
 .question legend,
 .question-prompt {
   font-weight: 650;
@@ -1346,6 +1352,39 @@ output {
 }
 
 @media print {
+  /* Utskrift blir alltid ljus, även om datorn står i mörkt läge. */
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface-2: #eef1f5;
+    --text: #1a1d23;
+    --text-muted: #4a5160;
+    --border: #c9ced8;
+    --border-strong: #767d8c;
+    --accent: #1d4ed8;
+    --accent-contrast: #ffffff;
+    --accent-soft: #e0e8fd;
+    --ok: #166534;
+    --ok-soft: #dcfce7;
+    --bad: #b42318;
+    --bad-soft: #fde7e4;
+    --warn: #8a5a00;
+    --warn-soft: #fff4d6;
+    --info-soft: #e6f0ff;
+    --focus: #b45309;
+    --c1: #1d4ed8;
+    --c2: #c2410c;
+    --c3: #047857;
+    --c4: #7c3aed;
+    --c5: #a16207;
+    --c6: #be185d;
+    --wall: #374151;
+    --visited: #bfdbfe;
+    --frontier: #fde68a;
+    --path: #86efac;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 2px 8px rgb(0 0 0 / 0.05);
+    color-scheme: light;
+  }
   .site-header,
   .site-footer,
   .crumbs,
