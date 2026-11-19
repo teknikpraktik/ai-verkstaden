@@ -105,3 +105,12 @@
 .graf-tree:focus-visible {
   outline: 3px solid var(--focus);
 }
+.graf-map-wrap {
+  overflow-x: auto;
+}
+.graf-map-wrap:focus-visible {
+  outline: 3px solid var(--focus);
+}
+.graf-map-wrap .graf-svg {
+  min-width: 480px;
+}
