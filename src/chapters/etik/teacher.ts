@@ -48,7 +48,7 @@ export default defineChapterTeacher({
     },
   ],
   notes: [
-    'Labb 25 och kapitlets kontroll innehåller rättsliga datum. Materialet har referensdatum 2026-11-19. Primärkällorna (EUR-Lex, IMY) kunde inte öppnas direkt när materialet skrevs; uppgifterna kontrollerades mot sökresultat från officiella domäner. Kontrollera mot EUR-Lex före användning – se källistan i labb 25.',
+    'Labb 25 och kapitlets kontroll innehåller rättsliga datum. Materialet har referensdatum 2026-11-19. De nya tillämpningsdatumen och IMY:s uppdrag är kontrollerade direkt hos kommissionen och IMY. EUR-Lex kunde inte läsas maskinellt (webbläsarkontroll); förordningstexterna kontrollerades mot en konsoliderad återgivning och sökresultat. Kontrollera mot EUR-Lex före användning – se källistan och kontrollstatus i labb 25.',
     'Alla scenarier, organisationer och personer är påhittade. Uppmuntra eleverna att ifrågasätta antagandena – det är en del av lärandet.',
   ],
 });
