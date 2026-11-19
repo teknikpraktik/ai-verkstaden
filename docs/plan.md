@@ -25,7 +25,10 @@ Se avsnittet *Status* nedan; kör `npm run test:content` för att se vilka labba
 ## Status
 
 - [x] Etapp 1–2 klara och verifierade lokalt (lint, typkontroll, enhetstester, bygge, länkkontroll, 48 Playwright-tester).
-- [ ] Etapp 3 pågår. Första körningen avbröts av en användningsgräns innan något var klart; arbetsströmmarna är omstartade och committar nu efter varje färdig labb i sina worktree-grenar (`worktree-agent-*`).
+- [x] Etapp 3–4: alla sju arbetsströmmar klara och ihopslagna (flera avbrott p.g.a. användningsgräns; återupptagna). Inga platshållare kvar; `npm run test:content` passerar.
+- [x] Ämnesplanskopplingen verifierad mot Skolverkets text (ARTI, gäller från 2025-07-01).
+- [x] Ren installation (`npm ci` i färsk klon) + lint, typkontroll, enhetstester, bygge och länkkontroll passerar.
+- [ ] Etapp 5: algoritmgranskning och elev-/tangentbordsgenomgång pågår.
 
 ### Återuppta efter avbrott
 
