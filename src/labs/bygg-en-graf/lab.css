@@ -1,0 +1,107 @@
+/* Lokala stilar för labb 6 (prefix graf-) */
+.graf-svg {
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.graf-svg text {
+  fill: var(--text);
+  font-family: var(--font);
+}
+.graf-edge {
+  stroke: var(--text-muted);
+  stroke-width: 2;
+}
+.graf-edge.is-path {
+  stroke: var(--c3);
+  stroke-width: 6;
+}
+.graf-weight-bg {
+  fill: var(--surface);
+  stroke: var(--border);
+}
+.graf-node {
+  fill: var(--surface-2);
+  stroke: var(--text-muted);
+  stroke-width: 2;
+}
+.graf-node.is-visited {
+  fill: var(--visited);
+}
+.graf-node.is-frontier {
+  fill: var(--frontier);
+}
+.graf-node.is-path {
+  fill: var(--path);
+}
+.graf-node.is-current {
+  stroke: var(--accent);
+  stroke-width: 4;
+}
+.graf-node.is-empty {
+  fill: none;
+  stroke: var(--border);
+  stroke-dasharray: 4 3;
+}
+.graf-tree,
+.graf-tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 1.1rem;
+}
+.graf-tree {
+  padding-left: 0;
+  font-size: 0.95rem;
+  max-height: 26rem;
+  overflow: auto;
+}
+.graf-tree li {
+  border-left: 2px solid var(--border);
+  padding: 0.1rem 0 0.1rem 0.5rem;
+}
+.graf-tree-goal {
+  font-weight: 700;
+  color: var(--ok);
+}
+.graf-tree-cycle {
+  color: var(--bad);
+}
+.graf-edge-table input {
+  width: 5.5rem;
+}
+.graf-form {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  align-items: end;
+}
+.graf-nodes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.25rem 0.75rem;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+.graf-nodes legend {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.graf-adj {
+  margin: 0.25rem 0;
+  padding-left: 1.2rem;
+  font-size: 0.95rem;
+}
+.graf-svg text.graf-label {
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.graf-tree:focus-visible {
+  outline: 3px solid var(--focus);
+}
