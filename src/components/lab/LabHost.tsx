@@ -86,7 +86,7 @@ export default function LabHost({ labId, hasModes = true }: { labId: string; has
 
   return (
     <LabContext.Provider value={{ labId, mode, setMode }}>
-      <div className="lab-toolbar" role="toolbar" aria-label="Labbverktyg">
+      <div className="lab-toolbar" role="group" aria-label="Labbverktyg">
         {hasModes && (
           <fieldset className="segmented mode-switch">
             <legend className="visually-hidden">Arbetsläge</legend>

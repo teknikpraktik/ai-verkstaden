@@ -28,7 +28,15 @@ Se avsnittet *Status* nedan; kör `npm run test:content` för att se vilka labba
 - [x] Etapp 3–4: alla sju arbetsströmmar klara och ihopslagna (flera avbrott p.g.a. användningsgräns; återupptagna). Inga platshållare kvar; `npm run test:content` passerar.
 - [x] Ämnesplanskopplingen verifierad mot Skolverkets text (ARTI, gäller från 2025-07-01).
 - [x] Ren installation (`npm ci` i färsk klon) + lint, typkontroll, enhetstester, bygge och länkkontroll passerar.
-- [ ] Etapp 5: algoritmgranskning och elev-/tangentbordsgenomgång pågår.
+- [x] Etapp 5: algoritmgranskning (4 fel rättade, alla elevsiffror i algoritmlabbarna omräknade) och elev-/tangentbordsgenomgång (fokushantering, kontrast, omflödning vid 320 px, utskrift) klara och ihopslagna.
+- [x] Etapp 6: draft-PR teknikpraktik/ai-verkstaden#1 mot `main`.
+
+### Kvar att göra (förslag)
+
+- Labbar för luckorna mot ämnesplanen: objektigenkänning/datorseende, beslutsträd, miljöaspekter, generativ AI.
+- Kontrollera labb 25 mot EUR-Lex manuellt (gick inte att läsa automatiskt).
+- Labb 6 steg 2: frågan om sökträdets storlek besvaras av texten precis ovanför – gör den mer utmanande.
+- Labb 8: etiketterna h = 237 och h = 310 överlappar väglinjer i kartan.
 
 ### Återuppta efter avbrott
 
