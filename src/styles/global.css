@@ -354,6 +354,10 @@ code {
   align-items: center;
   gap: 0.5rem;
 }
+.field-toggle label {
+  flex: 1 1 0;
+  min-width: 0;
+}
 .field-toggle .hint {
   flex-basis: 100%;
 }
