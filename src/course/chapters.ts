@@ -65,6 +65,7 @@ export const chapters: ChapterMeta[] = [
       'lar-en-agent-med-beloning',
       'oppna-ett-neuralt-natverk',
     ],
+    extras: ['kanna-igen-objekt-i-bilder', 'vaxa-ett-beslutstrad'],
   },
   {
     id: 'sprak',
@@ -121,6 +122,7 @@ export const chapters: ChapterMeta[] = [
       'hur-regleras-ett-ai-system',
       'besluta-om-ett-framtida-ai-system',
     ],
+    extras: ['vad-kostar-ai-for-miljon'],
   },
 ];
 
@@ -131,4 +133,6 @@ export const finale = {
   labs: ['granska-ett-ai-system'],
 };
 
-export const labOrder: string[] = [...chapters.flatMap((c) => c.labs), ...finale.labs];
+/** Ordinarie labbar 1–26, slutprojektet 27 och därefter extralabbar 28– i kapitelordning. */
+export const extraLabs: string[] = chapters.flatMap((c) => c.extras ?? []);
+export const labOrder: string[] = [...chapters.flatMap((c) => c.labs), ...finale.labs, ...extraLabs];

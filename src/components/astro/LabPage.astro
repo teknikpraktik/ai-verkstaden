@@ -24,7 +24,7 @@ const prereqLabs = lab.prerequisiteLabs.map((id) => getLab(id));
 <Base title={`${lab.number}. ${lab.title}`} description={lab.summary} crumbs={crumbs} wide>
   <article class="lab-page" data-lab={lab.id}>
     <header class="lab-header">
-      <p class="eyebrow">{partTitle(lab.part)} · {isProject ? 'Slutprojekt' : `Labb ${lab.number}`}</p>
+      <p class="eyebrow">{partTitle(lab.part)} · {isProject ? 'Slutprojekt' : lab.extra ? `Extralabb ${lab.number}` : `Labb ${lab.number}`}</p>
       <h1>{lab.title}</h1>
       <p class="lead">{lab.summary}</p>
       {

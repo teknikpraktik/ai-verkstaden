@@ -129,7 +129,7 @@ test.describe('Lärarhandledning', () => {
       await expect(toc.locator(`a[href="#${s}"]`)).toHaveCount(1);
       await expect(page.locator(`#${s}`)).toHaveCount(1);
     }
-    expect(labIds).toHaveLength(27);
+    expect(labIds.length).toBeGreaterThanOrEqual(27);
     for (const id of labIds) {
       await expect(page.locator(`#labb-${id}`)).toHaveCount(1);
       await expect(toc.locator(`a[href="#labb-${id}"]`)).toHaveCount(1);

@@ -23,16 +23,18 @@ function blockTexts(b: Block): string[] {
 }
 
 describe('kursregistret', () => {
-  it('har 6 kapitel och 27 numrerade sidor i rätt ordning', () => {
+  it('har 6 kapitel, 27 numrerade sidor och extralabbar efter dem i rätt ordning', () => {
     expect(chapters).toHaveLength(6);
-    expect(labs).toHaveLength(27);
+    expect(labs.filter((l) => !l.extra)).toHaveLength(27);
+    expect(labs.slice(27).every((l) => l.extra)).toBe(true);
+    expect(labs.slice(0, 27).every((l) => !l.extra)).toBe(true);
     labs.forEach((l, i) => expect(l.number, l.id).toBe(i + 1));
     expect(labOrder).toEqual(labs.map((l) => l.id));
     expect(finale.labs).toEqual(['granska-ett-ai-system']);
   });
 
   it('id matchar mapp och kapitel matchar registret', () => {
-    for (const c of chapters) for (const id of c.labs) expect(labs.find((l) => l.id === id)?.part, id).toBe(c.id);
+    for (const c of chapters) for (const id of [...c.labs, ...(c.extras ?? [])]) expect(labs.find((l) => l.id === id)?.part, id).toBe(c.id);
   });
 
   it('id:n är unika och url-säkra', () => {

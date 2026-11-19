@@ -49,8 +49,14 @@ export function getLab(id: string): LabEntry {
   return lab;
 }
 
+/** Ordinarie labbar i ett kapitel (utan extralabbar). */
 export function labsInPart(part: PartId): LabEntry[] {
-  return labs.filter((l) => l.part === part);
+  return labs.filter((l) => l.part === part && !l.extra);
+}
+
+/** Extralabbar som hör till ett kapitel. */
+export function extrasInPart(part: PartId): LabEntry[] {
+  return labs.filter((l) => l.part === part && l.extra);
 }
 
 export function neighbours(id: string): { prev: LabEntry | undefined; next: LabEntry | undefined } {

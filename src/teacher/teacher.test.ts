@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { chapters, labOrder } from '../course/chapters';
+import { chapters, extraLabs, labOrder } from '../course/chapters';
 import { course, planGroups, planItems, sources, checkedDate } from './amnesplan';
 import { termPlan } from './termplan';
 import { rubric, rubricLevels, workForms } from './projekt';
@@ -14,9 +14,10 @@ describe('terminsplanen', () => {
     expect(termPlan.length).toBeLessThanOrEqual(20);
     termPlan.forEach((w, i) => expect(w.week).toBe(i + 1));
   });
-  it('tar upp alla 27 labbar i kursordning', () => {
+  it('tar upp alla ordinarie labbar i kursordning och alla extralabbar', () => {
     const order = termPlan.flatMap((w) => w.labs).filter((id, i, a) => a.indexOf(id) === i);
-    expect(order).toEqual(labOrder);
+    expect(order.filter((id) => !extraLabs.includes(id))).toEqual(labOrder.filter((id) => !extraLabs.includes(id)));
+    for (const id of extraLabs) expect(order, id).toContain(id);
   });
 });
 

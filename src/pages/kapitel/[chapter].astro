@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import KnowledgeCheck from '../../components/site/KnowledgeCheck';
-import { chapters, getChapter, labsInPart } from '../../course/registry';
+import { chapters, extrasInPart, getChapter, labsInPart } from '../../course/registry';
 import { chapterCheck } from '../../course/chapterExtras';
 import { routes } from '../../course/routes';
 import { noteLabels } from '../../lib/labels';
@@ -11,6 +11,7 @@ export function getStaticPaths() {
 }
 const chapter = getChapter(Astro.params.chapter!);
 const chapterLabs = labsInPart(chapter.id);
+const extraLabs = extrasInPart(chapter.id);
 const check = chapterCheck(chapter.id);
 const i = chapters.findIndex((c) => c.id === chapter.id);
 const prev = chapters[i - 1];
@@ -53,6 +54,34 @@ const next = chapters[i + 1];
       }
     </ol>
   </section>
+
+  {
+    extraLabs.length > 0 && (
+      <section aria-labelledby="extra">
+        <h2 id="extra">Extralabbar</h2>
+        <p>Frivilliga labbar som täcker fler delar av ämnesplanen. De går att göra när du har gjort kapitlets ordinarie labbar.</p>
+        <ul class="lab-path">
+          {extraLabs.map((l) => (
+            <li class="lab-card">
+              <h3>
+                <a href={l.href}>
+                  <span class="lab-num">{l.number}</span> {l.title}
+                </a>
+              </h3>
+              <p>{l.summary}</p>
+              <p class="lab-card-meta">
+                <span>⏱ {l.minutes[0]}–{l.minutes[1]} min</span>
+                <span class="label">Extralabb</span>
+                {l.labels.map((k) => (
+                  <span class="label">{noteLabels[k]}</span>
+                ))}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   <section aria-labelledby="kontroll">
     <h2 id="kontroll">Kunskapskontroll</h2>

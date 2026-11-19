@@ -29,6 +29,9 @@ LABS = [
  (25,'hur-regleras-ett-ai-system','etik','Hur regleras ett AI-system?','Undersök fiktiva användningsfall mot EU:s AI-förordning och GDPR.'),
  (26,'besluta-om-ett-framtida-ai-system','etik','Besluta om ett framtida AI-system','Ta en roll, väg nytta mot risk och se följderna av beslutet.'),
  (27,'granska-ett-ai-system','avslutning','Granska ett AI-system','Kursens slutprojekt: granska ett fiktivt AI-system med kursens verktyg.'),
+ (28,'kanna-igen-objekt-i-bilder','maskininlarning','Känn igen objekt i bilder','Se hur en enkel modell hittar och känner igen föremål i små bilder – och var den går fel.'),
+ (29,'vaxa-ett-beslutstrad','maskininlarning','Väx ett beslutsträd','Bygg ett beslutsträd fråga för fråga och se hur djupet påverkar överanpassning.'),
+ (30,'vad-kostar-ai-for-miljon','etik','Vad kostar AI för miljön?','Räkna på energi, utsläpp och nytta för olika sätt att använda AI.'),
 ]
 
 root = os.path.join(os.path.dirname(__file__), '..', 'src', 'labs')
@@ -38,6 +41,7 @@ for n, lab_id, part, title, summary in LABS:
         continue
     os.makedirs(d, exist_ok=True)
     with open(os.path.join(d, 'meta.ts'), 'w') as f:
+        extra = '\n  extra: true,' if n > 27 else ''
         f.write(f"""import {{ defineLab }} from '../../course/types';
 
 // STUB – ersätts av kapitlets arbetsström.
@@ -54,7 +58,7 @@ export default defineLab({{
   concepts: [],
   keywords: [],
   coverage: [],
-  labels: [],
+  labels: [],{extra}
 }});
 """)
     with open(os.path.join(d, 'content.ts'), 'w') as f:

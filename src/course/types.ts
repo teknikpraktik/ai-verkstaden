@@ -52,6 +52,8 @@ export interface LabMeta {
   coverage: CoverageItem[];
   /** Märkningar som visas överst: syntetiska data, förenklad modell osv. */
   labels: NoteKind[];
+  /** Extralabb (28–) som täcker delar av ämnesplanen utöver de 27 sidorna. Visas i kapitlet den hör till. */
+  extra?: boolean;
 }
 
 export type Block =
@@ -126,6 +128,8 @@ export interface ChapterMeta {
   goals: string[];
   /** Labb-id i rekommenderad ordning. */
   labs: string[];
+  /** Extralabbar som hör till kapitlet (numreras efter slutprojektet). */
+  extras?: string[];
 }
 
 export const defineLab = (m: LabMeta): LabMeta => m;

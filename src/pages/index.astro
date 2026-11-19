@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import ResumeLink from '../components/site/ResumeLink';
-import { chapters, labs, labsInPart, getLab } from '../course/registry';
+import { chapters, extrasInPart, labs, labsInPart, getLab } from '../course/registry';
 import { routes } from '../course/routes';
 
 const first = labs[0]!;
@@ -41,6 +41,14 @@ const labMap = Object.fromEntries(labs.map((l) => [l.id, { title: l.title, href:
                   <a href={l.href}>
                     {l.number}. {l.title}
                   </a>
+                </li>
+              ))}
+              {extrasInPart(c.id).map((l) => (
+                <li>
+                  <a href={l.href}>
+                    {l.number}. {l.title}
+                  </a>{' '}
+                  <span class="label">extra</span>
                 </li>
               ))}
             </ol>

@@ -34,11 +34,11 @@ export const termPlan: TermWeek[] = [
   { week: 11, calendarWeek: 'v. 13', theme: 'Neurala nätverk', labs: ['oppna-ett-neuralt-natverk'], activities: ['Kunskapskontroll kapitel 3.'] },
   { week: 12, calendarWeek: 'v. 14', theme: 'Text som data', labs: ['gor-text-till-data', 'sortera-meddelanden'], activities: [] },
   { week: 13, calendarWeek: 'v. 15', theme: 'Tvetydighet och språkmodeller', labs: ['samma-mening-flera-tolkningar'], activities: ['Kunskapskontroll kapitel 4.'] },
-  { week: 14, calendarWeek: 'v. 16', theme: 'Buffert (ofta påsklov)', labs: [], activities: ['Ikapp-vecka eller fördjupningar från kapitel 3–4.'], flexible: true },
+  { week: 14, calendarWeek: 'v. 16', theme: 'Buffert (ofta påsklov)', labs: ['kanna-igen-objekt-i-bilder', 'vaxa-ett-beslutstrad'], activities: ['Ikapp-vecka eller fördjupningar från kapitel 3–4.', 'Extralabbarna 28 (objektigenkänning) och 29 (beslutsträd) täcker ämnesplanens punkter om objektigenkänning och beslutsträd.'], flexible: true },
   { week: 15, calendarWeek: 'v. 17', theme: 'Robotens styrkedja och omplanering', labs: ['styr-en-robot', 'hitta-fram-nar-kartan-forandras'], activities: [] },
   { week: 16, calendarWeek: 'v. 18', theme: 'Robotar i uppdrag', labs: ['valj-robot-for-ett-uppdrag'], activities: ['Kunskapskontroll kapitel 5.'] },
   { week: 17, calendarWeek: 'v. 19', theme: 'Rekommendationer och rättvisa', labs: ['bygg-ett-rekommendationsflode', 'bedom-en-rattvisekonflikt'], activities: [] },
-  { week: 18, calendarWeek: 'v. 20', theme: 'Personuppgifter och lagstiftning', labs: ['vilka-uppgifter-behover-systemet', 'hur-regleras-ett-ai-system'], activities: [] },
+  { week: 18, calendarWeek: 'v. 20', theme: 'Personuppgifter och lagstiftning', labs: ['vilka-uppgifter-behover-systemet', 'hur-regleras-ett-ai-system', 'vad-kostar-ai-for-miljon'], activities: ['Extralabb 30 (miljö) kan göras som hemuppgift eller i stället för en del av labb 25.'] },
   {
     week: 19,
     calendarWeek: 'v. 21',

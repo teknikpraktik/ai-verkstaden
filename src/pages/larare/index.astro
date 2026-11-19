@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Blocks from '../../components/astro/Blocks.astro';
 import LabNotes from './_LabNotes.astro';
-import { chapters, finale, getLab, labs, labsInPart } from '../../course/registry';
+import { chapters, extrasInPart, finale, getLab, labs, labsInPart } from '../../course/registry';
 import { chapterTeacher } from '../../course/chapterExtras';
 import { routes } from '../../course/routes';
 import { md } from '../../lib/render';
@@ -104,6 +104,7 @@ const toc: { id: string; text: string; children?: { id: string; text: string }[]
               Kapitel {c.number}: {c.title}
             </a>{' '}
             – labb {labsInPart(c.id).map((l) => l.number).join(', ')}
+            {extrasInPart(c.id).length > 0 && ` (extralabb ${extrasInPart(c.id).map((l) => l.number).join(', ')})`}
           </li>
         ))
       }
@@ -199,7 +200,7 @@ const toc: { id: string; text: string; children?: { id: string; text: string }[]
             </h3>
             <p>
               <a href={routes.chapter(c.id)}>Öppna kapitlet</a> · Labbar:{' '}
-              {labsInPart(c.id).map((l, i) => (
+              {[...labsInPart(c.id), ...extrasInPart(c.id)].map((l, i) => (
                 <>
                   {i > 0 && ', '}
                   <a href={`#labb-${l.id}`}>
