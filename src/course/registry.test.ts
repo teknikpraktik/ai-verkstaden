@@ -55,6 +55,21 @@ describe('kursregistret', () => {
     expect(unknown).toEqual([]);
   });
 
+  it('labbspecifika begrepp krockar inte med varandra eller med kärnlistan', async () => {
+    const mods = import.meta.glob<{ default: { id: string }[] }>('../labs/*/concepts.ts', { eager: true });
+    const { coreConcepts } = await import('./glossary');
+    const seen = new Map<string, string>(coreConcepts.map((c) => [c.id, 'glossary.ts']));
+    const clashes: string[] = [];
+    for (const [path, m] of Object.entries(mods)) {
+      for (const c of m.default) {
+        const prev = seen.get(c.id);
+        if (prev) clashes.push(`${c.id}: ${prev} och ${path}`);
+        else seen.set(c.id, path);
+      }
+    }
+    expect(clashes).toEqual([]);
+  });
+
   it('begreppens relaterade id finns', () => {
     const bad = concepts.flatMap((c) => (c.related ?? []).filter((r) => !conceptById.has(r)).map((r) => `${c.id} → ${r}`));
     expect(bad).toEqual([]);

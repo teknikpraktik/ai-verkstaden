@@ -40,6 +40,24 @@ export function useStoredState<T>(
   const ref = useRef(value);
   ref.current = value;
 
+  // Håll flera komponenter med samma nyckel i takt (t.ex. en förutsägelse som läses i en annan komponent).
+  useEffect(() => {
+    const h = (e: Event) => {
+      const key = (e as CustomEvent<{ key: string | null }>).detail?.key ?? null;
+      if (key !== null && key !== full) return;
+      const fallback = typeof initial === 'function' ? (initial as () => T)() : initial;
+      const next = readJSON<T>(full, fallback, validate);
+      if (JSON.stringify(next) !== JSON.stringify(ref.current)) {
+        ref.current = next;
+        setValue(next);
+      }
+    };
+    window.addEventListener(STORAGE_EVENT, h);
+    return () => window.removeEventListener(STORAGE_EVENT, h);
+    // initial/validate behandlas som konstanta för en given nyckel
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [full]);
+
   const set = useCallback(
     (v: T | ((prev: T) => T)) => {
       const next = typeof v === 'function' ? (v as (p: T) => T)(ref.current) : v;
