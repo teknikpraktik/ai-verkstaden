@@ -1,0 +1,25 @@
+/* Labb 30: Vad kostar AI för miljön? */
+.miljo-sub {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 1rem;
+}
+.miljo-levels {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  margin: 0.75rem 0;
+  min-width: 0;
+}
+.miljo-levels .segmented-options {
+  flex-wrap: wrap;
+}
+.miljo-levels .segmented-options label {
+  font-size: 0.85rem;
+}
+.miljo-current {
+  font-weight: 700;
+}
+.miljo-origin {
+  font-size: 0.85rem;
+  min-width: 12rem;
+}
