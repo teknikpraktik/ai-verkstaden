@@ -162,7 +162,7 @@ export default function Lab() {
             </li>
           </ul>
           <p>Modellen är k-närmaste grannar från labb 10. Litet k ger en krokig, detaljerad gräns. Stort k ger en enkel gräns.</p>
-          <Question
+          <Question key="gissa-trana"
             spec={{
               kind: 'predict',
               id: 'gissa-trana',
@@ -186,7 +186,7 @@ export default function Lab() {
           <p>
             Diagrammet visar träffsäkerheten på <strong>träning</strong> (● heldragen) och <strong>validering</strong> (▲ streckad) för varje k. Flytta reglaget och titta på gränsen i växthusdiagrammet.
           </p>
-          <Question
+          <Question key="k1-100"
             spec={{
               kind: 'choice',
               id: 'k1-100',
@@ -209,7 +209,7 @@ export default function Lab() {
       body: (
         <>
           <p>Använd valideringskurvan för att välja k. Testdatan är fortfarande låst.</p>
-          <Question
+          <Question key="basta-k"
             spec={{
               kind: 'numeric',
               id: 'basta-k',
@@ -235,7 +235,7 @@ export default function Lab() {
           <p>
             Tryck på <strong>Lås valet och kör testet</strong>. Först nu används de 35 testplantorna – en enda gång. Jämför testresultatet med valideringsresultatet.
           </p>
-          <Question
+          <Question key="test-en-gang"
             spec={{
               kind: 'choice',
               id: 'test-en-gang',
@@ -260,7 +260,7 @@ export default function Lab() {
           <p>
             Träffsäkerhet räknar alla fel lika. Men att <strong>missa en sjuk planta</strong> (falskt negativ) kan sprida smitta i hela växthuset, medan ett <strong>falsklarm</strong> (falskt positiv) bara kostar en extra kontroll.
           </p>
-          <Question
+          <Question key="k79-hittar"
             spec={{
               kind: 'numeric',
               id: 'k79-hittar',
@@ -274,7 +274,7 @@ export default function Lab() {
               explanation: 'Noll. Modellen säger ”frisk” om alla plantor. 63 % låter inte hopplöst, men modellen är helt värdelös för det den ska göra.',
             }}
           />
-          <Question
+          <Question key="samma-traffsakerhet"
             spec={{
               kind: 'choice',
               id: 'samma-traffsakerhet',
@@ -295,7 +295,7 @@ export default function Lab() {
       phase: 'jamfor',
       title: 'Demonstration: dataläckage',
       body: (
-        <Question
+        <Question key="lackage-varfor"
           spec={{
             kind: 'choice',
             id: 'lackage-varfor',
@@ -315,7 +315,7 @@ export default function Lab() {
       phase: 'forklara',
       title: 'Förklara arbetsgången',
       body: (
-        <Question
+        <Question key="tre-delar"
           spec={{
             kind: 'open',
             id: 'tre-delar',

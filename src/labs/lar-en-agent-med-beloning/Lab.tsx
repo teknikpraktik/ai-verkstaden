@@ -254,7 +254,7 @@ export default function Lab() {
           <p>
             En robotdammsugare ska lära sig hitta från <strong>S</strong> (A1) till laddstationen <strong>⚡</strong> (E4) utan att ramla i trappan <strong>T</strong>. Ingen har programmerat vägen. Roboten får bara en <strong>belöning</strong>: −1 för varje steg, +10 vid laddstationen och −10 i trappan.
           </p>
-          <Question
+          <Question key="forsta-episoden"
             spec={{
               kind: 'predict',
               id: 'forsta-episoden',
@@ -278,7 +278,7 @@ export default function Lab() {
           <p>
             Tryck på <strong>Steg framåt</strong>. Rutan ovanför rutnätet visar <strong>tillstånd</strong> (var roboten är), <strong>handling</strong>, <strong>belöning</strong> och hur Q-värdet ändras. Q-värdet är robotens uppskattning av hur bra en handling är i en ruta.
           </p>
-          <Question
+          <Question key="forsta-q"
             spec={{
               kind: 'numeric',
               id: 'forsta-q',
@@ -305,7 +305,7 @@ export default function Lab() {
           <p>
             Använd <strong>Till nästa episod</strong>, <strong>+10 episoder</strong> eller <strong>Till slutet</strong>. Första episoden tar 34 steg. Titta hur pilarna i rutnätet växer fram när belöningen sprider sig bakåt från laddstationen.
           </p>
-          <Question
+          <Question key="utforskning"
             spec={{
               kind: 'choice',
               id: 'utforskning',
@@ -330,7 +330,7 @@ export default function Lab() {
           <p>
             Träna till slutet och tryck sedan på <strong>Frys modellen och kör provet</strong>. Under provet lär sig roboten inget och utforskar inte – den följer bara pilarna. Det visar vad den faktiskt har lärt sig.
           </p>
-          <Question
+          <Question key="prov-steg"
             spec={{
               kind: 'numeric',
               id: 'prov-steg',
@@ -356,7 +356,7 @@ export default function Lab() {
           <p>
             Någon tycker att roboten ska ”jobba flitigt” och ändrar <strong>en enda regel</strong>: nu ger varje steg <strong>+1</strong> i stället för −1. Allt annat är som förut. Träna till slutet, frys och kör provet.
           </p>
-          <Question
+          <Question key="dalig-foljd"
             spec={{
               kind: 'choice',
               id: 'dalig-foljd',
@@ -377,7 +377,7 @@ export default function Lab() {
       phase: 'forklara',
       title: 'Formulera en bättre belöning',
       body: (
-        <Question
+        <Question key="battre-beloning"
           spec={{
             kind: 'open',
             id: 'battre-beloning',
