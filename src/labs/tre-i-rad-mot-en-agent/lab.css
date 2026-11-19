@@ -57,3 +57,6 @@
 .ttt-bad {
   color: var(--bad);
 }
+.grid-board.ttt-board {
+  --cell-fit: min(var(--cell), calc((100vw - 7rem) / 3));
+}

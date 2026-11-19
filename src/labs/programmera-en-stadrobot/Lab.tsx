@@ -56,6 +56,7 @@ function RoomView({ roomId, frame, sight }: { roomId: RoomId; frame: SimFrame; s
   const sightSet = new Set(cellsInSight(room, frame.pos, sight).map(key));
   return (
     <Grid
+      className="robot-room"
       label={`${rooms[roomId].name} med ${room.rows} rader och ${room.cols} kolumner. Använd piltangenterna för att läsa rutorna.`}
       rows={room.rows}
       cols={room.cols}
@@ -339,7 +340,7 @@ export default function Lab() {
           <p>
             Slumpen styrs av ett startvärde: samma startvärde ger exakt samma körning igen. Prova några olika startvärden och jämför med tabellen.
           </p>
-          {seedField}
+          {guided && seedField}
           <Question
             spec={{
               kind: 'choice',
@@ -363,7 +364,7 @@ export default function Lab() {
       body: (
         <>
           <p>Nu ändrar du en sak i taget: robotens sikt. Rummet och reglerna är desamma. Med större sikt ser roboten smuts på rutor längre bort.</p>
-          {sightSlider}
+          {guided && sightSlider}
           <Question
             spec={{
               kind: 'numeric',

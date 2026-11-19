@@ -102,6 +102,7 @@ function CompareAgents({ b, seed }: { b: Board; seed: number }) {
   const turn = toMove(b);
   if (winner(b)) return <p>Partiet är slut – det finns inga drag att jämföra.</p>;
   return (
+    <div className="table-wrap">
     <table className="table" data-testid="jamforelse">
       <caption>Samma brädläge, olika motståndare ({turn} ska dra)</caption>
       <thead>
@@ -127,6 +128,7 @@ function CompareAgents({ b, seed }: { b: Board; seed: number }) {
         })}
       </tbody>
     </table>
+    </div>
   );
 }
 
@@ -190,6 +192,7 @@ function SeriesTable() {
     [],
   );
   return (
+    <div className="table-wrap">
     <table className="table" data-testid="serie">
       <caption>100 partier mot slumpagenten (slumpen spelar X och börjar, startvärde 1–100)</caption>
       <thead>
@@ -211,6 +214,7 @@ function SeriesTable() {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
 
