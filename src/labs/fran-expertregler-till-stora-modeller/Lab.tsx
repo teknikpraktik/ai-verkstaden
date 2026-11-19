@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
 import { Panel, Segmented } from '../../components/lab/Controls';
@@ -325,7 +325,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={steps.map((s) => ({ ...s, body: <Fragment key={s.id}>{s.body}</Fragment> }))} index={step} onStepChange={(i) => setStep(i)} />
       </div>
       <div className="lab-stack">
         {(view === 'order' || view === 'both') && (

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
 import { Legend, LiveStatus, Panel, Segmented, Slider, Toggle } from '../../components/lab/Controls';
@@ -355,7 +355,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={steps.map((s) => ({ ...s, body: <Fragment key={s.id}>{s.body}</Fragment> }))} index={step} onStepChange={(i) => setStep(i)} />
         {!guided && (
           <Panel title="Inställningar">
             <Slider label="Träningssvar från Norrby" value={nNorrby} min={0} max={MAX_TRAIN.norrby} step={6} onChange={setNNorrby} format={(v) => `${v} svar`} />

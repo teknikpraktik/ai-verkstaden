@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { GuidedSteps, useGuidedStep, type GuidedStep } from '../../components/lab/GuidedSteps';
 import { useLab, useStoredState } from '../../components/lab/LabContext';
 import { BarChart, ratioText } from '../../components/lab/Charts';
@@ -423,7 +423,7 @@ export default function Lab() {
   return (
     <div className="lab-layout">
       <div className="lab-stack">
-        <GuidedSteps steps={steps} index={step} onStepChange={(i) => setStep(i)} />
+        <GuidedSteps steps={steps.map((s) => ({ ...s, body: <Fragment key={s.id}>{s.body}</Fragment> }))} index={step} onStepChange={(i) => setStep(i)} />
         {!guided && (
           <Panel title="Ändra datamängden">
             <div className="row">
