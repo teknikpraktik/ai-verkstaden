@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import KnowledgeCheck from '../../components/site/KnowledgeCheck';
+import { chapters, extrasInPart, getChapter, labsInPart } from '../../course/registry';
+import { chapterCheck } from '../../course/chapterExtras';
+import { routes } from '../../course/routes';
+import { noteLabels } from '../../lib/labels';
+
+export function getStaticPaths() {
+  return chapters.map((c) => ({ params: { chapter: c.id } }));
+}
+const chapter = getChapter(Astro.params.chapter!);
+const chapterLabs = labsInPart(chapter.id);
+const extraLabs = extrasInPart(chapter.id);
+const check = chapterCheck(chapter.id);
+const i = chapters.findIndex((c) => c.id === chapter.id);
+const prev = chapters[i - 1];
+const next = chapters[i + 1];
+---
+
+<Base title={`Kapitel ${chapter.number}: ${chapter.title}`} description={chapter.intro[0]} crumbs={[[`Kapitel ${chapter.number}`, undefined]]}>
+  <header class="page-header">
+    <p class="eyebrow">Kapitel {chapter.number}</p>
+    <h1>{chapter.title}</h1>
+    {chapter.intro.map((p) => <p class="lead">{p}</p>)}
+  </header>
+
+  <section aria-labelledby="mal" class="card">
+    <h2 id="mal">Lärandemål</h2>
+    <p>När du har arbetat igenom kapitlet ska du kunna:</p>
+    <ul>{chapter.goals.map((g) => <li>{g}</li>)}</ul>
+  </section>
+
+  <section aria-labelledby="vag">
+    <h2 id="vag">Din väg genom kapitlet</h2>
+    <ol class="lab-path">
+      {
+        chapterLabs.map((l) => (
+          <li class="lab-card">
+            <h3>
+              <a href={l.href}>
+                <span class="lab-num">{l.number}</span> {l.title}
+              </a>
+            </h3>
+            <p>{l.summary}</p>
+            <p class="lab-card-meta">
+              <span>⏱ {l.minutes[0]}–{l.minutes[1]} min</span>
+              {l.labels.map((k) => (
+                <span class="label">{noteLabels[k]}</span>
+              ))}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  {
+    extraLabs.length > 0 && (
+      <section aria-labelledby="extra">
+        <h2 id="extra">Extralabbar</h2>
+        <p>Frivilliga labbar som täcker fler delar av ämnesplanen. De går att göra när du har gjort kapitlets ordinarie labbar.</p>
+        <ul class="lab-path">
+          {extraLabs.map((l) => (
+            <li class="lab-card">
+              <h3>
+                <a href={l.href}>
+                  <span class="lab-num">{l.number}</span> {l.title}
+                </a>
+              </h3>
+              <p>{l.summary}</p>
+              <p class="lab-card-meta">
+                <span>⏱ {l.minutes[0]}–{l.minutes[1]} min</span>
+                <span class="label">Extralabb</span>
+                {l.labels.map((k) => (
+                  <span class="label">{noteLabels[k]}</span>
+                ))}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <section aria-labelledby="kontroll">
+    <h2 id="kontroll">Kunskapskontroll</h2>
+    <p>Gör kontrollen när du har gjort labbarna. Du får återkoppling direkt och kan försöka igen.</p>
+    {
+      check.length > 0 ? (
+        <KnowledgeCheck client:only="react" checkId={`kapitel-${chapter.id}`} questions={check} />
+      ) : (
+        <p>Kunskapskontrollen är inte klar ännu.</p>
+      )
+    }
+  </section>
+
+  <nav class="pager" aria-label="Andra kapitel">
+    {prev ? <a class="pager-prev" href={routes.chapter(prev.id)} rel="prev"><span class="pager-dir">← Kapitel {prev.number}</span><span>{prev.title}</span></a> : <span />}
+    {next ? <a class="pager-next" href={routes.chapter(next.id)} rel="next"><span class="pager-dir">Kapitel {next.number} →</span><span>{next.title}</span></a> : <a class="pager-next" href={routes.lab('granska-ett-ai-system', 'avslutning')}><span class="pager-dir">Avslutning →</span><span>Slutprojekt</span></a>}
+  </nav>
+</Base>

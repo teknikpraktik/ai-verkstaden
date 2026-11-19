@@ -1,0 +1,163 @@
+---
+import Base from '../../layouts/Base.astro';
+import Blocks from './Blocks.astro';
+import LabHost from '../lab/LabHost';
+import LabCompletion from '../site/LabCompletion';
+import { conceptById, getLab, neighbours, partTitle, getChapter } from '../../course/registry';
+import { routes } from '../../course/routes';
+import { noteExplanations, noteLabels } from '../../lib/labels';
+
+interface Props {
+  labId: string;
+}
+const lab = getLab(Astro.props.labId);
+const { prev, next } = neighbours(lab.id);
+const content = lab.content;
+const isProject = lab.part === 'avslutning';
+const partHref = isProject ? undefined : routes.chapter(lab.part);
+const crumbs: [string, string | undefined][] = isProject
+  ? [['Avslutning', undefined], [lab.title, undefined]]
+  : [[`Kapitel ${getChapter(lab.part).number}`, partHref], [`${lab.number}. ${lab.title}`, undefined]];
+const prereqLabs = lab.prerequisiteLabs.map((id) => getLab(id));
+---
+
+<Base title={`${lab.number}. ${lab.title}`} description={lab.summary} crumbs={crumbs} wide>
+  <article class="lab-page" data-lab={lab.id}>
+    <header class="lab-header">
+      <p class="eyebrow">{partTitle(lab.part)} · {isProject ? 'Slutprojekt' : lab.extra ? `Extralabb ${lab.number}` : `Labb ${lab.number}`}</p>
+      <h1>{lab.title}</h1>
+      <p class="lead">{lab.summary}</p>
+      {
+        lab.labels.length > 0 && (
+          <ul class="label-list" aria-label="Märkning av innehållet">
+            {lab.labels.map((k) => (
+              <li class={`label label-${k}`} title={noteExplanations[k]}>
+                {noteLabels[k]}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <div class="lab-meta">
+      <section aria-labelledby="mal">
+        <h2 id="mal">Mål</h2>
+        <ul>{lab.goals.map((g) => <li>{g}</li>)}</ul>
+      </section>
+      <section aria-labelledby="forkunskaper">
+        <h2 id="forkunskaper">Förkunskaper</h2>
+        <ul>
+          {lab.prerequisites.map((p) => <li>{p}</li>)}
+          {prereqLabs.map((p) => (
+            <li>
+              Labb <a href={p.href}>{p.number}. {p.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section aria-labelledby="tid">
+        <h2 id="tid">Tid</h2>
+        <p>Cirka {lab.minutes[0]}–{lab.minutes[1]} minuter.</p>
+        {lab.labels.length > 0 && <p class="hint">{lab.labels.map((k) => noteExplanations[k]).filter(Boolean).join(' ')}</p>}
+      </section>
+    </div>
+
+    {content && content.intro.length > 0 && (
+      <section class="lab-intro prose" aria-labelledby="intro">
+        <h2 id="intro">Introduktion</h2>
+        <Blocks blocks={content.intro} />
+      </section>
+    )}
+
+    <section class="workspace" aria-labelledby="arbetsyta">
+      <h2 id="arbetsyta">Arbetsyta</h2>
+      <p class="hint workspace-hint">
+        Arbeta dig igenom stegen i <strong>Genomgång</strong>. Byt till <strong>Experiment</strong> för att öppna alla reglage. <strong>Börja om</strong> återställer labben.
+      </p>
+      <LabHost client:only="react" labId={lab.id}>
+        <p slot="fallback" class="loading">Laddar labben … (labben kräver JavaScript)</p>
+      </LabHost>
+    </section>
+
+    {
+      content &&
+        content.sections.map((s, i) => (
+          <section class="prose" aria-labelledby={`forklaring-${i}`}>
+            <h2 id={`forklaring-${i}`}>{s.heading}</h2>
+            <Blocks blocks={s.blocks} />
+          </section>
+        ))
+    }
+
+    {
+      content?.deepDives?.map((d) => (
+        <details class="deep-dive">
+          <summary>
+            <span class="badge">Fördjupning</span> {d.heading}{' '}
+            <span class="deep-meta">
+              (frivillig, ca {d.minutes} min · förkunskaper: {d.prerequisites})
+            </span>
+          </summary>
+          <div class="prose">
+            <Blocks blocks={d.blocks} />
+          </div>
+        </details>
+      ))
+    }
+
+    <section class="conclusion prose" aria-labelledby="slutsats">
+      <h2 id="slutsats">Slutsats</h2>
+      {content && <Blocks blocks={content.conclusion} />}
+      <LabCompletion client:only="react" labId={lab.id} />
+    </section>
+
+    {
+      lab.concepts.length > 0 && (
+        <section aria-labelledby="begrepp" class="concepts">
+          <h2 id="begrepp">Begrepp i labben</h2>
+          <ul class="chip-list">
+            {lab.concepts.map((id) => (
+              <li>
+                <a class="chip" href={routes.glossary(id)}>
+                  {conceptById.get(id)?.term ?? id}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <nav class="pager" aria-label="Föregående och nästa">
+      {
+        prev ? (
+          <a class="pager-prev" href={prev.href} rel="prev">
+            <span class="pager-dir">← Föregående</span>
+            <span>
+              {prev.number}. {prev.title}
+            </span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {partHref && <a class="pager-up" href={partHref}>Kapitelöversikt</a>}
+      {
+        next ? (
+          <a class="pager-next" href={next.href} rel="next">
+            <span class="pager-dir">Nästa →</span>
+            <span>
+              {next.number}. {next.title}
+            </span>
+          </a>
+        ) : (
+          <a class="pager-next" href={routes.reflection()} rel="next">
+            <span class="pager-dir">Nästa →</span>
+            <span>Reflektion</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>
