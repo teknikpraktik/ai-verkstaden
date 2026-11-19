@@ -1,0 +1,119 @@
+/* Gemensam CSS för kapitel 4 (labb 16–18). Alla klasser börjar med sp-. */
+.sp-tokens {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+.sp-tokens li {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.1rem 0.45rem;
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+}
+.sp-tokens li.sp-punct {
+  background: var(--frontier);
+  color: var(--text);
+}
+.sp-tokens li.sp-num {
+  background: var(--visited);
+  color: var(--text);
+}
+.sp-tokens li .sp-kind {
+  font-family: var(--font);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+.sp-muted {
+  color: var(--text-muted);
+}
+.sp-unknown {
+  color: var(--warn);
+  font-weight: 600;
+}
+.sp-pos {
+  color: var(--ok);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sp-neg {
+  color: var(--bad);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sp-num-cell {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+.sp-zero {
+  color: var(--text-muted);
+}
+.sp-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.sp-scroll-y {
+  overflow: auto;
+  max-height: 26rem;
+  max-width: 100%;
+}
+.sp-textarea {
+  font-size: 1.05rem;
+}
+.sp-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0 0.55rem;
+  font-weight: 700;
+  border: 2px solid currentColor;
+  white-space: nowrap;
+}
+.sp-badge-a {
+  color: var(--c2);
+}
+.sp-badge-b {
+  color: var(--c1);
+}
+.sp-badge-ok {
+  color: var(--ok);
+}
+.sp-badge-bad {
+  color: var(--bad);
+}
+.sp-meter {
+  display: inline-block;
+  height: 0.7rem;
+  background: var(--c1);
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 0.4rem;
+}
+.sp-sequence {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  background: var(--surface-2);
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+  overflow-wrap: anywhere;
+}
+.sp-sequence .sp-new {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  font-weight: 600;
+}
+.sp-choices {
+  display: grid;
+  gap: 0.5rem;
+}
+.sp-tight {
+  margin: 0.25rem 0;
+}
