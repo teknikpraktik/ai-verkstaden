@@ -90,16 +90,21 @@ Inga konton, ingen databas, ingen extern AI-tjänst, ingen spårning. All beräk
 - **Juridik** (labb 25 och kapitel 6) är undervisningsmaterial, inte juridisk rådgivning. Referensdatum är 2026-11-19. Labben bygger på AI-förordningen (EU) 2024/1689 i den lydelse som ändrats 2026 (AI-omnibusen, i kraft 27 juli 2026 enligt kommissionen; högriskreglerna i bilaga III tillämpas från 2 december 2027 och i bilaga I från 2 augusti 2028) och på GDPR (EU) 2016/679. EUR-Lex gick inte att läsa automatiskt från byggmiljön (webbläsarkontroll), så artikeltexterna är kontrollerade mot kommissionens sidor, IMY och en konsoliderad sekundärtext. Källäget redovisas per påstående i lärarhandledningen under labb 25. **Kontrollera mot EUR-Lex innan materialet används.**
 - **Ämnesplanskopplingen** finns i lärarhandledningen och är kontrollerad 2026-11-19 mot Skolverkets gällande ämnesplan *Artificiell intelligens* (ämneskod ARTI, gäller från 1 juli 2025; nivå 1 = ARTI1000X, 100 poäng). Källa: https://syllabuswebb.skolverket.se/syllabuscw/jsp/subject.htm?subjectCode=ARTI&tos=gy
 
-## Kända luckor mot ämnesplanen
+## Extralabbar och kvarvarande luckor mot ämnesplanen
 
-Kursplanen för webbplatsen (27 sidor) täcker inte allt centralt innehåll i nivå 1. Lärarhandledningen anger förslag för varje lucka:
+Utöver de 27 numrerade sidorna finns tre **extralabbar** som täcker delar av ämnesplanens centrala innehåll som annars saknades. De numreras 28–30 och visas på kapitelsidan de hör till:
 
-- Objektigenkänning och datorseende (vision) saknar egen labb.
-- Beslutsträd som inlärningsmetod saknas (spelträdet i labb 9 är sökning, inte inlärning).
+| Nr | Labb | Kapitel | Ämnesplanens punkt |
+|---|---|---|---|
+| 28 | Känn igen objekt i bilder | 3 | objektigenkänning, vision |
+| 29 | Väx ett beslutsträd | 3 | beslutsträd |
+| 30 | Vad kostar AI för miljön? | 6 | miljömässiga och ekonomiska möjligheter och risker |
+
+Kvar som delvis täckt (förslag finns i lärarhandledningen):
+
 - Generativ AI berörs bara genom nästa-ord-modellen i labb 18.
-- Miljöaspekter och ekonomiska konsekvenser av AI behandlas bara indirekt.
 - Situationer där AI är överlägsen människan och tvärtom behandlas som diskussionsstopp, inte i en egen labb.
-- Arbetsgrenen heter `claude/new-session-1o6mfl` (sessionens tilldelade gren) i stället för `feat/ai-verkstaden`.
+- Siffrorna i labb 30 (energi, utsläpp, vatten) bygger på källor som bara kunde kontrolleras via sökresultat från byggmiljön, plus tydligt märkta undervisningsantaganden med intervall. Källorna med kontrolldatum står i lärarhandledningen under labb 30. Kontrollera dem mot originalen före användning.
 
 ## Tillgänglighet
 

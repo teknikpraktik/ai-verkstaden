@@ -167,31 +167,31 @@ export const planItems: PlanItem[] = [
     verified: 'citat',
     coverage: 'delvis',
     chapters: ['maskininlarning', 'sprak', 'robotik'],
-    labs: ['forutsag-ett-tal', 'styr-en-robot', 'valj-robot-for-ett-uppdrag', 'samma-mening-flera-tolkningar', 'fran-expertregler-till-stora-modeller'],
+    labs: ['forutsag-ett-tal', 'styr-en-robot', 'valj-robot-for-ett-uppdrag', 'samma-mening-flera-tolkningar', 'fran-expertregler-till-stora-modeller', 'kanna-igen-objekt-i-bilder'],
     comment:
-      'Prediktion och robotik täcks. Generativ AI behandlas delvis genom nästa-ord-prediktion och jämförelsen med stora språkmodeller i labb 18. **Vision (datorseende) har ingen labb** – förslag: en genomgång av hur en bild blir tal (pixlar) och hur en bildklassificerare tränas, gärna med ett färdigt verktyg i helklass.',
+      'Prediktion och robotik täcks, och vision (datorseende) täcks av extralabb 28. **Generativ AI behandlas bara delvis**, genom nästa-ord-prediktion och jämförelsen med stora språkmodeller i labb 18 – förslag: låt eleverna jämföra den lilla nästa-ord-modellen med en riktig generativ tjänst i helklass och diskutera vad som är samma princip och vad som skiljer i storlek och träningsdata.',
   },
   {
     id: 'tekniker',
     group: 'Artificiell intelligens',
     text: '”Översikt av tekniker för AI, däribland sökning, klassificering och objektigenkänning.”',
     verified: 'citat',
-    coverage: 'delvis',
+    coverage: 'täcks',
     chapters: ['sokning', 'maskininlarning', 'sprak'],
-    labs: ['bygg-en-graf', 'bredden-forst-och-djupet-forst', 'sok-med-kostnad-och-ledtrad', 'trana-en-klassificerare', 'sortera-meddelanden'],
+    labs: ['bygg-en-graf', 'bredden-forst-och-djupet-forst', 'sok-med-kostnad-och-ledtrad', 'trana-en-klassificerare', 'sortera-meddelanden', 'kanna-igen-objekt-i-bilder'],
     comment:
-      'Sökning och klassificering täcks utförligt. **Objektigenkänning har ingen labb** – förslag: visa ett exempel där en modell hittar och ringar in föremål i en bild och diskutera hur det skiljer sig från att klassificera hela bilden. Labb 3 jämför bilddata med text- och tabelldata och kan användas som ingång.',
+      'Sökning och klassificering täcks utförligt. Objektigenkänning täcks av extralabb 28: mallmatchning, glidande fönster över en scen, tröskel och brus, och skillnaden mot att klassificera hela bilden.',
   },
   {
     id: 'metoder',
     group: 'Artificiell intelligens',
     text: '”Översikt av metoder och algoritmer inom AI, däribland beslutsträd, regression samt övervakat och oövervakat lärande.”',
     verified: 'citat',
-    coverage: 'delvis',
+    coverage: 'täcks',
     chapters: ['maskininlarning'],
-    labs: ['trana-en-klassificerare', 'forutsag-ett-tal', 'grupper-utan-facit', 'lar-en-agent-med-beloning', 'oppna-ett-neuralt-natverk'],
+    labs: ['trana-en-klassificerare', 'forutsag-ett-tal', 'grupper-utan-facit', 'lar-en-agent-med-beloning', 'oppna-ett-neuralt-natverk', 'vaxa-ett-beslutstrad'],
     comment:
-      'Regression, övervakat lärande (k-närmaste grannar) och oövervakat lärande (klustring) täcks, liksom förstärkningsinlärning och neurala nätverk. **Beslutsträd som inlärningsmetod har ingen labb** – trädet i labb 9 är ett spelträd för sökning, inte ett beslutsträd för klassificering. Förslag: låt eleverna bygga ett litet beslutsträd för hand på frukterna i labb 10 och jämföra med k-närmaste grannar.',
+      'Regression, övervakat lärande (k-närmaste grannar) och oövervakat lärande (klustring) täcks, liksom förstärkningsinlärning och neurala nätverk. Beslutsträd täcks av extralabb 29, där eleverna bygger ett träd för hand, jämför med en girig algoritm och ser överanpassning när djupet ökar. Spelträdet i labb 9 är något annat: sökning, inte inlärning.',
   },
   // Praktisk användning av AI
   {
@@ -209,7 +209,7 @@ export const planItems: PlanItem[] = [
     group: 'Praktisk användning av AI',
     text: '”Enklare typ av problemlösning med hjälp av AI, till exempel klassificering, objektigenkänning, prediktion, tolkning och bearbetning av naturligt språk (NLP), enklare maskininlärning och användning av spelagent.”',
     verified: 'citat',
-    coverage: 'delvis',
+    coverage: 'täcks',
     chapters: ['sokning', 'maskininlarning', 'sprak'],
     labs: [
       'trana-en-klassificerare',
@@ -218,9 +218,10 @@ export const planItems: PlanItem[] = [
       'sortera-meddelanden',
       'samma-mening-flera-tolkningar',
       'tre-i-rad-mot-en-agent',
+      'kanna-igen-objekt-i-bilder',
     ],
     comment:
-      'Klassificering, prediktion, NLP, enklare maskininlärning och spelagent (minimax i tre i rad) täcks med egna labbar. **Objektigenkänning saknas** – förslag: samma bildexempel som under ”Översikt av tekniker för AI”, gärna som en praktisk övning där eleverna testar ett färdigt verktyg för objektigenkänning och noterar var det gör fel.',
+      'Klassificering, prediktion, NLP, enklare maskininlärning och spelagent (minimax i tre i rad) täcks med egna labbar, och objektigenkänning med extralabb 28.',
   },
   {
     id: 'principer',
@@ -298,10 +299,10 @@ export const planItems: PlanItem[] = [
     group: 'Förhållningssätt till AI',
     text: '”Demokratiska, sociala, ekonomiska, miljömässiga och säkerhetsmässiga möjligheter och risker med AI-användning samt dess konsekvenser för samhället.”',
     verified: 'citat',
-    coverage: 'delvis',
+    coverage: 'täcks',
     chapters: ['robotik', 'etik'],
-    labs: ['bygg-ett-rekommendationsflode', 'valj-robot-for-ett-uppdrag', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system'],
+    labs: ['bygg-ett-rekommendationsflode', 'valj-robot-for-ett-uppdrag', 'besluta-om-ett-framtida-ai-system', 'granska-ett-ai-system', 'vad-kostar-ai-for-miljon'],
     comment:
-      'Demokratiska och sociala aspekter (rekommendationsflöden, rättvisa), säkerhet (robotar, mänskligt övertagande) och nytta mot risk i beslut täcks. **Miljömässiga aspekter har ingen labb och ekonomiska behandlas bara indirekt** – förslag: en lektion om AI:s energi- och resursanvändning och om hur AI kan bidra till hållbar utveckling (nämns i ämnets syfte), samt om kostnader, arbetsmarknad och vem som tjänar på ett system.',
+      'Demokratiska och sociala aspekter (rekommendationsflöden, rättvisa), säkerhet (robotar, mänskligt övertagande) och nytta mot risk i beslut täcks. Miljömässiga och ekonomiska aspekter täcks av extralabb 30: energi, utsläpp, vatten och kostnad med osäkra antaganden, träning mot användning, rekyleffekt och nytta (hållbar utveckling). Arbetsmarknadsfrågor berörs bara i diskussionsstopp.',
   },
 ];

@@ -48,6 +48,10 @@ export const evidenceLabs: EvidenceLab[] = [
   { id: 'vilka-uppgifter-behover-systemet', number: 24, title: 'Vilka uppgifter behöver systemet?', part: 'etik', shows: 'vilka personuppgifter som verkligen behövs för ändamålet och hur länge de får sparas.' },
   { id: 'hur-regleras-ett-ai-system', number: 25, title: 'Hur regleras ett AI-system?', part: 'etik', shows: 'hur EU:s AI-förordning och GDPR kan träffa systemet och när mer information behövs.' },
   { id: 'besluta-om-ett-framtida-ai-system', number: 26, title: 'Besluta om ett framtida AI-system', part: 'etik', shows: 'hur nytta, risk, ansvar och möjlighet att överklaga vägs mot varandra i ett beslut.' },
+  // Extralabbar (numreras efter slutprojektet)
+  { id: 'kanna-igen-objekt-i-bilder', number: 28, title: 'Känn igen objekt i bilder', part: 'maskininlarning', shows: 'hur en bildmodell hittar föremål och varför den missar när föremålet flyttas, vrids eller döljs.' },
+  { id: 'vaxa-ett-beslutstrad', number: 29, title: 'Väx ett beslutsträd', part: 'maskininlarning', shows: 'hur ett beslutsträd fattar beslut som går att följa steg för steg, och hur ett för djupt träd överanpassas.' },
+  { id: 'vad-kostar-ai-for-miljon', number: 30, title: 'Vad kostar AI för miljön?', part: 'etik', shows: 'ungefär hur mycket energi, utsläpp och pengar en AI-användning kostar, och hur osäkra sådana uppskattningar är.' },
 ];
 
 const evidenceById = new Map(evidenceLabs.map((l) => [l.id, l]));

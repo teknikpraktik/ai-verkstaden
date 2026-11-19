@@ -31,12 +31,12 @@ Se avsnittet *Status* nedan; kör `npm run test:content` för att se vilka labba
 - [x] Etapp 5: algoritmgranskning (4 fel rättade, alla elevsiffror i algoritmlabbarna omräknade) och elev-/tangentbordsgenomgång (fokushantering, kontrast, omflödning vid 320 px, utskrift) klara och ihopslagna.
 - [x] Etapp 6: draft-PR teknikpraktik/ai-verkstaden#1 mot `main`.
 
+- [x] Etapp 7: extralabbar 28 (objektigenkänning), 29 (beslutsträd) och 30 (AI och miljön) för luckorna mot ämnesplanen; ämnesplanskopplingen, terminsplanen och slutprojektets beläggslista uppdaterade. Labb 6-frågan och labb 8-etiketterna rättade.
+
 ### Kvar att göra (förslag)
 
-- Labbar för luckorna mot ämnesplanen: objektigenkänning/datorseende, beslutsträd, miljöaspekter, generativ AI.
-- Kontrollera labb 25 mot EUR-Lex manuellt (gick inte att läsa automatiskt).
-- Labb 6 steg 2: frågan om sökträdets storlek besvaras av texten precis ovanför – gör den mer utmanande.
-- Labb 8: etiketterna h = 237 och h = 310 överlappar väglinjer i kartan.
+- Generativ AI har ingen egen labb (berörs i labb 18).
+- Kontrollera labb 25 mot EUR-Lex och labb 30:s siffror mot IEA, Naturvårdsverket och Ember manuellt (gick inte att läsa automatiskt).
 
 ### Återuppta efter avbrott
 

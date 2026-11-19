@@ -40,18 +40,18 @@ const filled = (): Project => ({
 
 describe('labblistan för belägg', () => {
   it('innehåller labb 1–26 med id och nummer som i kursens labbordning', () => {
-    expect(evidenceLabs).toHaveLength(26);
+    expect(evidenceLabs).toHaveLength(29);
     for (const l of evidenceLabs) {
       expect(labOrder, l.id).toContain(l.id);
       expect(labOrder.indexOf(l.id) + 1, l.id).toBe(l.number);
     }
-    expect(new Set(evidenceLabs.map((l) => l.id)).size).toBe(26);
+    expect(new Set(evidenceLabs.map((l) => l.id)).size).toBe(29);
     expect(evidenceLabs.map((l) => l.id)).not.toContain('granska-ett-ai-system');
   });
 
   it('har rätt kapitel och samma titel som labbens metadata', () => {
     for (const l of evidenceLabs) {
-      expect(chapters.find((c) => c.labs.includes(l.id))?.id, l.id).toBe(l.part);
+      expect(chapters.find((c) => [...c.labs, ...(c.extras ?? [])].includes(l.id))?.id, l.id).toBe(l.part);
       expect(labs.find((x) => x.id === l.id)?.title, l.id).toBe(l.title);
     }
   });
