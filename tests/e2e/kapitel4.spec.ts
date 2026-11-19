@@ -141,8 +141,6 @@ test.describe('Kapitel 4: kunskapskontroll', () => {
     await page.goto('kapitel/sprak/');
     const q = page.locator('[data-question="sprak-token"]');
     await q.scrollIntoViewIfNeeded();
-    // Kontrollen hydreras när den syns (client:visible): vänta tills ön är hydrerad.
-    await expect(page.locator('astro-island[component-url*="KnowledgeCheck"]')).not.toHaveAttribute('ssr');
     await q.getByLabel('Ditt svar').fill('4');
     await q.getByRole('button', { name: 'Kontrollera svaret' }).click();
     await expect(q.getByText(/4 är antalet ord/)).toBeVisible();
